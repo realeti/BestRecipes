@@ -1,0 +1,18 @@
+//
+//  Font.swift
+//  BestRecipes
+//
+//  Created by Evgenii Mazrukho on 30.06.2024.
+//
+
+import UIKit
+
+enum Font: String {
+    
+    case poppinsBold = "Poppins-Black"
+    case poppinsRegular = "Poppins-Regular"
+    
+    static func getFont(_ font: Font, size: CGFloat) -> UIFont {
+        return UIFont(name: font.rawValue, size: size) ?? UIFont.systemFont(ofSize: size)
+    }
+}
