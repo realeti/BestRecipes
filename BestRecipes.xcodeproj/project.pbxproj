@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		522898A22C31DC3D0013FF87 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898A12C31DC3D0013FF87 /* Network.swift */; };
+		522898A42C31DD550013FF87 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898A32C31DD550013FF87 /* OnboardingViewController.swift */; };
+		522898A62C31DD610013FF87 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898A52C31DD610013FF87 /* TabBarController.swift */; };
+		522898A82C31DD6A0013FF87 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898A72C31DD6A0013FF87 /* MainViewController.swift */; };
+		522898AA2C31DD750013FF87 /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898A92C31DD750013FF87 /* TrendingViewController.swift */; };
+		522898AC2C31DD7B0013FF87 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898AB2C31DD7B0013FF87 /* DetailViewController.swift */; };
+		522898B22C31DDAB0013FF87 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898B12C31DDAB0013FF87 /* Recipe.swift */; };
 		526DF7DE2C30D84F008A7818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7DD2C30D84F008A7818 /* AppDelegate.swift */; };
 		526DF7E02C30D84F008A7818 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7DF2C30D84F008A7818 /* SceneDelegate.swift */; };
 		526DF7E22C30D84F008A7818 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7E12C30D84F008A7818 /* LaunchViewController.swift */; };
@@ -20,6 +27,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		522898A12C31DC3D0013FF87 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		522898A32C31DD550013FF87 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		522898A52C31DD610013FF87 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		522898A72C31DD6A0013FF87 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		522898A92C31DD750013FF87 /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewController.swift; sourceTree = "<group>"; };
+		522898AB2C31DD7B0013FF87 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		522898B12C31DDAB0013FF87 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		526DF7DA2C30D84F008A7818 /* BestRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		526DF7DD2C30D84F008A7818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		526DF7DF2C30D84F008A7818 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +59,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		522898AD2C31DD820013FF87 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				526DF7E12C30D84F008A7818 /* LaunchViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		522898AE2C31DD8D0013FF87 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				522898A72C31DD6A0013FF87 /* MainViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		522898AF2C31DD920013FF87 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				522898A92C31DD750013FF87 /* TrendingViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		522898B02C31DD960013FF87 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				522898AB2C31DD7B0013FF87 /* DetailViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		526DF7D12C30D84F008A7818 = {
 			isa = PBXGroup;
 			children = (
@@ -98,7 +144,6 @@
 			children = (
 				526DF8082C30DCBE008A7818 /* Launch */,
 				526DF8012C30DBD2008A7818 /* Onboarding */,
-				526DF8022C30DBD6008A7818 /* Auth */,
 				526DF8002C30DBCB008A7818 /* TabBar */,
 				526DF8052C30DBE3008A7818 /* Main */,
 				526DF8072C30DC02008A7818 /* Trending */,
@@ -148,6 +193,7 @@
 		526DF7FE2C30DBAF008A7818 /* NetworkManager */ = {
 			isa = PBXGroup;
 			children = (
+				522898A12C31DC3D0013FF87 /* Network.swift */,
 			);
 			path = NetworkManager;
 			sourceTree = "<group>";
@@ -155,6 +201,7 @@
 		526DF7FF2C30DBBC008A7818 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				522898B12C31DDAB0013FF87 /* Recipe.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -162,6 +209,7 @@
 		526DF8002C30DBCB008A7818 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
+				522898A52C31DD610013FF87 /* TabBarController.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -169,15 +217,9 @@
 		526DF8012C30DBD2008A7818 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				522898A32C31DD550013FF87 /* OnboardingViewController.swift */,
 			);
 			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		526DF8022C30DBD6008A7818 /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Auth;
 			sourceTree = "<group>";
 		};
 		526DF8032C30DBDA008A7818 /* Profile */ = {
@@ -190,6 +232,7 @@
 		526DF8042C30DBDF008A7818 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				522898B02C31DD960013FF87 /* Controller */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -197,6 +240,7 @@
 		526DF8052C30DBE3008A7818 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				522898AE2C31DD8D0013FF87 /* Controller */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -211,6 +255,7 @@
 		526DF8072C30DC02008A7818 /* Trending */ = {
 			isa = PBXGroup;
 			children = (
+				522898AF2C31DD920013FF87 /* Controller */,
 			);
 			path = Trending;
 			sourceTree = "<group>";
@@ -218,7 +263,7 @@
 		526DF8082C30DCBE008A7818 /* Launch */ = {
 			isa = PBXGroup;
 			children = (
-				526DF7E12C30D84F008A7818 /* LaunchViewController.swift */,
+				522898AD2C31DD820013FF87 /* Controller */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -297,10 +342,17 @@
 			files = (
 				526DF7F92C30D98E008A7818 /* Font.swift in Sources */,
 				526DF7E22C30D84F008A7818 /* LaunchViewController.swift in Sources */,
+				522898AA2C31DD750013FF87 /* TrendingViewController.swift in Sources */,
+				522898AC2C31DD7B0013FF87 /* DetailViewController.swift in Sources */,
 				526DF7DE2C30D84F008A7818 /* AppDelegate.swift in Sources */,
+				522898A62C31DD610013FF87 /* TabBarController.swift in Sources */,
+				522898A42C31DD550013FF87 /* OnboardingViewController.swift in Sources */,
 				526DF80D2C30DE3B008A7818 /* UIStackView + ext.swift in Sources */,
 				526DF7E02C30D84F008A7818 /* SceneDelegate.swift in Sources */,
+				522898A22C31DC3D0013FF87 /* Network.swift in Sources */,
+				522898B22C31DDAB0013FF87 /* Recipe.swift in Sources */,
 				526DF80A2C30DE07008A7818 /* UIView + ext.swift in Sources */,
+				522898A82C31DD6A0013FF87 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
