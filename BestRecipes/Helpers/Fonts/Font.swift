@@ -9,7 +9,7 @@ import UIKit
 
 enum Font: String {
     
-    case poppinsBold = "Poppins-Black"
+    case poppinsBold = "Poppins-Bold"
     case poppinsRegular = "Poppins-Regular"
     
     static func getFont(_ font: Font, size: CGFloat) -> UIFont {
