@@ -13,6 +13,9 @@ protocol MainPresenterProtocol: AnyObject {
     init(view: MainViewProtocol, router: RouterProtocol)
     
     func performActionForHeader(at index: Int)
+    func addToFavorites()
+    func removeFromFavorites()
+//    func trendingCellTap(title: String, image: String, rating: String, recipe: String, Ingredients: [String: String])
 }
 
 
@@ -51,4 +54,19 @@ extension MainPresenter {
             break
         }
     }
+    
+    
+    func addToFavorites() {
+        print("add to favorites tapped")
+    }
+    
+    
+    func removeFromFavorites() {
+        print("remove to favorites tapped")
+    }
+    
+    
+//    func trendingCellTap() {
+//        router?.showDetail()
+//    }
 }

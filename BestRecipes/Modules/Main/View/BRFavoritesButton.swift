@@ -9,13 +9,33 @@ import UIKit
 
 final class BRFavoritesButton: UIButton {
     
+    //MARK: - Properties
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                setImage(.bookmarkActive, for: .selected)
+            } else {
+                setImage(.bookmarkInactive, for: .normal)
+            }
+        }
+    }
+    
+    weak var delegate: MainPresenterProtocol?
+    
+    
     //MARK: - Lifecycle
+    
+//    init(presenter: MainPresenterProtocol) {
+//        self.delegate = presenter
+//        super.init(frame: .zero)
+//        
+//        configure()
+//    }
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
         configure()
-        changeState()
     }
     
     
@@ -28,25 +48,22 @@ final class BRFavoritesButton: UIButton {
 //MARK: - Internal Methods
 
 private extension BRFavoritesButton {
-    func configure() {
-        backgroundColor = .white
-        layer.cornerRadius = 16
-        tintColor = .redLight
-        setImage(.bookmarkInactive, for: .normal)
-        configuration = UIButton.Configuration.plain()
-        translatesAutoresizingMaskIntoConstraints = false
+    @objc func favoritesButtonHandler() {
+        if isSelected {
+            delegate?.removeFromFavorites()
+        } else {
+            delegate?.addToFavorites()
+        }
+        self.isSelected.toggle()
     }
     
     
-    func changeState() {
-        self.configurationUpdateHandler = { [weak self] button in
-            guard let self else { return }
-            switch button.state {
-            case.highlighted:
-                tintColor = .redLight
-            default:
-                tintColor = .greyLight
-            }
-        }
+    func configure() {
+        backgroundColor = .white
+        layer.cornerRadius = 16
+        setImage(.bookmarkInactive, for: .normal)
+        setImage(.bookmarkInactive, for: .highlighted)
+        translatesAutoresizingMaskIntoConstraints = false
+        addTarget(self, action: #selector(favoritesButtonHandler), for: .touchUpInside)
     }
 }

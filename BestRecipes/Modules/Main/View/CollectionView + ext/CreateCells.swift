@@ -32,7 +32,7 @@ extension BRCollectionView: UICollectionViewDataSource {
             }
             
             header.tag = indexPath.section
-            header.delegate = headerDelegate
+            header.delegate = presenterDelegate
             header.configureHeader(title: sections[indexPath.section].title, section: indexPath.section)
             
             return header
@@ -66,7 +66,11 @@ extension BRCollectionView: UICollectionViewDataSource {
                                image: trending[indexPath.item].image!,
                                title: trending[indexPath.item].title,
                                authorImage: trending[indexPath.item].authorImage!,
-                               author: trending[indexPath.item].author)
+                               author: trending[indexPath.item].author,
+                               index: indexPath)
+            
+            cell.favoritesButton.delegate = presenterDelegate
+            
             
             return cell
             
@@ -93,6 +97,8 @@ extension BRCollectionView: UICollectionViewDataSource {
             cell.configureCell(image: popular[indexPath.row].image!,
                                title: popular[indexPath.row].title,
                                time: popular[indexPath.row].timeRemaining)
+            
+            cell.favoritesButton.delegate = presenterDelegate
             
             return cell
             

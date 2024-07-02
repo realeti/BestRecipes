@@ -14,13 +14,13 @@ final class BRCollectionView: UICollectionView {
     private let collectionLayout = UICollectionViewLayout()
     public let sections = BRMockData.shared.pageData
     
-    weak var headerDelegate: MainPresenterProtocol?
+    weak var presenterDelegate: MainPresenterProtocol?
     
     
     //MARK: - Lifecycle
     
-    init(headerDelegate: MainPresenterProtocol) {
-        self.headerDelegate = headerDelegate
+    init(presenterDelegate: MainPresenterProtocol) {
+        self.presenterDelegate = presenterDelegate
         super.init(frame: .zero, collectionViewLayout: collectionLayout)
         
         configure()
@@ -44,7 +44,25 @@ final class BRCollectionView: UICollectionView {
 //MARK: - Delegate
 
 extension BRCollectionView: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Ячейка в секции \(indexPath.section) и номер \(indexPath.item) была нажата.")
+        
+        switch indexPath.section {
+        case 0:
+//            presenterDelegate?.trendingCellTap()
+            print(indexPath.item)
+        case 1:
+            print(indexPath.item)
+        case 2:
+            print(indexPath.item)
+        case 3:
+            print(indexPath.item)
+        case 4:
+            print(indexPath.item)
+        default:
+            break
+        }
+    }
 }
 
 

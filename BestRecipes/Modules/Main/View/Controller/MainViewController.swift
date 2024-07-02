@@ -50,7 +50,7 @@ final class MainViewController: UIViewController {
     
     
     func configureCollectionView() {
-        collectionView = BRCollectionView(headerDelegate: presenter!)
+        collectionView = BRCollectionView(presenterDelegate: presenter!)
     }
 }
 
@@ -59,7 +59,7 @@ final class MainViewController: UIViewController {
 
 extension MainViewController: MainViewProtocol {
 //    @objc func searchTextFieldDidTap() {
-//        presenter?.searchTextFieldTap()
+//        delelgate?.searchTextFieldTap()
 //        searchTextField.endEditing(true)
 //    }
 }
