@@ -15,7 +15,7 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
         $0.image = .media
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = 10
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UIImageView())
