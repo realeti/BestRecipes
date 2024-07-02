@@ -79,7 +79,7 @@ private extension BRSeeAllHeader {
             
             
             seeAllButton.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            seeAllButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            seeAllButton.trailingAnchor.constraint(equalTo: trailingAnchor),
             seeAllButton.heightAnchor.constraint(equalToConstant: 20),
             seeAllButton.widthAnchor.constraint(equalToConstant: 100)
         ])
