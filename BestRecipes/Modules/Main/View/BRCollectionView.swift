@@ -15,7 +15,7 @@ final class BRCollectionView: UICollectionView {
     public let sections = BRMockData.shared.pageData
     
     weak var presenterDelegate: MainPresenterProtocol?
-    
+    weak var scrollDelegate: ScrollViewDelegate?
     
     //MARK: - Lifecycle
     
@@ -41,10 +41,23 @@ final class BRCollectionView: UICollectionView {
 }
 
 
+extension BRCollectionView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
+            scrollDelegate?.collectionViewDidScrollDown(self)
+        } else {
+            scrollDelegate?.collectionViewDidScrollUp(self)
+        }
+    }
+}
+
+
 //MARK: - Delegate
 
 extension BRCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        
         print("Ячейка в секции \(indexPath.section) и номер \(indexPath.item) была нажата.")
         
         switch indexPath.section {

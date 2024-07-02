@@ -35,7 +35,7 @@ final class BRRecentCollectionViewCell: UICollectionViewCell {
         $0.textColor = .greyBase
         $0.font = Font.getFont(.poppinsRegular, size: 10)
         $0.numberOfLines = 1
-        $0.adjustsFontSizeToFitWidth = true
+//        $0.adjustsFontSizeToFitWidth = true
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UILabel())
