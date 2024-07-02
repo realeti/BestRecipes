@@ -12,19 +12,18 @@ import Foundation
 protocol MainPresenterProtocol: AnyObject {
     init(view: MainViewProtocol, router: RouterProtocol)
     
-    func searchTextFieldTap()
-//    func trendingButtonDidTap()
-//    func recentRecipeButtonDidTap()
-//    func cuisineButtonDidTap()
+    func performActionForHeader(at index: Int)
 }
 
 
 final class MainPresenter: MainPresenterProtocol {
-
+    
     //MARK: - Properties
     
     weak var view: MainViewProtocol?
     var router: RouterProtocol?
+    
+    var sections = BRMockData.shared.pageData
     
     
     //MARK: - Lifecycle
@@ -33,12 +32,23 @@ final class MainPresenter: MainPresenterProtocol {
         self.view = view
         self.router = router
     }
-    
-    
-    //MARK: - External Methods
-    
-    func searchTextFieldTap() {
-        print("router show trending")
-        router?.showTrending()
+}
+
+
+//MARK: - Internal Methods
+
+extension MainPresenter {
+    func performActionForHeader(at index: Int) {
+        switch index {
+        case 0:
+            router?.showTrending()
+            print(sections[index].title)
+        case 3:
+            print(sections[index].title)
+        case 4:
+            print(sections[index].title)
+        default:
+            break
+        }
     }
 }

@@ -14,16 +14,24 @@ final class BRCollectionView: UICollectionView {
     private let collectionLayout = UICollectionViewLayout()
     public let sections = BRMockData.shared.pageData
     
+    weak var headerDelegate: MainPresenterProtocol?
+    
     
     //MARK: - Lifecycle
     
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+    init(headerDelegate: MainPresenterProtocol) {
+        self.headerDelegate = headerDelegate
         super.init(frame: .zero, collectionViewLayout: collectionLayout)
         
         configure()
         registerCells()
         registerHeaderAndFooter()
         setDelegates()
+    }
+    
+    
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: .zero, collectionViewLayout: collectionLayout)
     }
     
     

@@ -8,10 +8,7 @@
 import UIKit
 
 protocol MainViewProtocol: AnyObject {
-    func searchTextFieldDidTap()
-//    func trendingButtonDidTap()
-//    func recentRecipeButtonDidTap()
-//    func cuisineButtonDidTap()
+//    func searchTextFieldDidTap()
 }
 
 
@@ -32,22 +29,28 @@ final class MainViewController: UIViewController {
         return $0
     }(UITextField())
     
-    private let collectionView = BRCollectionView()
+    private var collectionView = BRCollectionView()
     
     
     //MARK: - Properties
     
-    var presenter: MainPresenterProtocol!
-    
+    var presenter: MainPresenterProtocol?
+    public let sections = BRMockData.shared.pageData
     
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureCollectionView()
         configure()
         setConstraints()
-        setupActions()
+//        setupActions()
+    }
+    
+    
+    func configureCollectionView() {
+        collectionView = BRCollectionView(headerDelegate: presenter!)
     }
 }
 
@@ -55,26 +58,28 @@ final class MainViewController: UIViewController {
 //MARK: - Actions
 
 extension MainViewController: MainViewProtocol {
-    @objc func searchTextFieldDidTap() {
-        presenter.searchTextFieldTap()
-        searchTextField.endEditing(true)
-    }
+//    @objc func searchTextFieldDidTap() {
+//        presenter?.searchTextFieldTap()
+//        searchTextField.endEditing(true)
+//    }
 }
 
 
 //MARK: - Internal Methods
 
 private extension MainViewController {
+    
     //MARK: - Setup UI
+    
     func configure() {
         view.backgroundColor = .white
         view.addSubviews(searchTextField, collectionView)
     }
     
     
-    func setupActions() {
-        searchTextField.addTarget(self, action: #selector(searchTextFieldDidTap), for: .editingDidBegin)
-    }
+//    func setupActions() {
+//        searchTextField.addTarget(self, action: #selector(searchTextFieldDidTap), for: .editingDidBegin)
+//    }
     
     
     func setConstraints() {
