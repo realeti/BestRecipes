@@ -7,7 +7,11 @@
 
 import Foundation
 
+//MARK: - Presenter Protocol
+
 protocol MainPresenterProtocol: AnyObject {
+    init(view: MainViewProtocol, router: RouterProtocol)
+    
     func searchTextFieldTap()
 //    func trendingButtonDidTap()
 //    func recentRecipeButtonDidTap()
@@ -16,11 +20,25 @@ protocol MainPresenterProtocol: AnyObject {
 
 
 final class MainPresenter: MainPresenterProtocol {
-    func searchTextFieldTap() {
-        print("search did tap presenter")
+
+    //MARK: - Properties
+    
+    weak var view: MainViewProtocol?
+    var router: RouterProtocol?
+    
+    
+    //MARK: - Lifecycle
+    
+    required init(view: MainViewProtocol, router: RouterProtocol) {
+        self.view = view
+        self.router = router
     }
     
     
-    weak var view: MainViewPresenterProtocol?
+    //MARK: - External Methods
     
+    func searchTextFieldTap() {
+        print("router show trending")
+        router?.showTrending()
+    }
 }

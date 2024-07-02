@@ -47,6 +47,7 @@ private extension BRCollectionView {
         collectionViewLayout = createLayout()
         backgroundColor = .none
         bounces = false
+        showsVerticalScrollIndicator = false
         translatesAutoresizingMaskIntoConstraints = false
     }
     

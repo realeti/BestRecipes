@@ -31,6 +31,9 @@
 		522898DC2C337F260013FF87 /* CreateLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898DB2C337F260013FF87 /* CreateLayout.swift */; };
 		522898DE2C337FB90013FF87 /* CreateCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898DD2C337FB90013FF87 /* CreateCells.swift */; };
 		522898E02C34181C0013FF87 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898DF2C34181C0013FF87 /* MainPresenter.swift */; };
+		522898E52C34239B0013FF87 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898E42C34239B0013FF87 /* Builder.swift */; };
+		522898E72C3423AA0013FF87 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898E62C3423AA0013FF87 /* Router.swift */; };
+		522898EE2C3433EF0013FF87 /* TrendingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898ED2C3433EF0013FF87 /* TrendingPresenter.swift */; };
 		526DF7DE2C30D84F008A7818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7DD2C30D84F008A7818 /* AppDelegate.swift */; };
 		526DF7E02C30D84F008A7818 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7DF2C30D84F008A7818 /* SceneDelegate.swift */; };
 		526DF7E22C30D84F008A7818 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF7E12C30D84F008A7818 /* LaunchViewController.swift */; };
@@ -68,6 +71,9 @@
 		522898DB2C337F260013FF87 /* CreateLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateLayout.swift; sourceTree = "<group>"; };
 		522898DD2C337FB90013FF87 /* CreateCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCells.swift; sourceTree = "<group>"; };
 		522898DF2C34181C0013FF87 /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
+		522898E42C34239B0013FF87 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
+		522898E62C3423AA0013FF87 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		522898ED2C3433EF0013FF87 /* TrendingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingPresenter.swift; sourceTree = "<group>"; };
 		526DF7DA2C30D84F008A7818 /* BestRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		526DF7DD2C30D84F008A7818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		526DF7DF2C30D84F008A7818 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -187,6 +193,30 @@
 			path = "CollectionView + ext";
 			sourceTree = "<group>";
 		};
+		522898E22C3423880013FF87 /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				522898E42C34239B0013FF87 /* Builder.swift */,
+			);
+			path = Builder;
+			sourceTree = "<group>";
+		};
+		522898E32C34238D0013FF87 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				522898E62C3423AA0013FF87 /* Router.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		522898EC2C3433E70013FF87 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				522898ED2C3433EF0013FF87 /* TrendingPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		526DF7D12C30D84F008A7818 = {
 			isa = PBXGroup;
 			children = (
@@ -231,6 +261,8 @@
 			children = (
 				526DF7DD2C30D84F008A7818 /* AppDelegate.swift */,
 				526DF7DF2C30D84F008A7818 /* SceneDelegate.swift */,
+				522898E22C3423880013FF87 /* Builder */,
+				522898E32C34238D0013FF87 /* Router */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -354,6 +386,7 @@
 		526DF8072C30DC02008A7818 /* Trending */ = {
 			isa = PBXGroup;
 			children = (
+				522898EC2C3433E70013FF87 /* Presenter */,
 				522898AF2C31DD920013FF87 /* Controller */,
 			);
 			path = Trending;
@@ -447,6 +480,7 @@
 				522898CB2C32E9CB0013FF87 /* BRTrendingFooter.swift in Sources */,
 				526DF7DE2C30D84F008A7818 /* AppDelegate.swift in Sources */,
 				522898C22C32E2200013FF87 /* BRPopularCollectionViewCell.swift in Sources */,
+				522898E72C3423AA0013FF87 /* Router.swift in Sources */,
 				522898D32C32F0FC0013FF87 /* BRListSection.swift in Sources */,
 				522898A62C31DD610013FF87 /* TabBarController.swift in Sources */,
 				522898A42C31DD550013FF87 /* OnboardingViewController.swift in Sources */,
@@ -463,11 +497,13 @@
 				522898D12C32EFC00013FF87 /* BRListItem.swift in Sources */,
 				522898D52C32F2900013FF87 /* BRMockData.swift in Sources */,
 				522898A82C31DD6A0013FF87 /* MainViewController.swift in Sources */,
+				522898E52C34239B0013FF87 /* Builder.swift in Sources */,
 				522898BC2C32E0F30013FF87 /* BRCategoryCollectionViewCell.swift in Sources */,
 				522898E02C34181C0013FF87 /* MainPresenter.swift in Sources */,
 				522898D72C32FBBA0013FF87 /* BRFavoritesButton.swift in Sources */,
 				522898B92C32DFC20013FF87 /* BRTrendingCollectionViewCell.swift in Sources */,
 				522898DE2C337FB90013FF87 /* CreateCells.swift in Sources */,
+				522898EE2C3433EF0013FF87 /* TrendingPresenter.swift in Sources */,
 				522898C92C32E9980013FF87 /* BRSeeAllHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

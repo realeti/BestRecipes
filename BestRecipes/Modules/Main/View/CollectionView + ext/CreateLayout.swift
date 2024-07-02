@@ -115,7 +115,7 @@ extension BRCollectionView {
                                                             heightDimension: .fractionalHeight(1)))
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.38),
-                                                                         heightDimension: .fractionalHeight(0.35)),
+                                                                         heightDimension: .fractionalHeight(0.4)),
                                                        subitems: [item])
         
         let section = createLayoutSection(group: group,
