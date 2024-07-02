@@ -7,6 +7,14 @@
 
 import UIKit
 
+protocol MainViewPresenterProtocol: AnyObject {
+    func searchTextFieldDidTap()
+//    func trendingButtonDidTap()
+//    func recentRecipeButtonDidTap()
+//    func cuisineButtonDidTap()
+}
+
+
 final class MainViewController: UIViewController {
     
     //MARK: - UI
@@ -27,13 +35,44 @@ final class MainViewController: UIViewController {
     private let collectionView = BRCollectionView()
     
     
+    //MARK: - Properties
+    
+    var presenter: MainPresenterProtocol
+    
+    
     //MARK: - Lifecycle
+    
+    init(presenter: MainPresenterProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+        
+        configure()
+        setConstraints()
+        setupActions()
+
+    }
+    
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configure()
         setConstraints()
+        setupActions()
+    }
+}
+
+
+//MARK: - Actions
+
+extension MainViewController: MainViewPresenterProtocol {
+    @objc func searchTextFieldDidTap() {
+        presenter.searchTextFieldTap()
     }
 }
 
@@ -41,9 +80,15 @@ final class MainViewController: UIViewController {
 //MARK: - Internal Methods
 
 private extension MainViewController {
+    //MARK: - Setup UI
     func configure() {
         view.backgroundColor = .white
         view.addSubviews(searchTextField, collectionView)
+    }
+    
+    
+    func setupActions() {
+        searchTextField.addTarget(self, action: #selector(searchTextFieldDidTap), for: .editingDidBegin)
     }
     
     
