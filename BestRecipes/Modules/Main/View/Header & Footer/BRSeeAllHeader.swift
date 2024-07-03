@@ -34,6 +34,7 @@ final class BRSeeAllHeader: UICollectionReusableView {
     //MARK: - Properties
     
     static let idHeader = "BRSeeAllHeader"
+    weak var delegate: MainPresenterProtocol?
     
     
     //MARK: - Lifecycle
@@ -55,8 +56,15 @@ final class BRSeeAllHeader: UICollectionReusableView {
 //MARK: - External Methods
 
 extension BRSeeAllHeader {
-    func configureHeader(title: String) {
+    func configureHeader(title: String, section: Int) {
         titleLabel.text = title
+        seeAllButton.tag = section
+        seeAllButton.addTarget(self, action: #selector(headerTapped), for: .touchUpInside)
+    }
+    
+    
+    @objc private func headerTapped(sender: UIButton) {
+        delegate?.performActionForHeader(at: sender.tag)
     }
 }
 
@@ -66,7 +74,6 @@ extension BRSeeAllHeader {
 private extension BRSeeAllHeader {
     func configure() {
         backgroundColor = .none
-        
         addSubviews(titleLabel, seeAllButton)
     }
     
@@ -76,7 +83,6 @@ private extension BRSeeAllHeader {
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
-            
             
             seeAllButton.topAnchor.constraint(equalTo: topAnchor, constant: 5),
             seeAllButton.trailingAnchor.constraint(equalTo: trailingAnchor),

@@ -20,7 +20,8 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
         return $0
     }(UIImageView())
     
-    private lazy var favoritesButton = BRFavoritesButton()
+    public lazy var favoritesButton = BRFavoritesButton()
+    
     private let ratingView = BRRatingView()
     
     private let titleLabel: UILabel = {
@@ -55,6 +56,7 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
     //MARK: - Properties
     
     static let idCell = "BRTrendingCollectionViewCell"
+//    weak var delegate: MainPresenterProtocol?
     
     
     //MARK: - Lifecycle
@@ -76,12 +78,13 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
 //MARK: - External Methods
 
 extension BRTrendingCollectionViewCell {
-    func configureCell(rating: String, image: UIImage, title: String, authorImage: UIImage, author: String) {
+    func configureCell(rating: String, image: UIImage, title: String, authorImage: UIImage, author: String, index: IndexPath) {
         ratingView.rateLabel.text = rating
         backgroundImageView.image = image
         titleLabel.text = title
         authorImageView.image = authorImage
         authorNameLabel.text = author
+        favoritesButton.tag = index.item
     }
 }
 
@@ -89,11 +92,28 @@ extension BRTrendingCollectionViewCell {
 //MARK: - Internal Methods
 
 private extension BRTrendingCollectionViewCell {
+    
+    //MARK: - Action
+    
+//    @objc func favoritesButtonHandler() {
+//        if favoritesButton.isSelected {
+//            delegate?.removeFromFavorites()
+//        } else {
+//            delegate?.addToFavorites()
+//        }
+//        favoritesButton.isSelected.toggle()
+//    }
+    
+    
+    //MARK: - Setup UI
+    
     func configure() {
         addSubviews(backgroundImageView,
                     ratingView, favoritesButton,
                     titleLabel,
                     authorImageView, authorNameLabel)
+        
+//        favoritesButton.addTarget(self, action: #selector(favoritesButtonHandler), for: .touchUpInside)
     }
     
     

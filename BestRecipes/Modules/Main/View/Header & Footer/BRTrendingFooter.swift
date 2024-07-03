@@ -47,7 +47,6 @@ final class BRTrendingFooter: UICollectionReusableView {
 private extension BRTrendingFooter {
     func configure() {
         backgroundColor = .none
-        
         addSubviews(titleLabel)
     }
     

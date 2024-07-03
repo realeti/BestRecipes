@@ -19,9 +19,11 @@ extension BRCollectionView: UICollectionViewDataSource {
         sections[section].count
     }
     
-
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
         //MARK: - Header & Footer
+        
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             guard let header = dequeueReusableSupplementaryView(ofKind: kind,
@@ -29,16 +31,19 @@ extension BRCollectionView: UICollectionViewDataSource {
                 return UICollectionReusableView()
             }
             
-            header.configureHeader(title: sections[indexPath.section].title)
+            header.tag = indexPath.section
+            header.delegate = presenterDelegate
+            header.configureHeader(title: sections[indexPath.section].title, section: indexPath.section)
+            
             return header
-        
+            
         case UICollectionView.elementKindSectionFooter:
             guard let footer = dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BRTrendingFooter.idFooter, for: indexPath) as? BRTrendingFooter else {
                 return UICollectionReusableView()
             }
             
             return footer
-        
+            
         default:
             return UICollectionReusableView()
         }
@@ -48,7 +53,7 @@ extension BRCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         switch sections[indexPath.section] {
-      
+            
             //MARK: - Trending Cell
             
         case .trending(let trending):
@@ -61,7 +66,11 @@ extension BRCollectionView: UICollectionViewDataSource {
                                image: trending[indexPath.item].image!,
                                title: trending[indexPath.item].title,
                                authorImage: trending[indexPath.item].authorImage!,
-                               author: trending[indexPath.item].author)
+                               author: trending[indexPath.item].author,
+                               index: indexPath)
+            
+            cell.favoritesButton.delegate = presenterDelegate
+            
             
             return cell
             
@@ -78,7 +87,7 @@ extension BRCollectionView: UICollectionViewDataSource {
             return cell
             
             //MARK: - Popular Cell
-
+            
         case .popular(let popular):
             guard let cell = dequeueReusableCell(withReuseIdentifier: BRPopularCollectionViewCell.idCell,
                                                  for: indexPath) as? BRPopularCollectionViewCell else {
@@ -89,10 +98,12 @@ extension BRCollectionView: UICollectionViewDataSource {
                                title: popular[indexPath.row].title,
                                time: popular[indexPath.row].timeRemaining)
             
+            cell.favoritesButton.delegate = presenterDelegate
+            
             return cell
             
             //MARK: - Recent Cell
-
+            
         case .recent(let recent):
             guard let cell = dequeueReusableCell(withReuseIdentifier: BRRecentCollectionViewCell.idCell,
                                                  for: indexPath) as? BRRecentCollectionViewCell else {
@@ -106,7 +117,7 @@ extension BRCollectionView: UICollectionViewDataSource {
             return cell
             
             //MARK: - Cuisine Cell
-
+            
         case .cuisine(let cuisine):
             guard let cell = dequeueReusableCell(withReuseIdentifier: BRCuisineCollectionViewCell.idCell,
                                                  for: indexPath) as? BRCuisineCollectionViewCell else {

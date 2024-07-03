@@ -54,12 +54,13 @@ final class BRPopularCollectionViewCell: UICollectionViewCell {
         return $0
     }(UILabel())
     
-    private lazy var favoritesButton = BRFavoritesButton()
+    public lazy var favoritesButton = BRFavoritesButton()
     
     
     //MARK: - Properties
     
     static let idCell = "BRPopularCollectionViewCell"
+//    weak var delegate: MainPresenterProtocol?
     
     
     //MARK: - Lifecycle
@@ -92,10 +93,27 @@ extension BRPopularCollectionViewCell {
 //MARK: - Internal Methods
 
 private extension BRPopularCollectionViewCell {
+    
+    //MARK: - Action
+    
+//    @objc func favoritesButtonHandler() {
+//        if favoritesButton.isSelected {
+//            delegate?.removeFromFavorites()
+//        } else {
+//            delegate?.addToFavorites()
+//        }
+//        favoritesButton.isSelected.toggle()
+//    }
+
+    
+    //MARK: - Setup UI
+    
     func configure() {
         addSubviews(backgroundCellView, foodImageView,
                     titleLabel,
                     timeLabel, minutesLabel, favoritesButton)
+        
+//        favoritesButton.addTarget(self, action: #selector(favoritesButtonHandler), for: .touchUpInside)
     }
     
     
@@ -125,8 +143,8 @@ private extension BRPopularCollectionViewCell {
             
             favoritesButton.trailingAnchor.constraint(equalTo: backgroundCellView.trailingAnchor, constant: -10),
             favoritesButton.bottomAnchor.constraint(equalTo: backgroundCellView.bottomAnchor, constant: -10),
-            favoritesButton.heightAnchor.constraint(equalToConstant: 32),
-            favoritesButton.widthAnchor.constraint(equalToConstant: 32)
+            favoritesButton.heightAnchor.constraint(equalToConstant: 24),
+            favoritesButton.widthAnchor.constraint(equalToConstant: 24)
         ])
     }
 }

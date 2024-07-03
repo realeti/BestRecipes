@@ -29,7 +29,7 @@ final class Router: RouterProtocol {
         self.builder = builder
     }
     
-
+    
     //MARK: - Initial
     
     func initialViewController() {
@@ -50,6 +50,16 @@ final class Router: RouterProtocol {
     }
     
     
+    //MARK: - Detail
+    
+    func showDetail() {
+//        if let navigationController {
+//            guard let detailViewController = builder?.getDetailViewController(router: self) else { return }
+//            navigationController?.pushViewController(detailViewController, animated: true)
+//        }
+    }
+    
+    
     //MARK: - PopToRoot
     
     func popToRoot() {
@@ -58,3 +68,4 @@ final class Router: RouterProtocol {
         }
     }
 }
+

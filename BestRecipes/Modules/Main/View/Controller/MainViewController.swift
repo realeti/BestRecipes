@@ -7,11 +7,14 @@
 
 import UIKit
 
+protocol ScrollViewDelegate: AnyObject {
+    func collectionViewDidScrollDown(_ collectionView: UICollectionView)
+    func collectionViewDidScrollUp(_ collectionView: UICollectionView)
+}
+
+
 protocol MainViewProtocol: AnyObject {
-    func searchTextFieldDidTap()
-//    func trendingButtonDidTap()
-//    func recentRecipeButtonDidTap()
-//    func cuisineButtonDidTap()
+    //    func searchTextFieldDidTap()
 }
 
 
@@ -32,22 +35,34 @@ final class MainViewController: UIViewController {
         return $0
     }(UITextField())
     
-    private let collectionView = BRCollectionView()
+    private var collectionView = BRCollectionView()
     
     
     //MARK: - Properties
     
-    var presenter: MainPresenterProtocol!
+    var presenter: MainPresenterProtocol?
+    public let sections = BRMockData.shared.pageData
     
+    var collectionViewTopToTextFieldBottom: NSLayoutConstraint?
+    var collectionViewTopToSafeAreaTopView: NSLayoutConstraint?
+
     
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureCollectionView()
         configure()
         setConstraints()
-        setupActions()
+        //        setupActions()
+        updateConstraintsHidingSearchTextField()
+    }
+    
+    
+    func configureCollectionView() {
+        collectionView = BRCollectionView(presenterDelegate: presenter!)
+        collectionView.scrollDelegate = self
     }
 }
 
@@ -55,9 +70,36 @@ final class MainViewController: UIViewController {
 //MARK: - Actions
 
 extension MainViewController: MainViewProtocol {
-    @objc func searchTextFieldDidTap() {
-        presenter.searchTextFieldTap()
-        searchTextField.endEditing(true)
+    //    @objc func searchTextFieldDidTap() {
+    //        delelgate?.searchTextFieldTap()
+    //        searchTextField.endEditing(true)
+    //    }
+}
+
+
+//MARK: - ScrollView Delegate
+
+extension MainViewController: ScrollViewDelegate {
+    func collectionViewDidScrollDown(_ collectionView: UICollectionView) {
+        searchTextField.isHidden = false
+            UIView.animate(withDuration: 0.3, animations: {
+                self.searchTextField.alpha = 1
+                self.collectionViewTopToTextFieldBottom?.isActive = true
+                self.collectionViewTopToSafeAreaTopView?.isActive = false
+                self.view.layoutIfNeeded()
+            })
+    }
+    
+    
+    func collectionViewDidScrollUp(_ collectionView: UICollectionView) {
+        UIView.animate(withDuration: 0.3, animations: {
+                self.searchTextField.alpha = 0
+                self.collectionViewTopToTextFieldBottom?.isActive = false
+                self.collectionViewTopToSafeAreaTopView?.isActive = true
+                self.view.layoutIfNeeded()
+            }) { _ in
+                self.searchTextField.isHidden = true
+            }
     }
 }
 
@@ -65,15 +107,23 @@ extension MainViewController: MainViewProtocol {
 //MARK: - Internal Methods
 
 private extension MainViewController {
+    
     //MARK: - Setup UI
+    
     func configure() {
         view.backgroundColor = .white
         view.addSubviews(searchTextField, collectionView)
     }
     
     
-    func setupActions() {
-        searchTextField.addTarget(self, action: #selector(searchTextFieldDidTap), for: .editingDidBegin)
+    //    func setupActions() {
+    //        searchTextField.addTarget(self, action: #selector(searchTextFieldDidTap), for: .editingDidBegin)
+    //    }
+    
+    
+    func updateConstraintsHidingSearchTextField() {
+        collectionViewTopToTextFieldBottom = collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 20)
+        collectionViewTopToSafeAreaTopView = collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
     }
     
     
@@ -83,8 +133,8 @@ private extension MainViewController {
             searchTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             searchTextField.heightAnchor.constraint(equalToConstant: 45),
-        
-            collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 20),
+            
+//            collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 20),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
