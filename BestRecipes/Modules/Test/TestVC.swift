@@ -10,6 +10,9 @@ import UIKit
 final class TestVC: UITableViewController {
     let networkManager = NetworkManager.shared
     let cellID = "recipe"
+    let bulkRecipesURL = "https://api.spoonacular.com/recipes/informationBulk?apiKey=cc3538ef4d1448949d8c1f17cf5703c1&ids=756814,636589,716432"
+    let searchRecipesURL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=cc3538ef4d1448949d8c1f17cf5703c1&type=drink"
+    var recipes: [Recipe] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,11 +22,43 @@ final class TestVC: UITableViewController {
     }
     
     private func showRecipes() {
-        print(#function)
+        NetworkManager.shared.fetch([Recipe].self, from: bulkRecipesURL) { [unowned self] result in
+            switch result {
+            case .success(let recipesData):
+                recipes = recipesData
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     private func searcRecipes() {
-        print(#function)
+        NetworkManager.shared.fetch(SearchResult.self, from: searchRecipesURL) { [unowned self] result in
+            switch result {
+            case .success(let searchResult):
+                recipes = searchResult.results.map {
+                    let recipe = $0
+                    return Recipe(
+                        id: recipe.id,
+                        title: recipe.title,
+                        instructions: "",
+                        author: "",
+                        rating: 0,
+                        readyInMinutes: 0,
+                        imageURL: recipe.imageURL,
+                        extendedIngredients: []
+                    )
+                }
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 
@@ -50,24 +85,19 @@ private extension TestVC {
 // MARK: - UITableViewDataSource
 extension TestVC {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5 //10 max!
+        recipes.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let recipe = recipes[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-
-        NetworkManager.shared.fetch(Recipe.self, from: Recipe.giveRandomRecipe()) { fetchResult in
-            switch fetchResult {
-            case .success(let recipe):
-                NetworkManager.shared.fetchImage(from: recipe.imageURL) { result in
-                    switch result {
-                    case .success(let imageData):
-                        cell.imageView?.image = UIImage(data: imageData)
-                        cell.textLabel?.text = recipe.title
-                    case .failure(let error):
-                        print(error)
-                    }
-                }
+        
+        cell.textLabel?.text = recipe.title
+        
+        NetworkManager.shared.fetchImage(from: recipe.imageURL) { result in
+            switch result {
+            case .success(let imageData):
+                cell.imageView?.image = UIImage(data: imageData)
             case .failure(let error):
                 print(error)
             }

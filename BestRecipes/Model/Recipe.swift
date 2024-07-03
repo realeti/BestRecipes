@@ -11,9 +11,10 @@ struct Recipe: Decodable {
     let instructions:  String?
     let author: String
     let rating: Double
+    let readyInMinutes: Int
     //let reviewsCount: Int
     let imageURL: String
-    //let extendedIngredients: [String]
+    let extendedIngredients: [Ingredient]
     
     enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -21,12 +22,9 @@ struct Recipe: Decodable {
         case instructions = "instructions"
         case author = "sourceName"
         case rating = "spoonacularScore"
+        case readyInMinutes = "readyInMinutes"
         //case reviewsCount = "reviewsCount"
         case imageURL = "image"
-        //case extendedIngredients = "extendedIngredients"
-    }
-    
-    static func giveRandomRecipe() -> String {
-        "https://api.spoonacular.com/recipes/\(Int.random(in: 1...999999))/information?apiKey=cc3538ef4d1448949d8c1f17cf5703c1"
+        case extendedIngredients = "extendedIngredients"
     }
 }

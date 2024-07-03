@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		245594BC2C34271100F07D86 /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245594BB2C34271100F07D86 /* Ingredient.swift */; };
 		245594BE2C34427000F07D86 /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245594BD2C34426F00F07D86 /* TestVC.swift */; };
+		24AE745E2C35495F00CED2BA /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AE745D2C35495F00CED2BA /* SearchResult.swift */; };
+		24AE74602C3554B900CED2BA /* RecipePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AE745F2C3554B900CED2BA /* RecipePreview.swift */; };
 		522898A22C31DC3D0013FF87 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898A12C31DC3D0013FF87 /* Network.swift */; };
 		522898A42C31DD550013FF87 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898A32C31DD550013FF87 /* OnboardingViewController.swift */; };
 		522898A62C31DD610013FF87 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898A52C31DD610013FF87 /* TabBarController.swift */; };
@@ -47,6 +49,8 @@
 /* Begin PBXFileReference section */
 		245594BB2C34271100F07D86 /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		245594BD2C34426F00F07D86 /* TestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestVC.swift; sourceTree = "<group>"; };
+		24AE745D2C35495F00CED2BA /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		24AE745F2C3554B900CED2BA /* RecipePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePreview.swift; sourceTree = "<group>"; };
 		522898A12C31DC3D0013FF87 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		522898A32C31DD550013FF87 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		522898A52C31DD610013FF87 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -309,6 +313,8 @@
 			isa = PBXGroup;
 			children = (
 				522898B12C31DDAB0013FF87 /* Recipe.swift */,
+				24AE745F2C3554B900CED2BA /* RecipePreview.swift */,
+				24AE745D2C35495F00CED2BA /* SearchResult.swift */,
 				245594BB2C34271100F07D86 /* Ingredient.swift */,
 			);
 			path = Model;
@@ -452,6 +458,8 @@
 			files = (
 				526DF7F92C30D98E008A7818 /* Font.swift in Sources */,
 				526DF7E22C30D84F008A7818 /* LaunchViewController.swift in Sources */,
+				24AE74602C3554B900CED2BA /* RecipePreview.swift in Sources */,
+				24AE745E2C35495F00CED2BA /* SearchResult.swift in Sources */,
 				245594BC2C34271100F07D86 /* Ingredient.swift in Sources */,
 				522898AA2C31DD750013FF87 /* TrendingViewController.swift in Sources */,
 				522898D92C32FD700013FF87 /* BRRatingView.swift in Sources */,

@@ -51,7 +51,6 @@ final class NetworkManager {
                 let dataModel = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(dataModel))
             } catch {
-                print("url: ", url, "\nResponce:\n", responce ?? "", "\nError:\n", error)
                 completion(.failure(.decodingError))
             }
         }.resume()
