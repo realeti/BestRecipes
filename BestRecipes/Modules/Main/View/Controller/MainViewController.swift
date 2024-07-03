@@ -7,6 +7,14 @@
 
 import UIKit
 
+protocol MainViewProtocol: AnyObject {
+    func searchTextFieldDidTap()
+//    func trendingButtonDidTap()
+//    func recentRecipeButtonDidTap()
+//    func cuisineButtonDidTap()
+}
+
+
 final class MainViewController: UIViewController {
     
     //MARK: - UI
@@ -27,6 +35,11 @@ final class MainViewController: UIViewController {
     private let collectionView = BRCollectionView()
     
     
+    //MARK: - Properties
+    
+    var presenter: MainPresenterProtocol!
+    
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -34,6 +47,17 @@ final class MainViewController: UIViewController {
         
         configure()
         setConstraints()
+        setupActions()
+    }
+}
+
+
+//MARK: - Actions
+
+extension MainViewController: MainViewProtocol {
+    @objc func searchTextFieldDidTap() {
+        presenter.searchTextFieldTap()
+        searchTextField.endEditing(true)
     }
 }
 
@@ -41,9 +65,15 @@ final class MainViewController: UIViewController {
 //MARK: - Internal Methods
 
 private extension MainViewController {
+    //MARK: - Setup UI
     func configure() {
         view.backgroundColor = .white
         view.addSubviews(searchTextField, collectionView)
+    }
+    
+    
+    func setupActions() {
+        searchTextField.addTarget(self, action: #selector(searchTextFieldDidTap), for: .editingDidBegin)
     }
     
     
