@@ -11,7 +11,6 @@ class CustomTabBar: UITabBar {
     // MARK: - Private properties
     private var shapeLayer: CALayer?
     private let plusButton = PlusButton(type: .system)
-    private var plusButtonCenterXConstraint: NSLayoutConstraint?
     
     // MARK: - Init
     override init(frame: CGRect) {

@@ -51,6 +51,9 @@
 		C684E79B2C35997400F8164A /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684E7982C35997400F8164A /* CustomTabBar.swift */; };
 		C684E7A02C35998A00F8164A /* TabBarShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684E79E2C35998A00F8164A /* TabBarShape.swift */; };
 		C684E7A12C35998A00F8164A /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684E79F2C35998A00F8164A /* PlusButton.swift */; };
+		C69029692C37368500E4F985 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69029682C37368500E4F985 /* FavoriteViewController.swift */; };
+		C690296B2C37369B00E4F985 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690296A2C37369B00E4F985 /* NotificationViewController.swift */; };
+		C690296D2C3736B600E4F985 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690296C2C3736B600E4F985 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +103,9 @@
 		C684E7982C35997400F8164A /* CustomTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		C684E79E2C35998A00F8164A /* TabBarShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarShape.swift; sourceTree = "<group>"; };
 		C684E79F2C35998A00F8164A /* PlusButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
+		C69029682C37368500E4F985 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		C690296A2C37369B00E4F985 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		C690296C2C3736B600E4F985 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -296,10 +302,12 @@
 				526DF8012C30DBD2008A7818 /* Onboarding */,
 				526DF8002C30DBCB008A7818 /* TabBar */,
 				526DF8052C30DBE3008A7818 /* Main */,
+				C69029662C37365000E4F985 /* Favorite */,
+				C69029672C37365900E4F985 /* Notification */,
+				526DF8032C30DBDA008A7818 /* Profile */,
 				526DF8072C30DC02008A7818 /* Trending */,
 				526DF8042C30DBDF008A7818 /* Detail */,
 				526DF8062C30DBE7008A7818 /* CreateRecipe */,
-				526DF8032C30DBDA008A7818 /* Profile */,
 				245594BF2C34427600F07D86 /* Test */,
 			);
 			path = Modules;
@@ -382,6 +390,7 @@
 		526DF8032C30DBDA008A7818 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				C690296C2C3736B600E4F985 /* ProfileViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -435,6 +444,22 @@
 				C684E79E2C35998A00F8164A /* TabBarShape.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C69029662C37365000E4F985 /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+				C69029682C37368500E4F985 /* FavoriteViewController.swift */,
+			);
+			path = Favorite;
+			sourceTree = "<group>";
+		};
+		C69029672C37365900E4F985 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				C690296A2C37369B00E4F985 /* NotificationViewController.swift */,
+			);
+			path = Notification;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -533,6 +558,7 @@
 				522898B72C32DF400013FF87 /* BRCollectionView.swift in Sources */,
 				522898C02C32E1820013FF87 /* BRCuisineCollectionViewCell.swift in Sources */,
 				522898B22C31DDAB0013FF87 /* Recipe.swift in Sources */,
+				C69029692C37368500E4F985 /* FavoriteViewController.swift in Sources */,
 				522898BE2C32E12D0013FF87 /* BRRecentCollectionViewCell.swift in Sources */,
 				522898DC2C337F260013FF87 /* CreateLayout.swift in Sources */,
 				245594BE2C34427000F07D86 /* TestVC.swift in Sources */,
@@ -546,7 +572,9 @@
 				522898D72C32FBBA0013FF87 /* BRFavoritesButton.swift in Sources */,
 				522898B92C32DFC20013FF87 /* BRTrendingCollectionViewCell.swift in Sources */,
 				C684E7A02C35998A00F8164A /* TabBarShape.swift in Sources */,
+				C690296B2C37369B00E4F985 /* NotificationViewController.swift in Sources */,
 				522898DE2C337FB90013FF87 /* CreateCells.swift in Sources */,
+				C690296D2C3736B600E4F985 /* ProfileViewController.swift in Sources */,
 				522898EE2C3433EF0013FF87 /* TrendingPresenter.swift in Sources */,
 				522898C92C32E9980013FF87 /* BRSeeAllHeader.swift in Sources */,
 			);

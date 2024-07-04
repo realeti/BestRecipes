@@ -25,62 +25,74 @@ final class CustomTabBarController: UITabBarController {
 
 // MARK: - Setup Tabs
 extension CustomTabBarController {
-    private func setupTabs() {
-        let homeVC = MainViewController()
-        let favoritesVC = FavoriteVC()
-        let notificationVC = NotificationVC()
-        let profileVC = ProfileVC()
-        
-        let home = createTabBarItem(
+    private func setupTabs() {        
+        let homeConfig = tabBarItemConfiguration(
             image: .homeInactive,
             selectedImage: .homeActive,
             tag: 0,
-            vc: homeVC
+            builder: Builder(),
+            initialViewControllerType: .home
         )
         
-        let favorites = createTabBarItem(
+        let favoritesConfig = tabBarItemConfiguration(
             image: .favoritesInactive,
             selectedImage: .favoritesActive,
             tag: 1,
-            vc: favoritesVC
+            builder: Builder(),
+            initialViewControllerType: .favorite
         )
         
-        let notification = createTabBarItem(
+        let notificationConfig = tabBarItemConfiguration(
             image: .notificationInactive,
             selectedImage: .notificationActive,
             tag: 2,
-            vc: notificationVC
+            builder: Builder(),
+            initialViewControllerType: .notification
         )
         
-        let profile = createTabBarItem(
+        let profileConfig = tabBarItemConfiguration(
             image: .profileInactive,
             selectedImage: .profileActive,
             tag: 3,
-            vc: profileVC
+            builder: Builder(),
+            initialViewControllerType: .profile
         )
         
-        viewControllers = [home, favorites, notification, profile]
+        let viewControllers = [
+            createTabBarItem(with: homeConfig),
+            createTabBarItem(with: favoritesConfig),
+            createTabBarItem(with: notificationConfig),
+            createTabBarItem(with: profileConfig)
+        ]
+        
+        self.viewControllers = viewControllers
     }
 }
 
 // MARK: - Create TabBar Item
 extension CustomTabBarController {
-    private func createTabBarItem(image: UIImage, selectedImage: UIImage, tag: Int, vc: UIViewController) -> UIViewController {
-        vc.tabBarItem.image = image
-        vc.tabBarItem.selectedImage = selectedImage
-        vc.tabBarItem.tag = tag
-        return vc
+    private func createTabBarItem(with config: tabBarItemConfiguration) -> UINavigationController {
+        let item = UINavigationController()
+        let router = Router(navigationController: item, builder: config.builder)
+        router.start(with: config.initialViewControllerType)
+        
+        item.tabBarItem.image = config.image
+        item.tabBarItem.selectedImage = config.selectedImage
+        item.tabBarItem.tag = config.tag
+        return item
     }
 }
 
-// MARK: - Mock Controllers
-class MainVC: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemIndigo
-    }
+// MARK: - View Controller Type
+enum InitialViewControllerType {
+    case home, favorite, notification, profile
 }
 
-class FavoriteVC: UIViewController {}
-class NotificationVC: UIViewController {}
-class ProfileVC: UIViewController {}
+// MARK: - TabBar Item configuration
+fileprivate struct tabBarItemConfiguration {
+    let image: UIImage
+    let selectedImage: UIImage
+    let tag: Int
+    let builder: BuilderProtocol
+    let initialViewControllerType: InitialViewControllerType
+}
