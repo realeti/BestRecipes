@@ -66,7 +66,7 @@ final class Router: RouterProtocol {
     
     private func showFavorite() {
         if let navigationController {
-            guard let favoriteViewController = builder?.getFavoriteViewController(router: self) else { return } //getFavoriteViewController
+            guard let favoriteViewController = builder?.getFavoriteViewController(router: self) else { return }
             navigationController.viewControllers = [favoriteViewController]
         }
     }
@@ -75,7 +75,7 @@ final class Router: RouterProtocol {
     
     private func showNotification() {
         if let navigationController {
-            guard let notificationViewController = builder?.getNotificationViewController(router: self) else { return } //getFavoriteViewController
+            guard let notificationViewController = builder?.getNotificationViewController(router: self) else { return }
             navigationController.viewControllers = [notificationViewController]
         }
     }
@@ -84,7 +84,7 @@ final class Router: RouterProtocol {
     
     private func showProfile() {
         if let navigationController {
-            guard let profileViewController = builder?.getProfileViewController(router: self) else { return } //getFavoriteViewController
+            guard let profileViewController = builder?.getProfileViewController(router: self) else { return }
             navigationController.viewControllers = [profileViewController]
         }
     }
