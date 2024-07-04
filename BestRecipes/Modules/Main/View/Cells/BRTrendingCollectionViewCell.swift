@@ -56,7 +56,6 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
     //MARK: - Properties
     
     static let idCell = "BRTrendingCollectionViewCell"
-//    weak var delegate: MainPresenterProtocol?
     
     
     //MARK: - Lifecycle

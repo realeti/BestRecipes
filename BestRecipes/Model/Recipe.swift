@@ -28,3 +28,8 @@ struct Recipe: Decodable {
         case extendedIngredients = "extendedIngredients"
     }
 }
+
+// struct to convert into it from response dictionary
+struct ResponseRecipe: Decodable {
+    let recipes: [Recipe]
+}

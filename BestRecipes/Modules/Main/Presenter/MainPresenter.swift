@@ -10,29 +10,26 @@ import Foundation
 //MARK: - Presenter Protocol
 
 protocol MainPresenterProtocol: AnyObject {
-    init(view: MainViewProtocol, router: RouterProtocol)
-    
+    func viewDidLoad()
     func performActionForHeader(at index: Int)
     func addToFavorites()
     func removeFromFavorites()
-//    func trendingCellTap(title: String, image: String, rating: String, recipe: String, Ingredients: [String: String])
 }
 
 
-final class MainPresenter: MainPresenterProtocol {
+final class MainPresenter {
     
     //MARK: - Properties
     
     weak var view: MainViewProtocol?
-    var router: RouterProtocol?
-    
-    var sections = BRMockData.shared.pageData
+    private let router: RouterProtocol
+    private let network: NetworkService
     
     
     //MARK: - Lifecycle
     
-    required init(view: MainViewProtocol, router: RouterProtocol) {
-        self.view = view
+    init(network: NetworkService, router: RouterProtocol) {
+        self.network = network
         self.router = router
     }
 }
@@ -40,16 +37,35 @@ final class MainPresenter: MainPresenterProtocol {
 
 //MARK: - Internal Methods
 
-extension MainPresenter {
+extension MainPresenter: MainPresenterProtocol {
+    
+    func viewDidLoad() {
+        network.fetchTrending { result in
+            switch result {
+            case .success(let recipes):
+                let items = recipes.map(BRListItem.init)
+                let section = BRListSection.trending(items)
+                DispatchQueue.main.async {
+                    self.view?.render(sections: [section])
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    
     func performActionForHeader(at index: Int) {
         switch index {
         case 0:
-            router?.showTrending()
-            print(sections[index].title)
+            router.showTrending()
+            //            print(sections[index].title)
         case 3:
-            print(sections[index].title)
+            break
+            //            print(sections[index].title)
         case 4:
-            print(sections[index].title)
+            break
+            //            print(sections[index].title)
         default:
             break
         }
@@ -64,9 +80,4 @@ extension MainPresenter {
     func removeFromFavorites() {
         print("remove to favorites tapped")
     }
-    
-    
-//    func trendingCellTap() {
-//        router?.showDetail()
-//    }
 }

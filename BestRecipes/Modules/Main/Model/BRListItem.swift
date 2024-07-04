@@ -23,3 +23,15 @@ struct BRListItem {
         return UIImage(named: authorImageName!)
     }
 }
+
+
+extension BRListItem {
+    init(_ recipe: Recipe) {
+        self.rating = recipe.rating.description
+        self.title = recipe.title
+        self.imageName = recipe.imageURL
+        self.author = recipe.author
+        self.timeRemaining = recipe.readyInMinutes.description
+        self.authorImageName = "author"
+    }
+}
