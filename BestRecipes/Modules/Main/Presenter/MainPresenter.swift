@@ -25,6 +25,8 @@ final class MainPresenter {
     private let router: RouterProtocol
     private let network: NetworkService
     
+    private var list = BRMockData.shared.pageData
+
     
     //MARK: - Lifecycle
     
@@ -32,6 +34,9 @@ final class MainPresenter {
         self.network = network
         self.router = router
     }
+    
+    
+    
 }
 
 
@@ -40,7 +45,7 @@ final class MainPresenter {
 extension MainPresenter: MainPresenterProtocol {
     
     func viewDidLoad() {
-        network.fetchTrending { result in
+        network.fetchMainModule(BRUrlString.main) { result in
             switch result {
             case .success(let recipes):
                 let items = recipes.map(BRListItem.init)
@@ -52,6 +57,20 @@ extension MainPresenter: MainPresenterProtocol {
                 print(error.localizedDescription)
             }
         }
+//        
+//        
+//        network.fetchMainModule(BRUrlString.popular) { result in
+//            switch result {
+//            case .success(let recipes):
+//                let items = recipes.map(BRListItem.init)
+//                let section = BRListSection.popular(items)
+//                DispatchQueue.main.async {
+//                    self.view?.render(sections: [section])
+//                }
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
     }
     
     
@@ -59,7 +78,7 @@ extension MainPresenter: MainPresenterProtocol {
         switch index {
         case 0:
             router.showTrending()
-            //            print(sections[index].title)
+//                        print(sections[index].title)
         case 3:
             break
             //            print(sections[index].title)

@@ -9,6 +9,7 @@ import UIKit
 
 protocol MainViewProtocol: AnyObject {
     func render(sections: [BRListSection])
+//    func reloadSectionCollectionView(section: Int)
 }
 
 
@@ -73,6 +74,10 @@ extension MainViewController: MainViewProtocol {
     func render(sections: [BRListSection]) {
         collectionView.updateContent(sections)
     }
+//    
+//    func reloadSectionCollectionView(section: Int) {
+//        collectionView.reloadCollectionView(section: section)
+//    }
 }
 
 

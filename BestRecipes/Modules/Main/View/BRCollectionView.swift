@@ -16,6 +16,23 @@ final class BRCollectionView: UICollectionView {
     
     weak var presenterDelegate: MainPresenterProtocol?
     
+    private let categoryesNamesData: [BRCategoryName] = [
+        .init(categoryName: "Main course", nameForRequest: "main%20course", isSelected: true),
+        .init(categoryName: "Side dish", nameForRequest: "side%20dish"),
+        .init(categoryName: "Dessert", nameForRequest: "dessert"),
+        .init(categoryName: "Appetizer", nameForRequest: "appetizer"),
+        .init(categoryName: "Salad", nameForRequest: "salad"),
+        .init(categoryName: "Bread", nameForRequest: "bread"),
+        .init(categoryName: "Breakfast", nameForRequest: "breakfast"),
+        .init(categoryName: "Soup", nameForRequest: "soup"),
+        .init(categoryName: "Beverage", nameForRequest: "beverage"),
+        .init(categoryName: "Sauce", nameForRequest: "sauce"),
+        .init(categoryName: "Marinade", nameForRequest: "marinade"),
+        .init(categoryName: "Finger food", nameForRequest: "fingerfood"),
+        .init(categoryName: "Snack", nameForRequest: "snack"),
+        .init(categoryName: "Drink", nameForRequest: "drink")
+    ]
+    
     
     //MARK: - Lifecycle
     
@@ -49,6 +66,11 @@ extension BRCollectionView {
         self.sections = sections
         reloadData()
     }
+//    
+//    func reloadCollectionView(section: Int) {
+//        let indexSet = IndexSet(integer: section)
+//        reloadSections(indexSet)
+//    }
 }
 
 
@@ -140,7 +162,7 @@ extension BRCollectionView: UICollectionViewDataSource {
                                authorImage: trending[indexPath.item].authorImage ?? .avatar3,
                                author: trending[indexPath.item].author,
                                index: indexPath)
-            
+
             cell.favoritesButton.delegate = presenterDelegate
             
             
@@ -148,13 +170,13 @@ extension BRCollectionView: UICollectionViewDataSource {
             
             //MARK: - Category Cell
             
-        case .category(let category):
+        case .category:
             guard let cell = dequeueReusableCell(withReuseIdentifier: BRCategoryCollectionViewCell.idCell,
                                                  for: indexPath) as? BRCategoryCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            
-            cell.configureCell(category: category[indexPath.row].title)
+            let currentCategory = categoryesNamesData[indexPath.row].categoryName
+            cell.configureCell(category: currentCategory)
             
             return cell
             
@@ -166,7 +188,7 @@ extension BRCollectionView: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             
-            cell.configureCell(image: popular[indexPath.row].image!,
+            cell.configureCell(image: popular[indexPath.row].image ?? .media2,
                                title: popular[indexPath.row].title,
                                time: popular[indexPath.row].timeRemaining)
             
@@ -196,7 +218,7 @@ extension BRCollectionView: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             
-            cell.configureCell(image: cuisine[indexPath.row].image!,
+            cell.configureCell(image: cuisine[indexPath.row].image ?? .avatar,
                                title: cuisine[indexPath.row].title)
             
             return cell

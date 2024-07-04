@@ -16,7 +16,7 @@ struct BRListItem {
     let authorImageName: String?
     
     var image: UIImage? {
-        return UIImage(named: imageName!)
+        return UIImage(named: imageName ?? "media2")
     }
     
     var authorImage: UIImage? {
