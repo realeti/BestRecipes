@@ -54,6 +54,8 @@
 		C69029692C37368500E4F985 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69029682C37368500E4F985 /* FavoriteViewController.swift */; };
 		C690296B2C37369B00E4F985 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690296A2C37369B00E4F985 /* NotificationViewController.swift */; };
 		C690296D2C3736B600E4F985 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690296C2C3736B600E4F985 /* ProfileViewController.swift */; };
+		C6AB90172C386C7400C2D719 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AB90162C386C7400C2D719 /* Constants.swift */; };
+		C6AB90192C386EF700C2D719 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6AB90182C386EF600C2D719 /* Poppins-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +108,8 @@
 		C69029682C37368500E4F985 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		C690296A2C37369B00E4F985 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		C690296C2C3736B600E4F985 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		C6AB90162C386C7400C2D719 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		C6AB90182C386EF600C2D719 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -326,6 +330,7 @@
 			children = (
 				526DF7F62C30D96E008A7818 /* Extensions */,
 				526DF7F72C30D976008A7818 /* Fonts */,
+				C6AB90162C386C7400C2D719 /* Constants.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -346,6 +351,7 @@
 				526DF7F82C30D98E008A7818 /* Font.swift */,
 				526DF7FA2C30DA11008A7818 /* Poppins-Bold.ttf */,
 				526DF7FB2C30DA11008A7818 /* Poppins-Regular.ttf */,
+				C6AB90182C386EF600C2D719 /* Poppins-SemiBold.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -520,6 +526,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6AB90192C386EF700C2D719 /* Poppins-SemiBold.ttf in Resources */,
 				526DF7E72C30D851008A7818 /* Assets.xcassets in Resources */,
 				526DF7FC2C30DA11008A7818 /* Poppins-Bold.ttf in Resources */,
 				526DF7EA2C30D851008A7818 /* Base in Resources */,
@@ -557,6 +564,7 @@
 				522898A22C31DC3D0013FF87 /* Network.swift in Sources */,
 				522898B72C32DF400013FF87 /* BRCollectionView.swift in Sources */,
 				522898C02C32E1820013FF87 /* BRCuisineCollectionViewCell.swift in Sources */,
+				C6AB90172C386C7400C2D719 /* Constants.swift in Sources */,
 				522898B22C31DDAB0013FF87 /* Recipe.swift in Sources */,
 				C69029692C37368500E4F985 /* FavoriteViewController.swift in Sources */,
 				522898BE2C32E12D0013FF87 /* BRRecentCollectionViewCell.swift in Sources */,

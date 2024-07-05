@@ -13,8 +13,7 @@ protocol RouterProtocol: AnyObject {
     var navigationController: UINavigationController { get set }
     var builder: BuilderProtocol { get set }
     
-    //func initialViewController()
-    func start(with viewControllerType: InitialViewControllerType)
+    func start(with initialModuleType: InitialModuleType)
     func showTrending()
     func popToRoot()
 }
@@ -30,28 +29,30 @@ final class Router: RouterProtocol {
     }
     
     
-    //MARK: - Initial
-    
-    /*func initialViewController() {
-        if let navigationController {
-            guard let mainViewController = builder?.getMainViewController(router: self) else { return }
-            navigationController.viewControllers = [mainViewController]
-        }
-    }*/
     
     // MARK: Start
     
-    func start(with viewControllerType: InitialViewControllerType) {
-        let viewController = builder.getModule(for: viewControllerType, router: self)
+    func start(with initialModuleType: InitialModuleType) {
+        let router = self
+        let viewController = builder.createModule(for: initialModuleType, router: router)
         navigationController.viewControllers = [viewController]
+        
+        let config = ModuleConfiguration(
+            viewController: viewController,
+            navigationController: navigationController,
+            router: router
+        
+        )
+        
+        builder.configureTabModule(for: initialModuleType, with: config)
     }
     
     
     //MARK: - Trending
     
     func showTrending() {
-        let trendingViewController = builder.getTrendingViewController(router: self)
-            navigationController.pushViewController(trendingViewController, animated: true)
+        let trendingViewController = builder.createTrendingModule(router: self)
+        navigationController.pushViewController(trendingViewController, animated: true)
     }
     
     
@@ -70,4 +71,11 @@ final class Router: RouterProtocol {
     func popToRoot() {
         navigationController.popToRootViewController(animated: true)
     }
+}
+
+// MARK: - Module Configuration
+struct ModuleConfiguration {
+    let viewController: UIViewController
+    let navigationController: UINavigationController
+    let router: RouterProtocol
 }
