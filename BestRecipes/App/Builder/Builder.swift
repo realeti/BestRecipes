@@ -8,16 +8,26 @@
 import UIKit
 
 protocol BuilderProtocol: AnyObject {
-    func getMainViewController(router: RouterProtocol) -> UIViewController
+    func getModule(for type: InitialViewControllerType, router: Router) -> UIViewController
     func getTrendingViewController(router: RouterProtocol) -> UIViewController
-    func getFavoriteViewController(router: RouterProtocol) -> UIViewController
-    func getNotificationViewController(router: RouterProtocol) -> UIViewController
-    func getProfileViewController(router: RouterProtocol) -> UIViewController
 }
 
 
 final class Builder: BuilderProtocol {
-    func getMainViewController(router: RouterProtocol) -> UIViewController {
+    func getModule(for type: InitialViewControllerType, router: Router) -> UIViewController {
+        switch type {
+        case .home:
+            getMainViewController(router: router)
+        case .favorite:
+            getFavoriteViewController(router: router)
+        case .notification:
+            getNotificationViewController(router: router)
+        case .profile:
+            getProfileViewController(router: router)
+        }
+    }
+    
+    private func getMainViewController(router: RouterProtocol) -> UIViewController {
         let viewController = MainViewController()
         let presenter = MainPresenter(view: viewController, router: router)
         viewController.presenter = presenter
@@ -26,19 +36,19 @@ final class Builder: BuilderProtocol {
     }
     
     
-    func getFavoriteViewController(router: RouterProtocol) -> UIViewController {
+    private func getFavoriteViewController(router: RouterProtocol) -> UIViewController {
         let viewController = FavoriteViewController()
         return viewController
     }
     
     
-    func getNotificationViewController(router: RouterProtocol) -> UIViewController {
+    private func getNotificationViewController(router: RouterProtocol) -> UIViewController {
         let viewController = NotificationViewController()
         return viewController
     }
     
     
-    func getProfileViewController(router: RouterProtocol) -> UIViewController {
+    private func getProfileViewController(router: RouterProtocol) -> UIViewController {
         let viewController = ProfileViewController()
         return viewController
     }
