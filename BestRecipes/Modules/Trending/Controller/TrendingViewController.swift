@@ -23,8 +23,8 @@ final class TrendingViewController: UIViewController, TrendingViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Trending now"
-        navigationItem.setHidesBackButton(true, animated: true)
+        //title = "Trending now"
+        //navigationItem.setHidesBackButton(true, animated: true)
         view.backgroundColor = .yellow
         view.addSubview(button)
         button.backgroundColor = .blue

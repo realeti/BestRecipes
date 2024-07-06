@@ -16,6 +16,7 @@ protocol RouterProtocol: AnyObject {
     func start(with initialModuleType: InitialModuleType)
     func showTrending()
     func popToRoot()
+    func popToPrevious()
 }
 
 final class Router: RouterProtocol {
@@ -36,23 +37,16 @@ final class Router: RouterProtocol {
         let router = self
         let viewController = builder.createModule(for: initialModuleType, router: router)
         navigationController.viewControllers = [viewController]
-        
-        let config = ModuleConfiguration(
-            viewController: viewController,
-            navigationController: navigationController,
-            router: router
-        
-        )
-        
-        builder.configureTabModule(for: initialModuleType, with: config)
     }
     
     
     //MARK: - Trending
     
     func showTrending() {
-        let trendingViewController = builder.createTrendingModule(router: self)
+        let router = self
+        let trendingViewController = builder.createTrendingModule(router: router)
         navigationController.pushViewController(trendingViewController, animated: true)
+        builder.configureModule(for: trendingViewController, with: router)
     }
     
     
@@ -71,11 +65,10 @@ final class Router: RouterProtocol {
     func popToRoot() {
         navigationController.popToRootViewController(animated: true)
     }
-}
-
-// MARK: - Module Configuration
-struct ModuleConfiguration {
-    let viewController: UIViewController
-    let navigationController: UINavigationController
-    let router: RouterProtocol
+    
+    //MARK: - PopToPrevious
+    
+    func popToPrevious() {
+        navigationController.popViewController(animated: true)
+    }
 }

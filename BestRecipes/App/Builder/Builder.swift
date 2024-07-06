@@ -10,12 +10,12 @@ import UIKit
 protocol BuilderProtocol: AnyObject {
     func createModule(for initialModuleType: InitialModuleType, router: Router) -> UIViewController
     func createTrendingModule(router: RouterProtocol) -> UIViewController
-    
-    func configureTabModule(for initialModuleType: InitialModuleType, with config: ModuleConfiguration)
+    func configureModule(for viewController: UIViewController, with router: RouterProtocol)
 }
 
 
 final class Builder: BuilderProtocol {
+    // MARK: - Create TabBar Modules
     func createModule(for initialModuleType: InitialModuleType, router: Router) -> UIViewController {
         switch initialModuleType {
         case .home:
@@ -29,6 +29,7 @@ final class Builder: BuilderProtocol {
         }
     }
     
+    // MARK: - Create TabBar Home
     private func createHomeModule(router: RouterProtocol) -> UIViewController {
         let viewController = MainViewController()
         let presenter = MainPresenter(view: viewController, router: router)
@@ -37,7 +38,7 @@ final class Builder: BuilderProtocol {
         return viewController
     }
     
-    
+    // MARK: - Create TabBar Farvoite
     private func createFavoriteModule(router: RouterProtocol) -> UIViewController {
         let viewController = FavoriteViewController()
         
@@ -45,7 +46,7 @@ final class Builder: BuilderProtocol {
         return viewController
     }
     
-    
+    // MARK: - Create TabBar Notification
     private func createNotificationModule(router: RouterProtocol) -> UIViewController {
         let viewController = NotificationViewController()
         
@@ -53,7 +54,7 @@ final class Builder: BuilderProtocol {
         return viewController
     }
     
-    
+    // MARK: - Create TabBar Profile
     private func createProfileModule(router: RouterProtocol) -> UIViewController {
         let viewController = ProfileViewController()
         
@@ -61,52 +62,59 @@ final class Builder: BuilderProtocol {
         return viewController
     }
     
-    
+    // MARK: - Create Trending
     func createTrendingModule(router: RouterProtocol) -> UIViewController {
         let viewController = TrendingViewController()
         let presenter = TrendingPresenter(view: viewController, router: router)
         viewController.presenter = presenter
+        setTitle(K.trendingTitle, for: viewController)
         
-        //setupViewController(viewController, title: "test", with: nil)
         return viewController
     }
 }
 
-// MARK: - Configure Tab Controllers
+// MARK: - Setup ViewController Title
 extension Builder {
-    func configureTabModule(for initialModuleType: InitialModuleType, with config: ModuleConfiguration) {
-        let title: String
-        
-        switch initialModuleType {
-        case .home:
-            title = K.homeTitle
-        case .favorite:
-            title = K.favoriteTitle
-        case .notification:
-            title = K.notificationTitle
-        case .profile:
-            title = K.profileTitle
-        }
-        
-        configureViewController(with: config, and: title)
+    private func setTitle(_ title: String, for viewController: UIViewController) {
+        viewController.title = title
     }
 }
 
-// MARK: - Configure View Controller
+// MARK: - Configure Module
 extension Builder {
-    private func configureViewController(with config: ModuleConfiguration, and title: String) {
-        setCustomTitle(for: config.navigationController, title: title)
+    func configureModule(for viewController: UIViewController, with router: RouterProtocol) {
+        setTitleAttributes(for: viewController)
+        setCustomBackButton(for: viewController, with: router)
     }
-    
-    private func setCustomTitle(for navigationController: UINavigationController, title: String) {
+}
+
+// MARK: - Custom Title Attributes
+extension Builder {
+    private func setTitleAttributes(for viewController: UIViewController) {
+        guard let navigationController = viewController.navigationController else {
+            return
+        }
+        
         let attributes: [NSAttributedString.Key: Any] = [
             .font: Font.getFont(.poppinsSemiBold, size: 24.0),
             .foregroundColor: UIColor(resource: .blackBase)
         ]
         
-        navigationController.navigationBar.topItem?.setValue(true, forKey: "__largeTitleTwoLineMode") // hack xd
-        navigationController.navigationBar.prefersLargeTitles = true
-        navigationController.navigationBar.topItem?.title = title
         navigationController.navigationBar.titleTextAttributes = attributes
+    }
+}
+
+// MARK: - Custom Navigation BackButton
+extension Builder {
+    private func setCustomBackButton(for viewController: UIViewController, with router: RouterProtocol) {
+        let customView = UIButton(type: .system)
+        customView.setBackgroundImage(.arrowLeft, for: .normal)
+        
+        let action = UIAction { _ in
+            router.popToPrevious()
+        }
+        
+        customView.addAction(action, for: .touchUpInside)
+        viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: customView)
     }
 }

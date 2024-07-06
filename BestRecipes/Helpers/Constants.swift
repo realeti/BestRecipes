@@ -9,7 +9,7 @@ import Foundation
 
 struct K {
     // MARK: - Navigation Titles
-    static let homeTitle = "Get amazing recipes for cooking"
+    static let homeTitle = "Get amazing recipes\nfor cooking"
     static let favoriteTitle = "Saved recipes"
     static let notificationTitle = "Notification"
     static let profileTitle = "My profile"
