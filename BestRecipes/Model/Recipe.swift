@@ -9,13 +9,13 @@ import Foundation
 
 struct Recipe: Decodable {
     let id: Int
-    let title: String
+    let title: String?
     let instructions:  String?
-    let author: String
-    let rating: Double
-    let readyInMinutes: Int
-    let imageURL: String
-    let extendedIngredients: [Ingredient]
+    let author: String?
+    let rating: Double?
+    let readyInMinutes: Int?
+    let imageURL: String?
+    let extendedIngredients: [Ingredient]?
     
     enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -28,6 +28,5 @@ struct Recipe: Decodable {
         case extendedIngredients = "extendedIngredients"
     }
     
-    var image: Data?
-    let reviewsCount = Int.random(in: 200...500)
+    let reviewsCount: Int = Int.random(in: 200...500)
 }

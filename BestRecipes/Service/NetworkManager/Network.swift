@@ -46,7 +46,7 @@ final class NetworkManager {
                 print(error ?? "No error description")
                 return
             }
-                        
+                                    
             do {
                 let dataModel = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(dataModel))
