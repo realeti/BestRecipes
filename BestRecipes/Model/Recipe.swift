@@ -5,6 +5,8 @@
 //  Created by Evgenii Mazrukho on 30.06.2024.
 //
 
+import Foundation
+
 struct Recipe: Decodable {
     let id: Int
     let title: String
@@ -12,7 +14,6 @@ struct Recipe: Decodable {
     let author: String
     let rating: Double
     let readyInMinutes: Int
-    //let reviewsCount: Int
     let imageURL: String
     let extendedIngredients: [Ingredient]
     
@@ -23,8 +24,10 @@ struct Recipe: Decodable {
         case author = "sourceName"
         case rating = "spoonacularScore"
         case readyInMinutes = "readyInMinutes"
-        //case reviewsCount = "reviewsCount"
         case imageURL = "image"
         case extendedIngredients = "extendedIngredients"
     }
+    
+    var image: Data?
+    let reviewsCount = Int.random(in: 200...500)
 }

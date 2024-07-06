@@ -10,7 +10,7 @@ import Foundation
 struct RecipePreview: Decodable {
     let id: Int
     let title: String
-    let imageURL: String
+    let imageURL: String?
     
     enum CodingKeys: String, CodingKey {
         case id = "id"
