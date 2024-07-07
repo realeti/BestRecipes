@@ -31,7 +31,7 @@ extension CustomTabBarController {
             selectedImage: .homeActive,
             tag: 0,
             builder: Builder(),
-            initialViewControllerType: .home
+            initialModuleType: .home
         )
         
         let favoritesConfig = tabBarItemConfiguration(
@@ -39,7 +39,7 @@ extension CustomTabBarController {
             selectedImage: .favoritesActive,
             tag: 1,
             builder: Builder(),
-            initialViewControllerType: .favorite
+            initialModuleType: .favorite
         )
         
         let notificationConfig = tabBarItemConfiguration(
@@ -47,7 +47,7 @@ extension CustomTabBarController {
             selectedImage: .notificationActive,
             tag: 2,
             builder: Builder(),
-            initialViewControllerType: .notification
+            initialModuleType: .notification
         )
         
         let profileConfig = tabBarItemConfiguration(
@@ -55,7 +55,7 @@ extension CustomTabBarController {
             selectedImage: .profileActive,
             tag: 3,
             builder: Builder(),
-            initialViewControllerType: .profile
+            initialModuleType: .profile
         )
         
         let viewControllers = [
@@ -72,27 +72,28 @@ extension CustomTabBarController {
 // MARK: - Create TabBar Item
 extension CustomTabBarController {
     private func createTabBarItem(with config: tabBarItemConfiguration) -> UINavigationController {
-        let item = UINavigationController()
-        let router = Router(navigationController: item, builder: config.builder)
-        router.start(with: config.initialViewControllerType)
-        
-        item.tabBarItem.image = config.image
-        item.tabBarItem.selectedImage = config.selectedImage
-        item.tabBarItem.tag = config.tag
-        return item
+        let navigationController = UINavigationController()
+        let router = Router(navigationController: navigationController, builder: config.builder)
+        router.start(with: config.initialModuleType)
+
+        navigationController.tabBarItem.image = config.image
+        navigationController.tabBarItem.selectedImage = config.selectedImage
+        navigationController.tabBarItem.tag = config.tag
+
+        return navigationController
     }
 }
 
 // MARK: - View Controller Type
-enum InitialViewControllerType {
+enum InitialModuleType {
     case home, favorite, notification, profile
 }
 
-// MARK: - TabBar Item configuration
+// MARK: - TabBar Item Configuration
 fileprivate struct tabBarItemConfiguration {
     let image: UIImage
     let selectedImage: UIImage
     let tag: Int
     let builder: BuilderProtocol
-    let initialViewControllerType: InitialViewControllerType
+    let initialModuleType: InitialModuleType
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 class CustomTabBar: UITabBar {
-    // MARK: - Private properties
+    // MARK: - UI
     private var shapeLayer: CALayer?
     private let plusButton = PlusButton(type: .system)
     
