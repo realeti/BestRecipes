@@ -5,16 +5,17 @@
 //  Created by Evgenii Mazrukho on 30.06.2024.
 //
 
-struct Recipe: Decodable {
+import Foundation
+
+struct Recipe: Codable {
     let id: Int
-    let title: String
+    let title: String?
     let instructions:  String?
-    let author: String
-    let rating: Double
-    let readyInMinutes: Int
-    //let reviewsCount: Int
-    let imageURL: String
-    let extendedIngredients: [Ingredient]
+    let author: String?
+    let rating: Double?
+    let readyInMinutes: Int?
+    let imageURL: String?
+    let extendedIngredients: [Ingredient]?
     
     enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -23,10 +24,11 @@ struct Recipe: Decodable {
         case author = "sourceName"
         case rating = "spoonacularScore"
         case readyInMinutes = "readyInMinutes"
-        //case reviewsCount = "reviewsCount"
         case imageURL = "image"
         case extendedIngredients = "extendedIngredients"
     }
+    
+    let reviewsCount: Int = Int.random(in: 200...500)
 }
 
 // struct to convert into it from response dictionary

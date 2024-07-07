@@ -10,18 +10,18 @@ import UIKit
 //MARK: - Router Protocol
 
 protocol RouterProtocol: AnyObject {
-    var navigationController: UINavigationController? { get set }
-    var builder: BuilderProtocol? { get set }
+    var navigationController: UINavigationController { get set }
+    var builder: BuilderProtocol { get set }
     
-    func initialViewController()
+    func start(with initialModuleType: InitialModuleType)
     func showTrending()
     func popToRoot()
+    func popToPrevious()
 }
 
-
 final class Router: RouterProtocol {
-    var navigationController: UINavigationController?
-    var builder: BuilderProtocol?
+    var navigationController: UINavigationController
+    var builder: BuilderProtocol
     
     
     init(navigationController: UINavigationController, builder: BuilderProtocol) {
@@ -30,42 +30,45 @@ final class Router: RouterProtocol {
     }
     
     
-    //MARK: - Initial
     
-    func initialViewController() {
-        if let navigationController {
-            guard let mainViewController = builder?.getMainViewController(router: self) else { return }
-            navigationController.viewControllers = [mainViewController]
-        }
+    // MARK: Start
+    
+    func start(with initialModuleType: InitialModuleType) {
+        let router = self
+        let viewController = builder.createModule(for: initialModuleType, router: router)
+        navigationController.viewControllers = [viewController]
     }
     
     
     //MARK: - Trending
     
     func showTrending() {
-        if let navigationController {
-            guard let trendingViewController = builder?.getTrendingViewController(router: self) else { return }
-            navigationController.pushViewController(trendingViewController, animated: true)
-        }
+        let router = self
+        let trendingViewController = builder.createTrendingModule(router: router)
+        navigationController.pushViewController(trendingViewController, animated: true)
+        builder.configureModule(for: trendingViewController, with: router)
     }
     
     
     //MARK: - Detail
     
     func showDetail() {
-//        if let navigationController {
-//            guard let detailViewController = builder?.getDetailViewController(router: self) else { return }
-//            navigationController?.pushViewController(detailViewController, animated: true)
-//        }
+        /*if let navigationController {
+            guard let detailViewController = builder?.getDetailViewController(router: self) else { return }
+            navigationController?.pushViewController(detailViewController, animated: true)
+        }*/
     }
     
     
     //MARK: - PopToRoot
     
     func popToRoot() {
-        if let navigationController {
-            navigationController.popToRootViewController(animated: true)
-        }
+        navigationController.popToRootViewController(animated: true)
+    }
+    
+    //MARK: - PopToPrevious
+    
+    func popToPrevious() {
+        navigationController.popViewController(animated: true)
     }
 }
-
