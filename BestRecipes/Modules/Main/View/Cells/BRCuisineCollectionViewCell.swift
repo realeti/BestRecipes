@@ -31,7 +31,7 @@ final class BRCuisineCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Properties
     
-    static let idCell = "BRCuisineCollectionViewCell"
+    static let identifier = "BRCuisineCollectionViewCell"
     
     
     //MARK: - Lifecycle

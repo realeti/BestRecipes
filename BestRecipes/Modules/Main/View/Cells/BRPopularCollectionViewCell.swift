@@ -59,8 +59,7 @@ final class BRPopularCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Properties
     
-    static let idCell = "BRPopularCollectionViewCell"
-//    weak var delegate: MainPresenterProtocol?
+    static let identifier = "BRPopularCollectionViewCell"
     
     
     //MARK: - Lifecycle
@@ -94,26 +93,12 @@ extension BRPopularCollectionViewCell {
 
 private extension BRPopularCollectionViewCell {
     
-    //MARK: - Action
-    
-//    @objc func favoritesButtonHandler() {
-//        if favoritesButton.isSelected {
-//            delegate?.removeFromFavorites()
-//        } else {
-//            delegate?.addToFavorites()
-//        }
-//        favoritesButton.isSelected.toggle()
-//    }
-
-    
     //MARK: - Setup UI
     
     func configure() {
         addSubviews(backgroundCellView, foodImageView,
                     titleLabel,
                     timeLabel, minutesLabel, favoritesButton)
-        
-//        favoritesButton.addTarget(self, action: #selector(favoritesButtonHandler), for: .touchUpInside)
     }
     
     

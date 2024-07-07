@@ -87,6 +87,7 @@ final class NetworkManager: NetworkService {
             do {
                 let dataObject = try JSONDecoder().decode(ResponseRecipe.self, from: data)
                 let recipes = dataObject.recipes
+                print(dataObject)
                 completion(.success(recipes))
             } catch {
                 completion(.failure(.decodingError))

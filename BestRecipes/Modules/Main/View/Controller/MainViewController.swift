@@ -8,8 +8,7 @@
 import UIKit
 
 protocol MainViewProtocol: AnyObject {
-    func render(sections: [BRListSection])
-//    func reloadSectionCollectionView(section: Int)
+    func render()
 }
 
 
@@ -59,11 +58,18 @@ final class MainViewController: UIViewController {
         configureCollectionView()
         configure()
         setConstraints()
+        
+//        presenter.viewDidLoad()
+        
+        
     }
     
     
     func configureCollectionView() {
-        collectionView = BRCollectionView(presenterDelegate: presenter)
+        collectionView = BRCollectionView(
+            presenterDelegate: presenter,
+            sections: presenter.getModels()
+        )
     }
 }
 
@@ -71,13 +77,9 @@ final class MainViewController: UIViewController {
 //MARK: - Actions
 
 extension MainViewController: MainViewProtocol {
-    func render(sections: [BRListSection]) {
-        collectionView.updateContent(sections)
+    func render() {
+        collectionView.updateContent()
     }
-//    
-//    func reloadSectionCollectionView(section: Int) {
-//        collectionView.reloadCollectionView(section: section)
-//    }
 }
 
 

@@ -1,5 +1,5 @@
 //
-//  BRTrendingCollectionViewCell.swift
+//  TrendingTableViewCell.swift
 //  BestRecipes
 //
 //  Created by Evgenii Mazrukho on 01.07.2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BRTrendingCollectionViewCell: UICollectionViewCell {
+final class TrendingTableViewCell: UITableViewCell {
     
     //MARK: - UI
     
@@ -53,15 +53,11 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
     }(UILabel())
     
     
-    //MARK: - Properties
-    
-    static let identifier = "BRTrendingCollectionViewCell"
-    
-    
     //MARK: - Lifecycle
     
-    override init(frame: CGRect) {
-        super.init(frame: .zero)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: "BRTrendingTableViewCell")
+        
         
         configure()
         setCostraints()
@@ -76,7 +72,7 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
 
 //MARK: - External Methods
 
-extension BRTrendingCollectionViewCell {
+extension TrendingTableViewCell {
     func configureCell(rating: String, image: UIImage, title: String, authorImage: UIImage, author: String, index: IndexPath) {
         ratingView.rateLabel.text = rating
         backgroundImageView.image = image
@@ -85,21 +81,12 @@ extension BRTrendingCollectionViewCell {
         authorNameLabel.text = author
         favoritesButton.tag = index.item
     }
-    
-    
-    func configure(with model: TrendingModel) {
-        ratingView.rateLabel.text = model.rating.description
-        backgroundImageView.image = UIImage(named: model.imageURL)
-        titleLabel.text = model.title
-        authorImageView.image = .author
-        authorNameLabel.text = model.author
-    }
 }
 
 
 //MARK: - Internal Methods
 
-private extension BRTrendingCollectionViewCell {
+private extension TrendingTableViewCell {
     
     //MARK: - Setup UI
     

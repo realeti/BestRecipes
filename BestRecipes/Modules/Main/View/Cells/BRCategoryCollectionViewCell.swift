@@ -23,7 +23,7 @@ final class BRCategoryCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Properties
     
-    static let idCell = "BRCategoryCollectionViewCell"
+    static let identifier = "BRCategoryCollectionViewCell"
     
     override var isSelected: Bool {
         didSet {

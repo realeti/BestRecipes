@@ -16,29 +16,23 @@ final class TrendingViewController: UIViewController, TrendingViewProtocol {
     
     //MARK: - TEST router + presenter + builder
     
-    private lazy var button = BRFavoritesButton()
-    
     var presenter: TrendingPresenterProtocol?
+    
+    
+    
+    
+    private let tableView = TrendingTableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Trending now"
-        navigationItem.setHidesBackButton(true, animated: true)
         view.backgroundColor = .yellow
-        view.addSubview(button)
-        button.backgroundColor = .blue
-        button.addTarget(self, action: #selector(didTap), for: .touchUpInside)
+        view.addSubview(tableView)
         
-        button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        button.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 200).isActive = true
-    }
-    
-    
-    @objc func didTap() {
-        presenter?.backTap()
-        print("router pop to root")
+        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
 }

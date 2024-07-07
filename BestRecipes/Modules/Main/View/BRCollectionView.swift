@@ -12,7 +12,11 @@ final class BRCollectionView: UICollectionView {
     //MARK: - Properties
     
     private let collectionLayout = UICollectionViewLayout()
-    private(set) var sections = BRMockData.shared.pageData
+//    private(set) var sections = BRMockData.shared.pageData
+    
+    
+    private var sections: [SectionType]
+    
     
     weak var presenterDelegate: MainPresenterProtocol?
     
@@ -36,8 +40,9 @@ final class BRCollectionView: UICollectionView {
     
     //MARK: - Lifecycle
     
-    init(presenterDelegate: MainPresenterProtocol) {
+    init(presenterDelegate: MainPresenterProtocol, sections: [SectionType]) {
         self.presenterDelegate = presenterDelegate
+        self.sections = sections
         super.init(frame: .zero, collectionViewLayout: collectionLayout)
         
         configure()
@@ -59,21 +64,6 @@ final class BRCollectionView: UICollectionView {
 }
 
 
-//MARK: - External Methods
-
-extension BRCollectionView {
-    func updateContent(_ sections: [BRListSection]) {
-        self.sections = sections
-        reloadData()
-    }
-//    
-//    func reloadCollectionView(section: Int) {
-//        let indexSet = IndexSet(integer: section)
-//        reloadSections(indexSet)
-//    }
-}
-
-
 //MARK: - Delegate
 
 extension BRCollectionView: UICollectionViewDelegate {
@@ -84,7 +74,6 @@ extension BRCollectionView: UICollectionViewDelegate {
         
         switch indexPath.section {
         case 0:
-            //            presenterDelegate?.trendingCellTap()
             print(indexPath.item)
         case 1:
             print(indexPath.item)
@@ -100,6 +89,14 @@ extension BRCollectionView: UICollectionViewDelegate {
     }
 }
 
+//MARK: - External
+
+extension BRCollectionView {
+    func updateContent() {
+        reloadData()
+    }
+}
+
 
 //MARK: - DataSource
 
@@ -110,7 +107,19 @@ extension BRCollectionView: UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        sections[section].count
+        let type = sections[section]
+        switch type {
+        case .trending(let model):
+            return model.count
+        case .category(let model):
+            return model.count
+        case .popular(let model):
+            return model.count
+        case .recent(let model):
+            return model.count
+        case .cuisine(let model):
+            return model.count
+        }
     }
     
     
@@ -146,32 +155,20 @@ extension BRCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        switch sections[indexPath.section] {
-            
-            //MARK: - Trending Cell
-            
-        case .trending(let trending):
-            guard let cell = dequeueReusableCell(withReuseIdentifier: BRTrendingCollectionViewCell.idCell,
+        let type = sections[indexPath.section]
+        switch type {
+        case .trending(model: let models):
+            guard let cell = dequeueReusableCell(withReuseIdentifier: BRTrendingCollectionViewCell.identifier,
                                                  for: indexPath) as? BRTrendingCollectionViewCell else {
                 return UICollectionViewCell()
             }
             
-            cell.configureCell(rating: trending[indexPath.item].rating,
-                               image: trending[indexPath.item].image ?? .media,
-                               title: trending[indexPath.item].title,
-                               authorImage: trending[indexPath.item].authorImage ?? .avatar3,
-                               author: trending[indexPath.item].author,
-                               index: indexPath)
-
-            cell.favoritesButton.delegate = presenterDelegate
-            
-            
+            let model = models[indexPath.row]
+            cell.configure(with model: model)
             return cell
             
-            //MARK: - Category Cell
-            
-        case .category:
-            guard let cell = dequeueReusableCell(withReuseIdentifier: BRCategoryCollectionViewCell.idCell,
+        case .category(model: let model):
+            guard let cell = dequeueReusableCell(withReuseIdentifier: BRCategoryCollectionViewCell.identifier,
                                                  for: indexPath) as? BRCategoryCollectionViewCell else {
                 return UICollectionViewCell()
             }
@@ -179,11 +176,8 @@ extension BRCollectionView: UICollectionViewDataSource {
             cell.configureCell(category: currentCategory)
             
             return cell
-            
-            //MARK: - Popular Cell
-            
-        case .popular(let popular):
-            guard let cell = dequeueReusableCell(withReuseIdentifier: BRPopularCollectionViewCell.idCell,
+        case .popular(model: let model):
+            guard let cell = dequeueReusableCell(withReuseIdentifier: BRPopularCollectionViewCell.identifier,
                                                  for: indexPath) as? BRPopularCollectionViewCell else {
                 return UICollectionViewCell()
             }
@@ -195,11 +189,8 @@ extension BRCollectionView: UICollectionViewDataSource {
             cell.favoritesButton.delegate = presenterDelegate
             
             return cell
-            
-            //MARK: - Recent Cell
-            
-        case .recent(let recent):
-            guard let cell = dequeueReusableCell(withReuseIdentifier: BRRecentCollectionViewCell.idCell,
+        case .recent(model: let model):
+            guard let cell = dequeueReusableCell(withReuseIdentifier: BRRecentCollectionViewCell.identifier,
                                                  for: indexPath) as? BRRecentCollectionViewCell else {
                 return UICollectionViewCell()
             }
@@ -209,11 +200,8 @@ extension BRCollectionView: UICollectionViewDataSource {
                                authorName: recent[indexPath.row].author)
             
             return cell
-            
-            //MARK: - Cuisine Cell
-            
-        case .cuisine(let cuisine):
-            guard let cell = dequeueReusableCell(withReuseIdentifier: BRCuisineCollectionViewCell.idCell,
+        case .cuisine(model: let model):
+            guard let cell = dequeueReusableCell(withReuseIdentifier: BRCuisineCollectionViewCell.identifier,
                                                  for: indexPath) as? BRCuisineCollectionViewCell else {
                 return UICollectionViewCell()
             }
@@ -233,22 +221,40 @@ private extension BRCollectionView {
     
     //MARK: - Create Layout
     
-    func createLayout() -> UICollectionViewCompositionalLayout {
-        return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
-            guard let self else { return nil }
-            let section = sections[sectionIndex]
-            switch section {
-            case .trending:
-                return createTrendingSection()
-            case .category:
-                return createCategorySection()
-            case .popular:
-                return createPopularSection()
-            case .recent:
-                return createRecentSection()
-            case .cuisine:
-                return createCuisineSection()
-            }
+//    func createLayout() -> UICollectionViewCompositionalLayout {
+//        return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
+//            guard let self else { return nil }
+//            let section = sections[sectionIndex]
+//            switch section {
+//            case .trending:
+//                return createTrendingSection()
+//            case .category:
+//                return createCategorySection()
+//            case .popular:
+//                return createPopularSection()
+//            case .recent:
+//                return createRecentSection()
+//            case .cuisine:
+//                return createCuisineSection()
+//            }
+//        }
+//    }
+    
+    
+    func createSectionTypeLayout(section: Int) -> NSCollectionLayoutSection {
+        switch section {
+        case 0:
+            createTrendingSection()
+        case 1:
+            createCategorySection()
+        case 2:
+            createPopularSection()
+        case 3:
+            createRecentSection()
+        case 4:
+            createCuisineSection()
+        default:
+            createTrendingSection()
         }
     }
     
@@ -393,7 +399,10 @@ private extension BRCollectionView {
     //MARK: - Setup UI
     
     func configure() {
-        collectionViewLayout = createLayout()
+        collectionViewLayout = UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, _ in
+            self.createSectionTypeLayout(section: sectionIndex)
+        })
+        
         backgroundColor = .none
         bounces = false
         showsVerticalScrollIndicator = false
@@ -408,11 +417,11 @@ private extension BRCollectionView {
     
     
     func registerCells() {
-        register(BRTrendingCollectionViewCell.self, forCellWithReuseIdentifier: BRTrendingCollectionViewCell.idCell)
-        register(BRCategoryCollectionViewCell.self, forCellWithReuseIdentifier: BRCategoryCollectionViewCell.idCell)
-        register(BRPopularCollectionViewCell.self, forCellWithReuseIdentifier: BRPopularCollectionViewCell.idCell)
-        register(BRRecentCollectionViewCell.self, forCellWithReuseIdentifier: BRRecentCollectionViewCell.idCell)
-        register(BRCuisineCollectionViewCell.self, forCellWithReuseIdentifier: BRCuisineCollectionViewCell.idCell)
+        register(BRTrendingCollectionViewCell.self, forCellWithReuseIdentifier: BRTrendingCollectionViewCell.identifier)
+        register(BRCategoryCollectionViewCell.self, forCellWithReuseIdentifier: BRCategoryCollectionViewCell.identifier)
+        register(BRPopularCollectionViewCell.self, forCellWithReuseIdentifier: BRPopularCollectionViewCell.identifier)
+        register(BRRecentCollectionViewCell.self, forCellWithReuseIdentifier: BRRecentCollectionViewCell.identifier)
+        register(BRCuisineCollectionViewCell.self, forCellWithReuseIdentifier: BRCuisineCollectionViewCell.identifier)
     }
     
     

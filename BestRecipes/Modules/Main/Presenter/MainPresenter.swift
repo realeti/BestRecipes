@@ -14,6 +14,15 @@ protocol MainPresenterProtocol: AnyObject {
     func performActionForHeader(at index: Int)
     func addToFavorites()
     func removeFromFavorites()
+    func getModels() -> [SectionType]
+}
+
+enum SectionType {
+    case trending(model: [TrendingModel]) // 1
+    case category(model: [TrendingModel]) // 2
+    case popular(model: [TrendingModel]) // 3
+    case recent(model: [TrendingModel]) // 4
+    case cuisine(model: [TrendingModel]) // 5
 }
 
 
@@ -26,7 +35,7 @@ final class MainPresenter {
     private let network: NetworkService
     
     private var list = BRMockData.shared.pageData
-
+    private var sections = [SectionType]()
     
     //MARK: - Lifecycle
     
@@ -34,9 +43,6 @@ final class MainPresenter {
         self.network = network
         self.router = router
     }
-    
-    
-    
 }
 
 
@@ -45,32 +51,55 @@ final class MainPresenter {
 extension MainPresenter: MainPresenterProtocol {
     
     func viewDidLoad() {
-        network.fetchMainModule(BRUrlString.main) { result in
+        let group = DispatchGroup()
+        group.enter()
+        group.enter()
+        group.enter()
+        group.enter()
+        
+        
+        network.fetchMainModule(BRUrlString.main) { [weak self] result in
+            defer {
+                group.leave()
+            }
+            guard let self else { return }
             switch result {
             case .success(let recipes):
-                let items = recipes.map(BRListItem.init)
-                let section = BRListSection.trending(items)
-                DispatchQueue.main.async {
-                    self.view?.render(sections: [section])
-                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
+            // configure models
+            
         }
-//        
-//        
-//        network.fetchMainModule(BRUrlString.popular) { result in
-//            switch result {
-//            case .success(let recipes):
-//                let items = recipes.map(BRListItem.init)
-//                let section = BRListSection.popular(items)
-//                DispatchQueue.main.async {
-//                    self.view?.render(sections: [section])
-//                }
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
+        
+        group.notify(queue: .main) {
+            guard let trending = newTrending,
+                  let category = newCategory,
+                  let popular = newPopular,
+                  let cuisine = newCuisine else {
+                return
+            }
+            configureModels()
+            self.view?.render()
+        }
+    }
+    
+    
+    func configureModels() {
+        sections.append(.trending(model: []))
+        sections.append(.category(model: []))
+        sections.append(.popular(model: []))
+        sections.append(.recent(model: []))
+        sections.append(.cuisine(model: []))
+    }
+    
+    func getModels() -> [SectionType] {
+        sections.append(.trending(model: []))
+        sections.append(.category(model: []))
+        sections.append(.popular(model: []))
+        sections.append(.recent(model: []))
+        sections.append(.cuisine(model: []))
+        return sections
     }
     
     
@@ -78,13 +107,10 @@ extension MainPresenter: MainPresenterProtocol {
         switch index {
         case 0:
             router.showTrending()
-//                        print(sections[index].title)
         case 3:
             break
-            //            print(sections[index].title)
         case 4:
             break
-            //            print(sections[index].title)
         default:
             break
         }
