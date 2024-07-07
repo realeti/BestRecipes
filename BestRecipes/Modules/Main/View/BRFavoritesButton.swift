@@ -13,9 +13,9 @@ final class BRFavoritesButton: UIButton {
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                setImage(.bookmarkActive, for: .selected)
+                setImage(.favoritesActive, for: .selected)
             } else {
-                setImage(.bookmarkInactive, for: .normal)
+                setImage(.favoritesInactive, for: .normal)
             }
         }
     }
@@ -61,8 +61,8 @@ private extension BRFavoritesButton {
     func configure() {
         backgroundColor = .white
         layer.cornerRadius = 16
-        setImage(.bookmarkInactive, for: .normal)
-        setImage(.bookmarkInactive, for: .highlighted)
+        setImage(.favoritesInactive, for: .normal)
+        setImage(.favoritesInactive, for: .highlighted)
         translatesAutoresizingMaskIntoConstraints = false
         addTarget(self, action: #selector(favoritesButtonHandler), for: .touchUpInside)
     }
