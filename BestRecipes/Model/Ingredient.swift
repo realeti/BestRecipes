@@ -5,7 +5,7 @@
 //  Created by nik on 02.07.24.
 //
 
-struct Ingredient: Decodable {
+struct Ingredient: Codable {
     let id: Int
     let name: String
     let amount: Double

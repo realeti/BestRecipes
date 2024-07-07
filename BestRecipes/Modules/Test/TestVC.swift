@@ -20,7 +20,7 @@ final class TestVC: UITableViewController {
     }
     
     private func showRecipes() {
-        dataManager.getRecepies(type: .trend) { [unowned self] result in
+        dataManager.getRecepies(type: .cuisine, by: CuisineType.getRandom().rawValue) { [unowned self] result in
             recipes = result
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -29,12 +29,12 @@ final class TestVC: UITableViewController {
     }
     
     private func searcRecipes() {
-        dataManager.getRecepies(type: .cuisine, by: "German") { [unowned self] result in
-            recipes = result
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+        if !recipes.isEmpty {
+            dataManager.addRecipe(recipes.first!, to: .favorites)
         }
+        recipes = dataManager.getRecipesFrom(.favorites)
+        
+        self.tableView.reloadData()
     }
 }
 
