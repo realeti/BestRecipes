@@ -77,17 +77,7 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
 //MARK: - External Methods
 
 extension BRTrendingCollectionViewCell {
-    func configureCell(rating: String, image: UIImage, title: String, authorImage: UIImage, author: String, index: IndexPath) {
-        ratingView.rateLabel.text = rating
-        backgroundImageView.image = image
-        titleLabel.text = title
-        authorImageView.image = authorImage
-        authorNameLabel.text = author
-        favoritesButton.tag = index.item
-    }
-    
-    
-    func configure(with model: TrendingModel) {
+    func configure(with model: BRTrendingModel) {
         ratingView.rateLabel.text = model.rating.description
         backgroundImageView.image = UIImage(named: model.imageURL)
         titleLabel.text = model.title

@@ -53,9 +53,9 @@ final class BRCuisineCollectionViewCell: UICollectionViewCell {
 //MARK: - External Methods
 
 extension BRCuisineCollectionViewCell {
-    func configureCell(image: UIImage, title: String) {
-        cuisineImageView.image = image
-        titleLabel.text = title
+    func configure(with model: BRCuisineModel) {
+        cuisineImageView.image = UIImage(named: model.imageURL ?? "media2")
+        titleLabel.text = model.title
     }
 }
 

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MainViewProtocol: AnyObject {
-    func render()
+    func render(sections: [BRSection])
 }
 
 
@@ -29,12 +29,14 @@ final class MainViewController: UIViewController {
         return $0
     }(UITextField())
     
-    private var collectionView = BRCollectionView()
+    private var collectionView: BRCollectionView!
     
     
     //MARK: - Properties
     
     private let presenter: MainPresenterProtocol
+
+    var sections = [BRSection]()
     
     
     //MARK: - Lifecycle
@@ -54,43 +56,28 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        presenter.viewDidLoad()
         configureCollectionView()
         configure()
         setConstraints()
-        
-//        presenter.viewDidLoad()
-        
-        
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
-    }
-
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.isHidden = false
-    }
-    
-    
-    func configureCollectionView() {
-        collectionView = BRCollectionView(
-            presenterDelegate: presenter,
-            sections: presenter.getModels()
-        )
+        presenter.fetchData()
     }
 }
 
 
-//MARK: - Actions
+//MARK: - External Methods
+
+extension MainViewController {
+    func configureCollectionView() {
+        collectionView = BRCollectionView(presenter: presenter)
+    }
+}
+
+
+//MARK: - MainViewProtocol
 
 extension MainViewController: MainViewProtocol {
-    func render() {
-        collectionView.updateContent()
+    func render(sections: [BRSection]) {
+        collectionView.updateContent(sections: sections)
     }
 }
 

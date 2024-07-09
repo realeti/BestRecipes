@@ -10,19 +10,10 @@ import Foundation
 //MARK: - Presenter Protocol
 
 protocol MainPresenterProtocol: AnyObject {
-    func viewDidLoad()
+    func fetchData()
     func performActionForHeader(at index: Int)
     func addToFavorites()
     func removeFromFavorites()
-    func getModels() -> [SectionType]
-}
-
-enum SectionType {
-    case trending(model: [TrendingModel]) // 1
-    case category(model: [TrendingModel]) // 2
-    case popular(model: [TrendingModel]) // 3
-    case recent(model: [TrendingModel]) // 4
-    case cuisine(model: [TrendingModel]) // 5
 }
 
 
@@ -33,15 +24,27 @@ final class MainPresenter {
     weak var view: MainViewProtocol?
     private let router: RouterProtocol
     private let network: NetworkService
+    private let storage: DataService
     
-    private var list = BRMockData.shared.pageData
-    private var sections = [SectionType]()
+    
+    //MARK: - Models
+    
+    private var sections = BRMockData.shared.pageData
+//    private var sections = [BRSection]()
+    
+    private var trendingRecipes: [Recipe]?
+    private var categoryRecipes: [Recipe]?
+    private var popularRecipes: [Recipe]?
+    private var recentRecipes: [Recipe]?
+    private var cuisineRecipes: [Recipe]?
+    
     
     //MARK: - Lifecycle
     
-    init(network: NetworkService, router: RouterProtocol) {
+    init(network: NetworkService, router: RouterProtocol, storage: DataService) {
         self.network = network
         self.router = router
+        self.storage = storage
     }
 }
 
@@ -49,68 +52,72 @@ final class MainPresenter {
 //MARK: - Internal Methods
 
 extension MainPresenter: MainPresenterProtocol {
-    
-    func viewDidLoad() {
+    func fetchData() {
         let group = DispatchGroup()
-        group.enter()
-        group.enter()
-        group.enter()
-        group.enter()
         
-        
-        network.fetchMainModule(BRUrlString.main) { [weak self] result in
+        group.enter()
+        storage.getRecepies(type: .trend, by: "", offset: 0 ) { recipes in
             defer {
                 group.leave()
             }
-            guard let self else { return }
-            switch result {
-            case .success(let recipes):
-            case .failure(let error):
-                print(error.localizedDescription)
+            self.trendingRecipes = recipes
+        }
+        
+        group.enter()
+        storage.getRecepies(type: .type, by: MealTypes.getRandom().rawValue, offset: 0) { recipes in
+            defer {
+                group.leave()
             }
-            // configure models
-            
+            self.categoryRecipes = recipes
+        }
+        
+        group.enter()
+        storage.getRecepies(type: .cuisine, by: CuisineType.getRandom().rawValue, offset: 0) { recipes in
+            defer {
+                group.leave()
+            }
+            self.cuisineRecipes = recipes
         }
         
         group.notify(queue: .main) {
-            guard let trending = newTrending,
-                  let category = newCategory,
-                  let popular = newPopular,
-                  let cuisine = newCuisine else {
+            guard let trending = self.trendingRecipes,
+                  let category = self.categoryRecipes,
+                  let cuisine = self.cuisineRecipes else {
                 return
             }
-            configureModels()
-            self.view?.render()
+            self.configureModels(
+                trending: trending,
+                category: category,
+                cuisine: cuisine
+            )
         }
     }
     
     
-    func configureModels() {
-        sections.append(.trending(model: []))
-        sections.append(.category(model: []))
-        sections.append(.popular(model: []))
-        sections.append(.recent(model: []))
-        sections.append(.cuisine(model: []))
-    }
-    
-    func getModels() -> [SectionType] {
-        sections.append(.trending(model: []))
-        sections.append(.category(model: []))
-        sections.append(.popular(model: []))
-        sections.append(.recent(model: []))
-        sections.append(.cuisine(model: []))
-        return sections
+    func configureModels(trending: [Recipe], category: [Recipe], cuisine: [Recipe]) {
+        sections.append(.trending(model: trending.map({ recipe in
+            return BRTrendingModel(recipe)
+        })))
+        sections.append(.category(model: category.map({ recipe in
+            return BRCategoryModel(recipe)
+        })))
+        sections.append(.cuisine(model: cuisine.map({ recipe in
+            return BRCuisineModel(recipe)
+        })))
+        
+        self.view?.render(sections: sections)
     }
     
     
     func performActionForHeader(at index: Int) {
         switch index {
         case 0:
+            print(index)
             router.showTrending()
         case 3:
-            break
+            print(index)
         case 4:
-            break
+            print(index)
         default:
             break
         }

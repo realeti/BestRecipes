@@ -52,8 +52,8 @@ final class BRCategoryCollectionViewCell: UICollectionViewCell {
 //MARK: - External Methods
 
 extension BRCategoryCollectionViewCell {
-    func configureCell(category name: String) {
-        nameCategoryLabel.text = name
+    func configure(with model: BRCategoryModel) {
+        nameCategoryLabel.text = model.categoryType
     }
 }
 
@@ -63,7 +63,6 @@ extension BRCategoryCollectionViewCell {
 private extension BRCategoryCollectionViewCell {
     func configure() {
         layer.cornerRadius = 10
-        
         addSubview(nameCategoryLabel)
     }
     

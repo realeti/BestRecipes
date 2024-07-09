@@ -23,7 +23,7 @@ final class BRTrendingFooter: UICollectionReusableView {
     
     //MARK: - Properties
     
-    static let idFooter = "BRTrendingFooter"
+    static let identifier = "BRTrendingFooter"
     
     
     //MARK: - Lifecycle

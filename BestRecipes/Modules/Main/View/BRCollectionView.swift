@@ -12,48 +12,24 @@ final class BRCollectionView: UICollectionView {
     //MARK: - Properties
     
     private let collectionLayout = UICollectionViewLayout()
-//    private(set) var sections = BRMockData.shared.pageData
+    
+    private(set) var sections = BRMockData.shared.pageData
+//    private var sections: [BRSection] = []
     
     
-    private var sections: [SectionType]
-    
-    
-    weak var presenterDelegate: MainPresenterProtocol?
-    
-    private let categoryesNamesData: [BRCategoryName] = [
-        .init(categoryName: "Main course", nameForRequest: "main%20course", isSelected: true),
-        .init(categoryName: "Side dish", nameForRequest: "side%20dish"),
-        .init(categoryName: "Dessert", nameForRequest: "dessert"),
-        .init(categoryName: "Appetizer", nameForRequest: "appetizer"),
-        .init(categoryName: "Salad", nameForRequest: "salad"),
-        .init(categoryName: "Bread", nameForRequest: "bread"),
-        .init(categoryName: "Breakfast", nameForRequest: "breakfast"),
-        .init(categoryName: "Soup", nameForRequest: "soup"),
-        .init(categoryName: "Beverage", nameForRequest: "beverage"),
-        .init(categoryName: "Sauce", nameForRequest: "sauce"),
-        .init(categoryName: "Marinade", nameForRequest: "marinade"),
-        .init(categoryName: "Finger food", nameForRequest: "fingerfood"),
-        .init(categoryName: "Snack", nameForRequest: "snack"),
-        .init(categoryName: "Drink", nameForRequest: "drink")
-    ]
+    weak var presenter: MainPresenterProtocol?
     
     
     //MARK: - Lifecycle
     
-    init(presenterDelegate: MainPresenterProtocol, sections: [SectionType]) {
-        self.presenterDelegate = presenterDelegate
-        self.sections = sections
+    init(presenter: MainPresenterProtocol) {
+        self.presenter = presenter
         super.init(frame: .zero, collectionViewLayout: collectionLayout)
         
         configure()
         registerCells()
         registerHeaderAndFooter()
         setDelegates()
-    }
-    
-    
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: .zero, collectionViewLayout: collectionLayout)
     }
     
     
@@ -69,9 +45,7 @@ final class BRCollectionView: UICollectionView {
 extension BRCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        
         print("Ячейка в секции \(indexPath.section) и номер \(indexPath.item) была нажата.")
-        
         switch indexPath.section {
         case 0:
             print(indexPath.item)
@@ -89,10 +63,12 @@ extension BRCollectionView: UICollectionViewDelegate {
     }
 }
 
-//MARK: - External
+
+//MARK: - External Methods
 
 extension BRCollectionView {
-    func updateContent() {
+    func updateContent(sections: [BRSection]) {
+        self.sections = sections
         reloadData()
     }
 }
@@ -130,18 +106,18 @@ extension BRCollectionView: UICollectionViewDataSource {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             guard let header = dequeueReusableSupplementaryView(ofKind: kind,
-                                                                withReuseIdentifier: BRSeeAllHeader.idHeader, for: indexPath) as? BRSeeAllHeader else {
+                                                                withReuseIdentifier: BRSeeAllHeader.identifier, for: indexPath) as? BRSeeAllHeader else {
                 return UICollectionReusableView()
             }
             
             header.tag = indexPath.section
-            header.delegate = presenterDelegate
+            header.delegate = presenter
             header.configureHeader(title: sections[indexPath.section].title, section: indexPath.section)
             
             return header
             
         case UICollectionView.elementKindSectionFooter:
-            guard let footer = dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BRTrendingFooter.idFooter, for: indexPath) as? BRTrendingFooter else {
+            guard let footer = dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BRTrendingFooter.identifier, for: indexPath) as? BRTrendingFooter else {
                 return UICollectionReusableView()
             }
             
@@ -164,50 +140,53 @@ extension BRCollectionView: UICollectionViewDataSource {
             }
             
             let model = models[indexPath.row]
-            cell.configure(with model: model)
+            cell.configure(with: model)
+            cell.favoritesButton.delegate = presenter
+            
             return cell
             
-        case .category(model: let model):
+        case .category(model: let models):
             guard let cell = dequeueReusableCell(withReuseIdentifier: BRCategoryCollectionViewCell.identifier,
                                                  for: indexPath) as? BRCategoryCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            let currentCategory = categoryesNamesData[indexPath.row].categoryName
-            cell.configureCell(category: currentCategory)
+            
+            let model = models[indexPath.row]
+            cell.configure(with: model)
             
             return cell
-        case .popular(model: let model):
+        
+        case .popular(model: let models):
             guard let cell = dequeueReusableCell(withReuseIdentifier: BRPopularCollectionViewCell.identifier,
                                                  for: indexPath) as? BRPopularCollectionViewCell else {
                 return UICollectionViewCell()
             }
             
-            cell.configureCell(image: popular[indexPath.row].image ?? .media2,
-                               title: popular[indexPath.row].title,
-                               time: popular[indexPath.row].timeRemaining)
-            
-            cell.favoritesButton.delegate = presenterDelegate
+            let model = models[indexPath.row]
+            cell.configure(with: model)
+            cell.favoritesButton.delegate = presenter
             
             return cell
-        case .recent(model: let model):
+        
+        case .recent(model: let models):
             guard let cell = dequeueReusableCell(withReuseIdentifier: BRRecentCollectionViewCell.identifier,
                                                  for: indexPath) as? BRRecentCollectionViewCell else {
                 return UICollectionViewCell()
             }
             
-            cell.configureCell(image: recent[indexPath.row].image!,
-                               title: recent[indexPath.row].title,
-                               authorName: recent[indexPath.row].author)
+            let model = models[indexPath.row]
+            cell.configure(with: model)
             
             return cell
-        case .cuisine(model: let model):
+            
+        case .cuisine(model: let models):
             guard let cell = dequeueReusableCell(withReuseIdentifier: BRCuisineCollectionViewCell.identifier,
                                                  for: indexPath) as? BRCuisineCollectionViewCell else {
                 return UICollectionViewCell()
             }
             
-            cell.configureCell(image: cuisine[indexPath.row].image ?? .avatar,
-                               title: cuisine[indexPath.row].title)
+            let model = models[indexPath.row]
+            cell.configure(with: model)
             
             return cell
         }
@@ -221,40 +200,22 @@ private extension BRCollectionView {
     
     //MARK: - Create Layout
     
-//    func createLayout() -> UICollectionViewCompositionalLayout {
-//        return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
-//            guard let self else { return nil }
-//            let section = sections[sectionIndex]
-//            switch section {
-//            case .trending:
-//                return createTrendingSection()
-//            case .category:
-//                return createCategorySection()
-//            case .popular:
-//                return createPopularSection()
-//            case .recent:
-//                return createRecentSection()
-//            case .cuisine:
-//                return createCuisineSection()
-//            }
-//        }
-//    }
-    
-    
-    func createSectionTypeLayout(section: Int) -> NSCollectionLayoutSection {
-        switch section {
-        case 0:
-            createTrendingSection()
-        case 1:
-            createCategorySection()
-        case 2:
-            createPopularSection()
-        case 3:
-            createRecentSection()
-        case 4:
-            createCuisineSection()
-        default:
-            createTrendingSection()
+    func createLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
+            guard let self else { return nil }
+            let section = sections[sectionIndex]
+            switch section {
+            case .trending:
+                return createTrendingSection()
+            case .category:
+                return createCategorySection()
+            case .popular:
+                return createPopularSection()
+            case .recent:
+                return createRecentSection()
+            case .cuisine:
+                return createCuisineSection()
+            }
         }
     }
     
@@ -399,10 +360,7 @@ private extension BRCollectionView {
     //MARK: - Setup UI
     
     func configure() {
-        collectionViewLayout = UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, _ in
-            self.createSectionTypeLayout(section: sectionIndex)
-        })
-        
+        collectionViewLayout = createLayout()
         backgroundColor = .none
         bounces = false
         showsVerticalScrollIndicator = false
@@ -428,9 +386,9 @@ private extension BRCollectionView {
     func registerHeaderAndFooter() {
         register(BRSeeAllHeader.self,
                  forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                 withReuseIdentifier: BRSeeAllHeader.idHeader)
+                 withReuseIdentifier: BRSeeAllHeader.identifier)
         register(BRTrendingFooter.self,
                  forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                 withReuseIdentifier: BRTrendingFooter.idFooter)
+                 withReuseIdentifier: BRTrendingFooter.identifier)
     }
 }

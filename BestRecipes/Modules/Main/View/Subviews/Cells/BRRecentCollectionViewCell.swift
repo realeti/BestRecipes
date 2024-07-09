@@ -64,10 +64,10 @@ final class BRRecentCollectionViewCell: UICollectionViewCell {
 //MARK: - External Methods
 
 extension BRRecentCollectionViewCell {
-    func configureCell(image: UIImage, title: String, authorName: String) {
-        foodImageView.image = image
-        titleLabel.text = title
-        authorNameLabel.text = authorName
+    func configure(with model: BRRecentModel) {
+        titleLabel.text = model.title
+        foodImageView.image = UIImage(named: model.imageURL)
+        authorNameLabel.text = model.author
     }
 }
 

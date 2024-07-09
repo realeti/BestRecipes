@@ -25,12 +25,12 @@ final class BRFavoritesButton: UIButton {
     
     //MARK: - Lifecycle
     
-//    init(presenter: MainPresenterProtocol) {
-//        self.delegate = presenter
-//        super.init(frame: .zero)
-//        
-//        configure()
-//    }
+    init(presenter: MainPresenterProtocol) {
+        self.delegate = presenter
+        super.init(frame: .zero)
+        
+        configure()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: .zero)

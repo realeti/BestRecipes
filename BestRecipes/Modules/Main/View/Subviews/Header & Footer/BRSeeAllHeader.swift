@@ -33,7 +33,7 @@ final class BRSeeAllHeader: UICollectionReusableView {
     
     //MARK: - Properties
     
-    static let idHeader = "BRSeeAllHeader"
+    static let identifier = "BRSeeAllHeader"
     weak var delegate: MainPresenterProtocol?
     
     

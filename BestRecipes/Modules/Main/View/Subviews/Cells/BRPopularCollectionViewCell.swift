@@ -81,10 +81,10 @@ final class BRPopularCollectionViewCell: UICollectionViewCell {
 //MARK: - External Methods
 
 extension BRPopularCollectionViewCell {
-    func configureCell(image: UIImage, title: String, time: String) {
-        foodImageView.image = image
-        titleLabel.text = title
-        minutesLabel.text = time
+    func configure(with model: BRPopularModel) {
+        titleLabel.text = model.title
+        foodImageView.image = UIImage(named: model.imageURL ?? "media")
+        minutesLabel.text = model.readyInMinutes.description
     }
 }
 

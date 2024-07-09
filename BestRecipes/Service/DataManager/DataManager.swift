@@ -79,18 +79,33 @@ enum SavedRecipesType: String {
     case favorites = "favoritesRecipes"
 }
 
-final class DataManager {
+protocol DataService {
+    func getRecepies(type: RecipeType, by key: String, offset: Int, completion: @escaping([Recipe]) -> Void)
+    func getImage(_ url: String, completion: @escaping(Data) -> Void)
+    func getRecipesFrom(_ storage: SavedRecipesType) -> [Recipe]
+    func addRecipe(_ recipe: Recipe, to storage: SavedRecipesType)
+    func deleteRecipe(_ recipe: Recipe, from storage: SavedRecipesType)
+}
+
+
+final class DataManager: DataService {
+    
     static let shared = DataManager()
     
     private var imageCaсhe: [String: Data] = [:]
     
     private let apiKeys: [String] = [
-        "cc3538ef4d1448949d8c1f17cf5703c1"
+        "cc3538ef4d1448949d8c1f17cf5703c1",
+        "94a3e904ec2d4cc8bab79ce9735f4d49",
+        "27e0d44421784a0881805de490c3972c",
+        "67815760a10949b7abd4174a271dbd1d",
+        "5aacdbb3cbe1434194ec06aac794bec6",
+        "b00472aa0b6b4e94b37c893f41ac110c"
     ]
     
-    private var apiKeyIndex = 0
+    private var apiKeyIndex = 5
     
-    private init() {}
+//    private init() {}
     
     func getRecepies(
         type: RecipeType,
@@ -105,7 +120,7 @@ final class DataManager {
             case .success(let someSearch):
                 completion(someSearch.results)
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }

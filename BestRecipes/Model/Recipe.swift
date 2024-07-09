@@ -15,7 +15,13 @@ struct Recipe: Codable {
     let rating: Double?
     let readyInMinutes: Int?
     let imageURL: String?
+    let dishTypes: [DishTypes]
     let extendedIngredients: [Ingredient]?
+    
+    struct DishTypes: Codable {
+        let name: String
+    }
+    
     
     enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -25,13 +31,9 @@ struct Recipe: Codable {
         case rating = "spoonacularScore"
         case readyInMinutes = "readyInMinutes"
         case imageURL = "image"
+        case dishTypes = "dishTypes"
         case extendedIngredients = "extendedIngredients"
     }
     
     let reviewsCount: Int = Int.random(in: 200...500)
-}
-
-// struct to convert into it from response dictionary
-struct ResponseRecipe: Decodable {
-    let recipes: [Recipe]
 }
