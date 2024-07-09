@@ -9,6 +9,12 @@ import UIKit
 
 final class SearchView: UIView {
     // MARK: - UI
+    lazy var containerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     lazy var searchStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -16,21 +22,14 @@ final class SearchView: UIView {
         stackView.alignment = .fill
         stackView.distribution = .fill
         stackView.layoutMargins = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 8)
-        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layer.cornerRadius = 10
         stackView.layer.borderWidth = 1
         stackView.layer.borderColor = UIColor.redBase.cgColor
         stackView.layer.masksToBounds = true
+        stackView.isLayoutMarginsRelativeArrangement = true
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
-    /*lazy var searchIcon: UIImageView = {
-        let view = UIImageView(image: .search)
-        view.contentMode = .scaleAspectFit
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()*/
     
     lazy var searchButton: UIButton = {
         let button = UIButton(type: .system)
@@ -62,6 +61,18 @@ final class SearchView: UIView {
         return button
     }()
     
+    lazy var recipeCollection: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+        flowLayout.minimumLineSpacing = 24.0
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.register(SearchViewCell.self, forCellWithReuseIdentifier: SearchViewCell.description())
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -77,18 +88,28 @@ final class SearchView: UIView {
     
     // MARK: - Set Views
     private func setupUI() {
-        addSubview(searchStackView)
-        searchStackView.addArrangedSubview(searchButton)
-        searchStackView.addArrangedSubview(searchTextField)
-        searchStackView.addArrangedSubview(searchCancelButton)
+        //addSubview(containerView)
+        //containerView.addSubviews(searchStackView, recipeCollection)
+        addSubviews(searchStackView, recipeCollection)
+        searchStackView.addArrangedSubviews(searchButton, searchTextField, searchCancelButton)
     }
 }
 
 // MARK: - Setup Constraints
 extension SearchView {
     private func setupConstraints() {
+        //setupContainerViewConstraints()
         setupSearchStackConstraints()
         setupSearchIconsConstraints()
+        setupRecipeCollectionConstraints()
+    }
+    
+    private func setupContainerViewConstraints() {
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalToSystemSpacingBelow: safeAreaLayoutGuide.topAnchor, multiplier: 1.0),
+            containerView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 2.0),
+            trailingAnchor.constraint(equalToSystemSpacingAfter: containerView.trailingAnchor, multiplier: 3.0)
+        ])
     }
     
     private func setupSearchStackConstraints() {
@@ -97,15 +118,29 @@ extension SearchView {
             searchStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 2.0),
             trailingAnchor.constraint(equalToSystemSpacingAfter: searchStackView.trailingAnchor, multiplier: 3.0)
         ])
+        /*NSLayoutConstraint.activate([
+            searchStackView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            searchStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            searchStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            searchStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+        ])*/
     }
     
     private func setupSearchIconsConstraints() {
         NSLayoutConstraint.activate([
             searchButton.heightAnchor.constraint(equalToConstant: Metrics.searchIconSize),
             searchButton.widthAnchor.constraint(equalToConstant: Metrics.searchIconSize),
-            
             searchCancelButton.heightAnchor.constraint(equalToConstant: Metrics.searchIconSize),
             searchCancelButton.widthAnchor.constraint(equalToConstant: Metrics.searchIconSize)
+        ])
+    }
+    
+    private func setupRecipeCollectionConstraints() {
+        NSLayoutConstraint.activate([
+            recipeCollection.topAnchor.constraint(equalToSystemSpacingBelow: searchStackView.bottomAnchor, multiplier: 2.0),
+            recipeCollection.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 2.0),
+            trailingAnchor.constraint(equalToSystemSpacingAfter: recipeCollection.trailingAnchor, multiplier: 2.0),
+            recipeCollection.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -24.0)
         ])
     }
 }

@@ -79,6 +79,8 @@ extension SearchViewController {
 extension SearchViewController {
     private func setDelegates() {
         searchView.searchTextField.delegate = self
+        searchView.recipeCollection.dataSource = self
+        searchView.recipeCollection.delegate = self
     }
 }
 
@@ -86,7 +88,7 @@ extension SearchViewController {
 extension SearchViewController: UITextFieldDelegate {
     /// if pressed return key on the keyboard
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        searchView.searchTextField.endEditing(true)
+        //searchView.searchTextField.endEditing(true)
         return true
     }
     
@@ -102,9 +104,40 @@ extension SearchViewController: UITextFieldDelegate {
     
     /// if end editing was called
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if let recipe = searchView.searchTextField.text {
+        /*if let recipe = searchView.searchTextField.text {
             /// fetch data
-        }
+        }*/
         //searchView.searchTextField.text = ""
+    }
+}
+
+// MARK: - CollectionView DataSource
+extension SearchViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 12
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchViewCell.description(), for: indexPath) as? SearchViewCell else {
+            return UICollectionViewCell()
+        }
+        
+        cell.configure()
+        return cell
+    }
+}
+
+// MARK: - CollectionView Delegate
+extension SearchViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("cell #\(indexPath.row)")
+    }
+}
+
+// MARK: - CollectionView FlowLayout Delegate
+extension SearchViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let collectionViewWidth = collectionView.bounds.width
+        return CGSize(width: collectionViewWidth, height: collectionViewWidth * 0.58)
     }
 }

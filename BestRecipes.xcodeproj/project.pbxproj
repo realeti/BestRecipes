@@ -50,6 +50,7 @@
 		C65550052C3C4E160016FF73 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65550042C3C4E160016FF73 /* SearchViewController.swift */; };
 		C65550072C3C4E350016FF73 /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65550062C3C4E350016FF73 /* SearchPresenter.swift */; };
 		C65550092C3C4F5D0016FF73 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65550082C3C4F5D0016FF73 /* SearchView.swift */; };
+		C65F73282C3DA01D007D1B4D /* SearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65F73272C3DA01D007D1B4D /* SearchViewCell.swift */; };
 		C684E79A2C35997400F8164A /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684E7972C35997400F8164A /* CustomTabBarController.swift */; };
 		C684E79B2C35997400F8164A /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684E7982C35997400F8164A /* CustomTabBar.swift */; };
 		C684E7A02C35998A00F8164A /* TabBarShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684E79E2C35998A00F8164A /* TabBarShape.swift */; };
@@ -107,6 +108,7 @@
 		C65550042C3C4E160016FF73 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		C65550062C3C4E350016FF73 /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		C65550082C3C4F5D0016FF73 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		C65F73272C3DA01D007D1B4D /* SearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewCell.swift; sourceTree = "<group>"; };
 		C684E7972C35997400F8164A /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		C684E7982C35997400F8164A /* CustomTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		C684E79E2C35998A00F8164A /* TabBarShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarShape.swift; sourceTree = "<group>"; };
@@ -480,6 +482,7 @@
 			children = (
 				C65550042C3C4E160016FF73 /* SearchViewController.swift */,
 				C65550082C3C4F5D0016FF73 /* SearchView.swift */,
+				C65F73272C3DA01D007D1B4D /* SearchViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -628,6 +631,7 @@
 				522898E52C34239B0013FF87 /* Builder.swift in Sources */,
 				522898BC2C32E0F30013FF87 /* BRCategoryCollectionViewCell.swift in Sources */,
 				522898E02C34181C0013FF87 /* MainPresenter.swift in Sources */,
+				C65F73282C3DA01D007D1B4D /* SearchViewCell.swift in Sources */,
 				522898D72C32FBBA0013FF87 /* BRFavoritesButton.swift in Sources */,
 				24B6D96B2C371200006F866F /* DataManager.swift in Sources */,
 				522898B92C32DFC20013FF87 /* BRTrendingCollectionViewCell.swift in Sources */,
