@@ -47,6 +47,9 @@
 		526DF7FD2C30DA11008A7818 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 526DF7FB2C30DA11008A7818 /* Poppins-Regular.ttf */; };
 		526DF80A2C30DE07008A7818 /* UIView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF8092C30DE07008A7818 /* UIView + ext.swift */; };
 		526DF80D2C30DE3B008A7818 /* UIStackView + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF80C2C30DE3B008A7818 /* UIStackView + ext.swift */; };
+		C65550052C3C4E160016FF73 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65550042C3C4E160016FF73 /* SearchViewController.swift */; };
+		C65550072C3C4E350016FF73 /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65550062C3C4E350016FF73 /* SearchPresenter.swift */; };
+		C65550092C3C4F5D0016FF73 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65550082C3C4F5D0016FF73 /* SearchView.swift */; };
 		C684E79A2C35997400F8164A /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684E7972C35997400F8164A /* CustomTabBarController.swift */; };
 		C684E79B2C35997400F8164A /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684E7982C35997400F8164A /* CustomTabBar.swift */; };
 		C684E7A02C35998A00F8164A /* TabBarShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684E79E2C35998A00F8164A /* TabBarShape.swift */; };
@@ -101,6 +104,9 @@
 		526DF7FB2C30DA11008A7818 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		526DF8092C30DE07008A7818 /* UIView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + ext.swift"; sourceTree = "<group>"; };
 		526DF80C2C30DE3B008A7818 /* UIStackView + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView + ext.swift"; sourceTree = "<group>"; };
+		C65550042C3C4E160016FF73 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		C65550062C3C4E350016FF73 /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
+		C65550082C3C4F5D0016FF73 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		C684E7972C35997400F8164A /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		C684E7982C35997400F8164A /* CustomTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		C684E79E2C35998A00F8164A /* TabBarShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarShape.swift; sourceTree = "<group>"; };
@@ -313,6 +319,7 @@
 				526DF8082C30DCBE008A7818 /* Launch */,
 				526DF8012C30DBD2008A7818 /* Onboarding */,
 				526DF8002C30DBCB008A7818 /* TabBar */,
+				C65550002C3C4DB60016FF73 /* Search */,
 				526DF8052C30DBE3008A7818 /* Main */,
 				C69029662C37365000E4F985 /* Favorite */,
 				C69029672C37365900E4F985 /* Notification */,
@@ -386,7 +393,7 @@
 		526DF8002C30DBCB008A7818 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
-				C684E79D2C35998200F8164A /* Views */,
+				C684E79D2C35998200F8164A /* View */,
 				C684E7982C35997400F8164A /* CustomTabBar.swift */,
 				C684E7972C35997400F8164A /* CustomTabBarController.swift */,
 			);
@@ -451,13 +458,47 @@
 			path = Launch;
 			sourceTree = "<group>";
 		};
-		C684E79D2C35998200F8164A /* Views */ = {
+		C65550002C3C4DB60016FF73 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				C65550012C3C4DEB0016FF73 /* Model */,
+				C65550032C3C4DF60016FF73 /* Presenter */,
+				C65550022C3C4DF00016FF73 /* View */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		C65550012C3C4DEB0016FF73 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C65550022C3C4DF00016FF73 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C65550042C3C4E160016FF73 /* SearchViewController.swift */,
+				C65550082C3C4F5D0016FF73 /* SearchView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C65550032C3C4DF60016FF73 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				C65550062C3C4E350016FF73 /* SearchPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		C684E79D2C35998200F8164A /* View */ = {
 			isa = PBXGroup;
 			children = (
 				C684E79F2C35998A00F8164A /* PlusButton.swift */,
 				C684E79E2C35998A00F8164A /* TabBarShape.swift */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		C69029662C37365000E4F985 /* Favorite */ = {
@@ -551,9 +592,9 @@
 			files = (
 				526DF7F92C30D98E008A7818 /* Font.swift in Sources */,
 				526DF7E22C30D84F008A7818 /* LaunchViewController.swift in Sources */,
+				C65550072C3C4E350016FF73 /* SearchPresenter.swift in Sources */,
 				C684E79B2C35997400F8164A /* CustomTabBar.swift in Sources */,
 				C684E7A12C35998A00F8164A /* PlusButton.swift in Sources */,
-				24AE74602C3554B900CED2BA /* RecipePreview.swift in Sources */,
 				24AE745E2C35495F00CED2BA /* SearchResult.swift in Sources */,
 				245594BC2C34271100F07D86 /* Ingredient.swift in Sources */,
 				522898AA2C31DD750013FF87 /* TrendingViewController.swift in Sources */,
@@ -568,6 +609,7 @@
 				522898A42C31DD550013FF87 /* OnboardingViewController.swift in Sources */,
 				526DF80D2C30DE3B008A7818 /* UIStackView + ext.swift in Sources */,
 				522898C42C32E6220013FF87 /* TextField + ext.swift in Sources */,
+				C65550092C3C4F5D0016FF73 /* SearchView.swift in Sources */,
 				526DF7E02C30D84F008A7818 /* SceneDelegate.swift in Sources */,
 				522898A22C31DC3D0013FF87 /* Network.swift in Sources */,
 				522898B72C32DF400013FF87 /* BRCollectionView.swift in Sources */,
@@ -580,6 +622,7 @@
 				245594BE2C34427000F07D86 /* TestVC.swift in Sources */,
 				526DF80A2C30DE07008A7818 /* UIView + ext.swift in Sources */,
 				522898D12C32EFC00013FF87 /* BRListItem.swift in Sources */,
+				C65550052C3C4E160016FF73 /* SearchViewController.swift in Sources */,
 				522898D52C32F2900013FF87 /* BRMockData.swift in Sources */,
 				522898A82C31DD6A0013FF87 /* MainViewController.swift in Sources */,
 				522898E52C34239B0013FF87 /* Builder.swift in Sources */,

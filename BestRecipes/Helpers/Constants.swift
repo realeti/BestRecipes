@@ -17,5 +17,8 @@ struct K {
     static let trendingTitle = "Trending now"
     static let createTitle = "Create recipe"
     
+    // MARK: - Search
+    static let searchPlaceholer = "How to make..."
+    
     private init () {}
 }

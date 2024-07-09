@@ -25,7 +25,8 @@ final class Builder: BuilderProtocol {
         case .notification:
             createNotificationModule(router: router)
         case .profile:
-            createProfileModule(router: router)
+            //createProfileModule(router: router)
+            createSearchModule(router: router)
         }
     }
     
@@ -69,6 +70,14 @@ final class Builder: BuilderProtocol {
         viewController.presenter = presenter
         setTitle(K.trendingTitle, for: viewController)
         
+        return viewController
+    }
+    
+    // MARK: - Create Search
+    func createSearchModule(router: RouterProtocol) -> UIViewController {
+        let viewController = SearchViewController()
+        let presenter = SearchPresenter(view: viewController, router: router)
+        viewController.presenter = presenter
         return viewController
     }
 }
