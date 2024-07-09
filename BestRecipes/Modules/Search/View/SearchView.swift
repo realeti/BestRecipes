@@ -9,7 +9,7 @@ import UIKit
 
 final class SearchView: UIView {
     // MARK: - UI
-    private lazy var searchStackView: UIStackView = {
+    lazy var searchStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 10
@@ -25,14 +25,14 @@ final class SearchView: UIView {
         return stackView
     }()
     
-    /*private lazy var searchIcon: UIImageView = {
+    /*lazy var searchIcon: UIImageView = {
         let view = UIImageView(image: .search)
         view.contentMode = .scaleAspectFit
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()*/
     
-    private lazy var searchIcon: UIButton = {
+    lazy var searchButton: UIButton = {
         let button = UIButton(type: .system)
         let image = UIImage(resource: .search).withRenderingMode(.alwaysOriginal)
         button.setBackgroundImage(image, for: .normal)
@@ -40,7 +40,7 @@ final class SearchView: UIView {
         return button
     }()
     
-    private lazy var searchTextField: UITextField = {
+    lazy var searchTextField: UITextField = {
         let textField = UITextField()
         let textFieldFont = Font.getFont(.poppinsRegular, size: 14.0)
         textField.backgroundColor = .clear
@@ -54,7 +54,7 @@ final class SearchView: UIView {
         return textField
     }()
     
-    private lazy var searchCancelButton: UIButton = {
+    lazy var searchCancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.setBackgroundImage(.plus, for: .normal)
         button.transform = CGAffineTransform(rotationAngle: .pi / 4)
@@ -78,7 +78,7 @@ final class SearchView: UIView {
     // MARK: - Set Views
     private func setupUI() {
         addSubview(searchStackView)
-        searchStackView.addArrangedSubview(searchIcon)
+        searchStackView.addArrangedSubview(searchButton)
         searchStackView.addArrangedSubview(searchTextField)
         searchStackView.addArrangedSubview(searchCancelButton)
     }
@@ -101,8 +101,8 @@ extension SearchView {
     
     private func setupSearchIconsConstraints() {
         NSLayoutConstraint.activate([
-            searchIcon.heightAnchor.constraint(equalToConstant: Metrics.searchIconSize),
-            searchIcon.widthAnchor.constraint(equalToConstant: Metrics.searchIconSize),
+            searchButton.heightAnchor.constraint(equalToConstant: Metrics.searchIconSize),
+            searchButton.widthAnchor.constraint(equalToConstant: Metrics.searchIconSize),
             
             searchCancelButton.heightAnchor.constraint(equalToConstant: Metrics.searchIconSize),
             searchCancelButton.widthAnchor.constraint(equalToConstant: Metrics.searchIconSize)
