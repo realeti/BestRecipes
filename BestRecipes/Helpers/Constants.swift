@@ -20,5 +20,9 @@ struct K {
     // MARK: - Search
     static let searchPlaceholer = "How to make..."
     
+    // MARK: - Reusable
+    static let searchCell = "searchCell"
+    static let searchHeaderView = "searchHeaderView"
+    
     private init () {}
 }

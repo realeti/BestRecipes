@@ -9,14 +9,10 @@ import UIKit
 
 final class SearchViewCell: UICollectionViewCell {
     // MARK: - UI
-    private lazy var recipeImageView: UIImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleAspectFill
-        view.layer.cornerRadius = 12
-        view.layer.masksToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let recipeImageView = UIImageView(
+        contentMode: .scaleAspectFill,
+        cornerRadius: 12
+    )
     
     private lazy var ratingStackView: UIStackView = {
         let stackView = UIStackView()
@@ -33,50 +29,38 @@ final class SearchViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    private lazy var ratingStarImageView: UIImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleAspectFit
-        view.image = .star
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    private let ratingStarImageView = UIImageView(
+        image: .star,
+        contentMode: .scaleAspectFit
+    )
     
-    private lazy var ratingLabel: UILabel = {
-        let label = UILabel()
-        label.text = "5.0"
-        label.textColor = .white
-        label.font = Font.getFont(.poppinsBold, size: 14.0)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let ratingLabel = UILabel(
+        text: "5.0",
+        font: .poppinsBold,
+        fontSize: 14.0
+    )
     
     private lazy var descriptionStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 8
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
-    private lazy var descriptionTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "How to make yam & vegetable sauce at home"
-        label.textColor = .white
-        label.font = Font.getFont(.poppinsBold, size: 16.0)
-        label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let descriptionTitleLabel = UILabel(
+        text: "How to make yam & vegetable sauce at home",
+        font: .poppinsBold,
+        fontSize: 16.0,
+        numberOfLines: 2
+    )
     
-    private lazy var ingredientsLabel: UILabel = {
-        let label = UILabel()
-        label.text = "9 Ingredients | 25 min"
-        label.textColor = .white
-        label.font = Font.getFont(.poppinsRegular, size: 12.0)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let ingredientsLabel = UILabel(
+        text: "9 Ingredients | 25 min",
+        font: .poppinsRegular,
+        fontSize: 12.0
+    )
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -88,6 +72,14 @@ final class SearchViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        recipeImageView.image = nil
+        descriptionTitleLabel.text = nil
+        ingredientsLabel.text = nil
     }
     
     // MARK: - Set Views
@@ -140,9 +132,9 @@ extension SearchViewCell {
     
     private func setupDescriptionStackViewConstraints() {
         NSLayoutConstraint.activate([
-            descriptionStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.0),
-            descriptionStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.0),
-            descriptionStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16.0),
+            descriptionStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 2.0),
+            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: descriptionStackView.trailingAnchor, multiplier: 2.0),
+            bottomAnchor.constraint(equalToSystemSpacingBelow: descriptionStackView.bottomAnchor, multiplier: 2.0)
         ])
     }
 }

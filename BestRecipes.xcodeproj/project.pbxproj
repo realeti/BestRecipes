@@ -51,6 +51,8 @@
 		C65550072C3C4E350016FF73 /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65550062C3C4E350016FF73 /* SearchPresenter.swift */; };
 		C65550092C3C4F5D0016FF73 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65550082C3C4F5D0016FF73 /* SearchView.swift */; };
 		C65F73282C3DA01D007D1B4D /* SearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65F73272C3DA01D007D1B4D /* SearchViewCell.swift */; };
+		C6654C452C3E56B000969C1D /* UILabel + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6654C442C3E56B000969C1D /* UILabel + Extensions.swift */; };
+		C6654C472C3E593B00969C1D /* UIImageView + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6654C462C3E593B00969C1D /* UIImageView + Extensions.swift */; };
 		C684E79A2C35997400F8164A /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684E7972C35997400F8164A /* CustomTabBarController.swift */; };
 		C684E79B2C35997400F8164A /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684E7982C35997400F8164A /* CustomTabBar.swift */; };
 		C684E7A02C35998A00F8164A /* TabBarShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = C684E79E2C35998A00F8164A /* TabBarShape.swift */; };
@@ -58,8 +60,10 @@
 		C69029692C37368500E4F985 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69029682C37368500E4F985 /* FavoriteViewController.swift */; };
 		C690296B2C37369B00E4F985 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690296A2C37369B00E4F985 /* NotificationViewController.swift */; };
 		C690296D2C3736B600E4F985 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690296C2C3736B600E4F985 /* ProfileViewController.swift */; };
+		C69443802C3E68A3009D9FA7 /* SearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C694437F2C3E68A3009D9FA7 /* SearchHeaderView.swift */; };
 		C6AB90172C386C7400C2D719 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AB90162C386C7400C2D719 /* Constants.swift */; };
 		C6AB90192C386EF700C2D719 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6AB90182C386EF600C2D719 /* Poppins-SemiBold.ttf */; };
+		C6FC31F82C3F18DE00F5191F /* UIButton + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FC31F72C3F18DE00F5191F /* UIButton + Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +113,8 @@
 		C65550062C3C4E350016FF73 /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		C65550082C3C4F5D0016FF73 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		C65F73272C3DA01D007D1B4D /* SearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewCell.swift; sourceTree = "<group>"; };
+		C6654C442C3E56B000969C1D /* UILabel + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + Extensions.swift"; sourceTree = "<group>"; };
+		C6654C462C3E593B00969C1D /* UIImageView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView + Extensions.swift"; sourceTree = "<group>"; };
 		C684E7972C35997400F8164A /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		C684E7982C35997400F8164A /* CustomTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		C684E79E2C35998A00F8164A /* TabBarShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarShape.swift; sourceTree = "<group>"; };
@@ -116,8 +122,10 @@
 		C69029682C37368500E4F985 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		C690296A2C37369B00E4F985 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		C690296C2C3736B600E4F985 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		C694437F2C3E68A3009D9FA7 /* SearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderView.swift; sourceTree = "<group>"; };
 		C6AB90162C386C7400C2D719 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C6AB90182C386EF600C2D719 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		C6FC31F72C3F18DE00F5191F /* UIButton + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton + Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -480,9 +488,10 @@
 		C65550022C3C4DF00016FF73 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C6654C432C3E568300969C1D /* Extensions */,
+				C6FC31F62C3EF99400F5191F /* Cells */,
 				C65550042C3C4E160016FF73 /* SearchViewController.swift */,
 				C65550082C3C4F5D0016FF73 /* SearchView.swift */,
-				C65F73272C3DA01D007D1B4D /* SearchViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -493,6 +502,16 @@
 				C65550062C3C4E350016FF73 /* SearchPresenter.swift */,
 			);
 			path = Presenter;
+			sourceTree = "<group>";
+		};
+		C6654C432C3E568300969C1D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C6654C442C3E56B000969C1D /* UILabel + Extensions.swift */,
+				C6654C462C3E593B00969C1D /* UIImageView + Extensions.swift */,
+				C6FC31F72C3F18DE00F5191F /* UIButton + Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		C684E79D2C35998200F8164A /* View */ = {
@@ -518,6 +537,15 @@
 				C690296A2C37369B00E4F985 /* NotificationViewController.swift */,
 			);
 			path = Notification;
+			sourceTree = "<group>";
+		};
+		C6FC31F62C3EF99400F5191F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				C65F73272C3DA01D007D1B4D /* SearchViewCell.swift */,
+				C694437F2C3E68A3009D9FA7 /* SearchHeaderView.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -600,12 +628,15 @@
 				C684E7A12C35998A00F8164A /* PlusButton.swift in Sources */,
 				24AE745E2C35495F00CED2BA /* SearchResult.swift in Sources */,
 				245594BC2C34271100F07D86 /* Ingredient.swift in Sources */,
+				C6FC31F82C3F18DE00F5191F /* UIButton + Extensions.swift in Sources */,
 				522898AA2C31DD750013FF87 /* TrendingViewController.swift in Sources */,
 				522898D92C32FD700013FF87 /* BRRatingView.swift in Sources */,
 				C684E79A2C35997400F8164A /* CustomTabBarController.swift in Sources */,
 				522898AC2C31DD7B0013FF87 /* DetailViewController.swift in Sources */,
 				522898CB2C32E9CB0013FF87 /* BRTrendingFooter.swift in Sources */,
+				C6654C452C3E56B000969C1D /* UILabel + Extensions.swift in Sources */,
 				526DF7DE2C30D84F008A7818 /* AppDelegate.swift in Sources */,
+				C6654C472C3E593B00969C1D /* UIImageView + Extensions.swift in Sources */,
 				522898C22C32E2200013FF87 /* BRPopularCollectionViewCell.swift in Sources */,
 				522898E72C3423AA0013FF87 /* Router.swift in Sources */,
 				522898D32C32F0FC0013FF87 /* BRListSection.swift in Sources */,
@@ -617,6 +648,7 @@
 				522898A22C31DC3D0013FF87 /* Network.swift in Sources */,
 				522898B72C32DF400013FF87 /* BRCollectionView.swift in Sources */,
 				522898C02C32E1820013FF87 /* BRCuisineCollectionViewCell.swift in Sources */,
+				C69443802C3E68A3009D9FA7 /* SearchHeaderView.swift in Sources */,
 				C6AB90172C386C7400C2D719 /* Constants.swift in Sources */,
 				522898B22C31DDAB0013FF87 /* Recipe.swift in Sources */,
 				C69029692C37368500E4F985 /* FavoriteViewController.swift in Sources */,
