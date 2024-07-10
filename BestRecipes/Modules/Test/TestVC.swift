@@ -20,7 +20,11 @@ final class TestVC: UITableViewController {
     }
     
     private func showRecipes() {
-        dataManager.getRecepies(type: .cuisine, by: CuisineType.getRandom().rawValue) { [unowned self] result in
+        dataManager.getRecepies(
+            type: .cuisine,
+            by: CuisineType.getRandom().rawValue,
+            amount: Int.random(in: 30...100)
+        ) { [unowned self] result in
             recipes = result
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -71,7 +75,9 @@ extension TestVC {
         cell.textLabel?.text = recipe.title
         
         dataManager.getImage(recipe.imageURL ?? "") { imageData in
-            cell.imageView?.image = UIImage(data: imageData)
+            DispatchQueue.main.async {
+                cell.imageView?.image = UIImage(data: imageData)
+            }
         }
         
         return cell

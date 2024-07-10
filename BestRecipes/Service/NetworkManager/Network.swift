@@ -41,7 +41,7 @@ final class NetworkManager {
             return
         }
         
-        URLSession.shared.dataTask(with: url) { data, responce, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data else {
                 print(error ?? "No error description")
                 return
@@ -51,6 +51,16 @@ final class NetworkManager {
                 let dataModel = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(dataModel))
             } catch {
+                #warning("убрать дебаг")
+                //print("DATA:\n", data, "\nRESPONCE:\n", response, "\nERROR\n", error)
+                
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 402 {
+                    print( DataManager.shared.passNextApiKey()
+                           ? "Next API key is installed"
+                           : "API keys are out"
+                    )
+                }
+                
                 completion(.failure(.decodingError))
             }
         }.resume()
