@@ -26,8 +26,6 @@ final class Builder: BuilderProtocol {
             createNotificationModule(router: router)
         case .profile:
             createProfileModule(router: router)
-        case .createRecipe:
-            CreateRecipeBuilder().buildCreateRecipeModule()
         }
     }
     
