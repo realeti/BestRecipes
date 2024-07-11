@@ -8,7 +8,7 @@
 import Foundation
 
 enum Link: String {
-    case search = "https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=100&apiKey="
+    case search = "https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&apiKey="
     case image = "https://img.spoonacular.com/ingredients_100x100/"
 }
 
@@ -77,35 +77,61 @@ enum MealTypes: String, CaseIterable {
 enum SavedRecipesType: String {
     case mine = "myRecipes"
     case favorites = "favoritesRecipes"
+    case recent = "recentRecipes"
 }
 
 final class DataManager {
     static let shared = DataManager()
     
     private var imageCaсhe: [String: Data] = [:]
+    private var recipeCache: [String: [Recipe]] = [:]
     
     private let apiKeys: [String] = [
-        "cc3538ef4d1448949d8c1f17cf5703c1"
+        "cc3538ef4d1448949d8c1f17cf5703c1",
+        "b00472aa0b6b4e94b37c893f41ac110c",
+        "5aacdbb3cbe1434194ec06aac794bec6",
+        "94a3e904ec2d4cc8bab79ce9735f4d49",
+        "67815760a10949b7abd4174a271dbd1d"
     ]
     
     private var apiKeyIndex = 0
     
     private init() {}
     
+    func passNextApiKey() -> Bool {
+        if apiKeyIndex < apiKeys.count - 1 {
+            apiKeyIndex += 1
+            return true
+        }
+        return false
+    }
+    
     func getRecepies(
         type: RecipeType,
         by key: String = "",
         offset: Int = 0,
+        amount: Int = 10,
         completion: @escaping([Recipe]) -> Void
     ) {
-        let link = Link.search.rawValue + apiKeys[apiKeyIndex] + type.rawValue + key + "&offset=\(offset)"
+        let url = Link.search.rawValue
+                    + apiKeys[apiKeyIndex]
+                    + "&number=\(amount)"
+                    + type.rawValue + key
+                    + "&offset=\(offset)"
         
-        NetworkManager.shared.fetch(SearchResult.self, from: link) { result in
+        if let data = recipeCache[url] {
+            completion(data)
+            return
+        }
+        
+        NetworkManager.shared.fetch(SearchResult.self, from: url) { [unowned self] result in
             switch result {
-            case .success(let someSearch):
-                completion(someSearch.results)
+            case .success(let searchResult):
+                recipeCache[url] = searchResult.results
+                completion(searchResult.results)
             case .failure(let error):
                 print(error)
+                completion([])
             }
         }
     }

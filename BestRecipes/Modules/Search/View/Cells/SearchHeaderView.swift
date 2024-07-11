@@ -79,12 +79,14 @@ class SearchHeaderView: UICollectionReusableView {
     
     // MARK: - Show Loading indicator
     func showLoading(_ loading: Bool) {
-        if loading {
-            searchIcon.isHidden = true
-            activityIndicator.startAnimating()
-        } else {
-            searchIcon.isHidden = false
-            activityIndicator.stopAnimating()
+        DispatchQueue.main.async {
+            if loading {
+                self.searchIcon.isHidden = true
+                self.activityIndicator.startAnimating()
+            } else {
+                self.searchIcon.isHidden = false
+                self.activityIndicator.stopAnimating()
+            }
         }
     }
 }
