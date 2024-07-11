@@ -7,8 +7,11 @@
 
 import UIKit
 
+//MARK: - MainViewProtocol
+
 protocol MainViewProtocol: AnyObject {
     func render(sections: [BRSection])
+    func addCategories(category: [BRCategoryModel])
 }
 
 
@@ -54,28 +57,27 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         configureCollectionView()
         configure()
         setConstraints()
-        presenter.fetchData()
+//        presenter.fetchData()
     }
 }
 
 
 //MARK: - External Methods
 
-extension MainViewController {
-    func configureCollectionView() {
-        collectionView = BRCollectionView(presenter: presenter)
-    }
-}
-
-
-//MARK: - MainViewProtocol
-
 extension MainViewController: MainViewProtocol {
     func render(sections: [BRSection]) {
         collectionView.updateContent(sections: sections)
+    }
+    
+    
+    func addCategories(category: [BRCategoryModel]) {
+        collectionView.updateCategory(category: category)
+        let defaultIndexPath = IndexPath(item: 0, section: 1)
+        collectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: [])
     }
 }
 
@@ -84,6 +86,11 @@ extension MainViewController: MainViewProtocol {
 
 private extension MainViewController {
     
+    func configureCollectionView() {
+        collectionView = BRCollectionView(presenter: presenter)
+    }
+    
+
     //MARK: - Setup UI
     
     func configure() {

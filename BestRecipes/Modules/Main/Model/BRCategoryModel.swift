@@ -8,12 +8,15 @@
 import Foundation
 
 struct BRCategoryModel {
-    let categoryType: String
+    let type: String
+    let request : String
 }
 
 
 extension BRCategoryModel {
     init(_ recipe: Recipe) {
-        self.categoryType = "Category"
+        self.type = recipe.dishTypes?.first ?? "Category"
+        self.request = ""
     }
 }
+

@@ -31,7 +31,7 @@ final class BRPopularCollectionViewCell: UICollectionViewCell {
         $0.text = "Chicken and Vegetable wrap"
         $0.textColor = .blackBase
         $0.font = Font.getFont(.poppinsBold, size: 14)
-        $0.numberOfLines = 2
+        $0.numberOfLines = 3
         $0.textAlignment = .center
         $0.adjustsFontSizeToFitWidth = true
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -83,8 +83,14 @@ final class BRPopularCollectionViewCell: UICollectionViewCell {
 extension BRPopularCollectionViewCell {
     func configure(with model: BRPopularModel) {
         titleLabel.text = model.title
-        foodImageView.image = UIImage(named: model.imageURL ?? "media")
         minutesLabel.text = model.readyInMinutes.description
+        
+        foodImageView.image = UIImage(named: model.imageURL ?? "media")
+//        DataManager.shared.getImage(model.imageURL ?? "media") { [weak self] imageData in
+//            DispatchQueue.main.async {
+//                self?.foodImageView.image = UIImage(data: imageData)
+//            }
+//        }
     }
 }
 
@@ -128,8 +134,8 @@ private extension BRPopularCollectionViewCell {
             
             favoritesButton.trailingAnchor.constraint(equalTo: backgroundCellView.trailingAnchor, constant: -10),
             favoritesButton.bottomAnchor.constraint(equalTo: backgroundCellView.bottomAnchor, constant: -10),
-            favoritesButton.heightAnchor.constraint(equalToConstant: 24),
-            favoritesButton.widthAnchor.constraint(equalToConstant: 24)
+            favoritesButton.heightAnchor.constraint(equalToConstant: 28),
+            favoritesButton.widthAnchor.constraint(equalToConstant: 28)
         ])
     }
 }

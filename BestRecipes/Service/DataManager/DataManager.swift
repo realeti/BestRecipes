@@ -17,6 +17,7 @@ enum RecipeType: String {
     case type = "&type="
     case search = "&query="
     case trend = "&sort=meta-score&sortDirection=desc"
+    case tags = "&tags="
 }
 
 enum CuisineType: String, CaseIterable {
@@ -104,7 +105,7 @@ final class DataManager {
         "67815760a10949b7abd4174a271dbd1d"
     ]
     
-    private var apiKeyIndex = 3
+    private var apiKeyIndex = 4
     
     private init() {}
     
@@ -140,7 +141,7 @@ final class DataManager {
                 recipeCache[url] = searchResult.results
                 completion(searchResult.results)
             case .failure(let error):
-                print(error.localizedDescription)
+                print(error)
             }
         }
     }

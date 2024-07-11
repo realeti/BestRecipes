@@ -53,7 +53,7 @@ final class BRCategoryCollectionViewCell: UICollectionViewCell {
 
 extension BRCategoryCollectionViewCell {
     func configure(with model: BRCategoryModel) {
-        nameCategoryLabel.text = model.categoryType
+        nameCategoryLabel.text = model.type
     }
 }
 
@@ -69,7 +69,8 @@ private extension BRCategoryCollectionViewCell {
     
     func setCostraints() {
         NSLayoutConstraint.activate([
-            nameCategoryLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            nameCategoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
+            nameCategoryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
             nameCategoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }

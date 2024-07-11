@@ -28,7 +28,7 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
         $0.text = "How to sharwama at home"
         $0.textColor = .blackBase
         $0.font = Font.getFont(.poppinsBold, size: 16)
-        $0.numberOfLines = 1
+        $0.numberOfLines = 2
         $0.adjustsFontSizeToFitWidth = true
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
@@ -77,12 +77,19 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
 //MARK: - External Methods
 
 extension BRTrendingCollectionViewCell {
-    func configure(with model: BRTrendingModel) {
+    func configure(with model: BRTrendingModel, tag: Int) {
         ratingView.rateLabel.text = model.rating.description
-        backgroundImageView.image = UIImage(named: model.imageURL)
         titleLabel.text = model.title
         authorImageView.image = .author
         authorNameLabel.text = model.author
+        favoritesButton.tag = tag
+        backgroundImageView.image = UIImage(named: model.imageURL ?? "media")
+
+//        DataManager.shared.getImage(model.imageURL ?? "media") { [weak self] imageData in
+//            DispatchQueue.main.async {
+//                self?.backgroundImageView.image = UIImage(data: imageData)
+//            }
+//        }
     }
 }
 
@@ -124,8 +131,8 @@ private extension BRTrendingCollectionViewCell {
             
             authorImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             authorImageView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            authorImageView.heightAnchor.constraint(equalToConstant: 32),
-            authorImageView.widthAnchor.constraint(equalToConstant: 32),
+            authorImageView.heightAnchor.constraint(equalToConstant: 28),
+            authorImageView.widthAnchor.constraint(equalToConstant: 28),
             
             authorNameLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             authorNameLabel.leadingAnchor.constraint(equalTo: authorImageView.trailingAnchor, constant: 10),
@@ -133,3 +140,5 @@ private extension BRTrendingCollectionViewCell {
         ])
     }
 }
+
+

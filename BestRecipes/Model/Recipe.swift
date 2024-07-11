@@ -16,7 +16,7 @@ struct Recipe: Codable {
     let readyInMinutes: Int?
     let imageURL: String?
     let extendedIngredients: [Ingredient]?
-    
+    let dishTypes: [String]?
     
     enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -27,6 +27,7 @@ struct Recipe: Codable {
         case readyInMinutes = "readyInMinutes"
         case imageURL = "image"
         case extendedIngredients = "extendedIngredients"
+        case dishTypes = "dishTypes"
     }
     
     let reviewsCount: Int = Int.random(in: 200...500)

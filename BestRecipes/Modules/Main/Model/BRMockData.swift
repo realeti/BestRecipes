@@ -13,17 +13,27 @@ struct BRMockData {
     private init() {}
     
     private let trending: BRSection = {
-        .trending(model: [.init(id: 0, title: "Title1", author: "Author1", rating: "0", imageURL: "media")
+        .trending(model: [.init(id: 0, title: "Title1", author: "Author1", rating: "0", imageURL: "food1"),
+                          .init(id: 0, title: "Title1", author: "Author1", rating: "0", imageURL: "food2"),
+                          .init(id: 0, title: "Title1", author: "Author1", rating: "0", imageURL: "food3"),
+                          .init(id: 0, title: "Title1", author: "Author1", rating: "0", imageURL: "food4"),
         ])
     }()
     
     private let category: BRSection = {
-        .category(model: [.init(categoryType: "Category")
+        .category(model: [.init(type: "Main Course", request: ""),
+                          .init(type: "Salad", request: ""),
+                          .init(type: "Lunch", request: ""),
+                          .init(type: "Dinner", request: ""),
+                          .init(type: "Breakfest", request: ""),
         ])
     }()
     
     private let popular: BRSection = {
-        .popular(model: [.init(title: "Title1", imageURL: "media", readyInMinutes: 00)
+        .popular(model: [.init(title: "Title1", imageURL: "food1", readyInMinutes: 00),
+                         .init(title: "Title1", imageURL: "food2", readyInMinutes: 00),
+                         .init(title: "Title1", imageURL: "food3", readyInMinutes: 00),
+                         .init(title: "Title1", imageURL: "food4", readyInMinutes: 00)
         ])
     }()
     
@@ -33,7 +43,10 @@ struct BRMockData {
     }()
     
     private let cuisine: BRSection = {
-        .cuisine(model: [.init(title: "Title1", imageURL: "avatar")
+        .cuisine(model: [.init(title: "Title1", imageURL: "media"),
+                         .init(title: "Title1", imageURL: "food1"),
+                         .init(title: "Title1", imageURL: "food2"),
+                         .init(title: "Title1", imageURL: "food3")
         ])
     }()
     

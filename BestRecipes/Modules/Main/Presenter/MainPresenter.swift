@@ -19,11 +19,10 @@ protocol MainPresenterProtocol: AnyObject {
 
 final class MainPresenter {
     
-    //MARK: - Properties
+    //MARK: - Dependencies
     
     weak var view: MainViewProtocol?
     private let router: RouterProtocol
-//    private let network: NetworkService
     private let storage = DataManager.shared
     
     
@@ -32,19 +31,35 @@ final class MainPresenter {
     private var sections = BRMockData.shared.pageData
 //    private var sections = [BRSection]()
     
-    private var trendingRecipes: [Recipe]?
-    private var categoryRecipes: [Recipe]?
-    private var popularRecipes: [Recipe]?
-    private var recentRecipes: [Recipe]?
-    private var cuisineRecipes: [Recipe]?
+    private var trendingRecipes: [Recipe] = []
+    private var popularRecipes: [Recipe] = []
+    private var recentRecipes: [Recipe] = []
+    private var cuisineRecipes: [Recipe] = []
+    
+    public var categories: [BRCategoryModel] =
+    [.init(type: "Main course", request: "main%20course"),
+     .init(type: "Side dish", request: "side%20dish"),
+     .init(type: "Dessert", request: "dessert"),
+     .init(type: "Appetizer", request: "appetizer"),
+     .init(type: "Salad", request: "salad"),
+     .init(type: "Bread", request: "bread"),
+     .init(type: "Breakfast", request: "breakfast"),
+     .init(type: "Soup", request: "soup"),
+     .init(type: "Beverage", request: "beverage"),
+     .init(type: "Sauce", request: "sauce"),
+     .init(type: "Marinade", request: "marinade"),
+     .init(type: "Finger food", request: "fingerfood"),
+     .init(type: "Snack", request: "snack"),
+     .init(type: "Drink", request: "drink")
+    ]
+    
+    private var recent: [BRRecentModel] = []
     
     
     //MARK: - Lifecycle
     
     init(router: RouterProtocol) {
-//        self.network = network
         self.router = router
-//        self.storage = storage
     }
 }
 
@@ -64,11 +79,11 @@ extension MainPresenter: MainPresenterProtocol {
         }
         
         group.enter()
-        storage.getRecepies(type: .type, by: MealTypes.getRandom().rawValue, offset: 0) { recipes in
+        storage.getRecepies(type: .tags, by: "main%20course") { recipes in
             defer {
                 group.leave()
             }
-            self.categoryRecipes = recipes
+            self.popularRecipes = recipes
         }
         
         group.enter()
@@ -80,32 +95,30 @@ extension MainPresenter: MainPresenterProtocol {
         }
         
         group.notify(queue: .main) {
-            guard let trending = self.trendingRecipes,
-                  let category = self.categoryRecipes,
-                  let cuisine = self.cuisineRecipes else {
-                return
-            }
             self.configureModels(
-                trending: trending,
-                category: category,
-                cuisine: cuisine
+                trending: self.trendingRecipes,
+                popular: self.popularRecipes,
+                cuisine: self.cuisineRecipes
             )
         }
     }
     
     
-    func configureModels(trending: [Recipe], category: [Recipe], cuisine: [Recipe]) {
+    func configureModels(trending: [Recipe], popular: [Recipe], cuisine: [Recipe]) {
         sections.append(.trending(model: trending.map({ recipe in
             return BRTrendingModel(recipe)
         })))
-        sections.append(.category(model: category.map({ recipe in
-            return BRCategoryModel(recipe)
+        sections.append(.category(model: categories))
+        sections.append(.popular(model: popular.map({ recipe in
+            return BRPopularModel(recipe)
         })))
+        sections.append(.recent(model: recent))
         sections.append(.cuisine(model: cuisine.map({ recipe in
             return BRCuisineModel(recipe)
         })))
         
         self.view?.render(sections: sections)
+        self.view?.addCategories(category: categories)
     }
     
     
@@ -125,12 +138,12 @@ extension MainPresenter: MainPresenterProtocol {
     
     
     func addToFavorites(_ sender: Int) {
-        storage.addRecipe(trendingRecipes[sender], to: SavedRecipesType.Type)
-        print("add to favorites tapped")
+        print("add to favorites tapped \(sender)")
+        storage.addRecipe(trendingRecipes[sender], to: SavedRecipesType.favorites)
     }
     
     
     func removeFromFavorites(_ sender: Int) {
-        print("remove to favorites tapped")
+        print("remove to favorites tapped \(sender)")
     }
 }

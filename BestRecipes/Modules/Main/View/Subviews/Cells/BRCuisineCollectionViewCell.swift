@@ -13,8 +13,9 @@ final class BRCuisineCollectionViewCell: UICollectionViewCell {
     
     private let cuisineImageView: UIImageView = {
         $0.image = .avatar
-        $0.layer.cornerRadius = 55
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 10
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UIImageView())
@@ -23,7 +24,10 @@ final class BRCuisineCollectionViewCell: UICollectionViewCell {
         $0.text = "Ify's Kitchen"
         $0.textColor = .blackBase
         $0.font = Font.getFont(.poppinsBold, size: 12)
-        $0.numberOfLines = 1
+        $0.numberOfLines = 3
+        $0.adjustsFontSizeToFitWidth = true
+        $0.minimumScaleFactor = 0.8
+        $0.textAlignment = .left
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UILabel())
@@ -54,7 +58,13 @@ final class BRCuisineCollectionViewCell: UICollectionViewCell {
 
 extension BRCuisineCollectionViewCell {
     func configure(with model: BRCuisineModel) {
-        cuisineImageView.image = UIImage(named: model.imageURL ?? "media2")
+//        DataManager.shared.getImage(model.imageURL ?? "media") { [weak self] imageData in
+//            DispatchQueue.main.async {
+//                self?.cuisineImageView.image = UIImage(data: imageData)
+//            }
+//        }
+        
+        cuisineImageView.image = UIImage(named: model.imageURL ?? "media")
         titleLabel.text = model.title
     }
 }
@@ -63,6 +73,9 @@ extension BRCuisineCollectionViewCell {
 //MARK: - Internal Methods
 
 private extension BRCuisineCollectionViewCell {
+    
+    //MARK: - Setup UI
+    
     func configure() {
         addSubviews(cuisineImageView, titleLabel)
     }
@@ -72,11 +85,13 @@ private extension BRCuisineCollectionViewCell {
         NSLayoutConstraint.activate([
             cuisineImageView.topAnchor.constraint(equalTo: topAnchor),
             cuisineImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            cuisineImageView.heightAnchor.constraint(equalToConstant: 110),
-            cuisineImageView.widthAnchor.constraint(equalToConstant: 110),
+            cuisineImageView.heightAnchor.constraint(equalToConstant: 130),
+            cuisineImageView.widthAnchor.constraint(equalToConstant: 130),
             
-            titleLabel.centerXAnchor.constraint(equalTo: cuisineImageView.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: cuisineImageView.bottomAnchor, constant: 10),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
 }

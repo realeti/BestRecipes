@@ -60,7 +60,7 @@ private extension BRFavoritesButton {
     
     func configure() {
         backgroundColor = .white
-        layer.cornerRadius = 16
+        layer.cornerRadius = 15
         setImage(.favoritesInactive, for: .normal)
         setImage(.favoritesInactive, for: .highlighted)
         translatesAutoresizingMaskIntoConstraints = false

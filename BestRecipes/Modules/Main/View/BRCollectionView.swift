@@ -12,10 +12,19 @@ final class BRCollectionView: UICollectionView {
     //MARK: - Properties
     
     private let collectionLayout = UICollectionViewLayout()
+    private var placeholderView: UIView?
+    
+    
+    //MARK: - Models
     
     private(set) var sections = BRMockData.shared.pageData
 //    private var sections: [BRSection] = []
     
+    private var categories: [BRCategoryModel] = []
+    private var recent: [BRRecentModel] = []
+    
+    
+    //MARK: - Dependencies
     
     weak var presenter: MainPresenterProtocol?
     
@@ -71,6 +80,12 @@ extension BRCollectionView {
         self.sections = sections
         reloadData()
     }
+    
+    
+    func updateCategory(category: [BRCategoryModel]) {
+        self.categories = category
+        reloadData()
+    }
 }
 
 
@@ -89,10 +104,11 @@ extension BRCollectionView: UICollectionViewDataSource {
             return model.count
         case .category(let model):
             return model.count
+//            return model.isEmpty ? categories.count : model.count
         case .popular(let model):
             return model.count
         case .recent(let model):
-            return model.count
+            return model.isEmpty ? 1 : model.count
         case .cuisine(let model):
             return model.count
         }
@@ -133,6 +149,9 @@ extension BRCollectionView: UICollectionViewDataSource {
         
         let type = sections[indexPath.section]
         switch type {
+            
+            //MARK: - Trending Cell
+            
         case .trending(model: let models):
             guard let cell = dequeueReusableCell(withReuseIdentifier: BRTrendingCollectionViewCell.identifier,
                                                  for: indexPath) as? BRTrendingCollectionViewCell else {
@@ -140,10 +159,12 @@ extension BRCollectionView: UICollectionViewDataSource {
             }
             
             let model = models[indexPath.row]
-            cell.configure(with: model)
+            cell.configure(with: model, tag: indexPath.row)
             cell.favoritesButton.delegate = presenter
             
             return cell
+            
+            //MARK: - Category Cell
             
         case .category(model: let models):
             guard let cell = dequeueReusableCell(withReuseIdentifier: BRCategoryCollectionViewCell.identifier,
@@ -155,7 +176,9 @@ extension BRCollectionView: UICollectionViewDataSource {
             cell.configure(with: model)
             
             return cell
-        
+            
+            //MARK: - Popular Cell
+            
         case .popular(model: let models):
             guard let cell = dequeueReusableCell(withReuseIdentifier: BRPopularCollectionViewCell.identifier,
                                                  for: indexPath) as? BRPopularCollectionViewCell else {
@@ -167,17 +190,28 @@ extension BRCollectionView: UICollectionViewDataSource {
             cell.favoritesButton.delegate = presenter
             
             return cell
-        
+            
+            //MARK: - Recent Cell
+            
         case .recent(model: let models):
-            guard let cell = dequeueReusableCell(withReuseIdentifier: BRRecentCollectionViewCell.identifier,
-                                                 for: indexPath) as? BRRecentCollectionViewCell else {
-                return UICollectionViewCell()
+            if models.count == 1 {
+                guard let cell = dequeueReusableCell(withReuseIdentifier: BRRecentPlaceholderCell.identifier, for: indexPath) as? BRRecentPlaceholderCell else {
+                    return UICollectionViewCell()
+                }
+                
+                return cell
+            } else {
+                guard let cell = dequeueReusableCell(withReuseIdentifier: BRRecentCollectionViewCell.identifier,
+                                                     for: indexPath) as? BRRecentCollectionViewCell else {
+                    return UICollectionViewCell()
+                }
+                let model = models[indexPath.row]
+                cell.configure(with: model)
+                
+                return cell
             }
             
-            let model = models[indexPath.row]
-            cell.configure(with: model)
-            
-            return cell
+            //MARK: - Cuisine Cell
             
         case .cuisine(model: let models):
             guard let cell = dequeueReusableCell(withReuseIdentifier: BRCuisineCollectionViewCell.identifier,
@@ -281,10 +315,10 @@ private extension BRCollectionView {
     
     func createCategorySection() -> NSCollectionLayoutSection {
         
-        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .absolute(90),
                                                             heightDimension: .fractionalHeight(1)))
         
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.4),
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(90),
                                                                          heightDimension: .fractionalHeight(0.05)),
                                                        subitems: [item])
         group.interItemSpacing = .fixed(5)
@@ -320,20 +354,38 @@ private extension BRCollectionView {
     //MARK: - Recent Section
     
     func createRecentSection() -> NSCollectionLayoutSection {
-        
-        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
-                                                            heightDimension: .fractionalHeight(1)))
-        
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.7),
-                                                                         heightDimension: .fractionalHeight(0.32)),
-                                                       subitems: [item])
-        group.interItemSpacing = .fixed(15)
-        let section = createLayoutSection(group: group,
-                                          behavior: .continuous,
-                                          interGroupSpacing: 15,
-                                          supplementaryItems: [supplementaryHeaderItem()])
-        section.contentInsets = .init(top: 10, leading: 15, bottom: 10, trailing: 10)
-        return section
+        if recent.count == 0 {
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: .fractionalHeight(1.0))
+            
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                            heightDimension: .fractionalHeight(0.2)),
+                                                          subitems: [item])
+
+            let section = createLayoutSection(group: group,
+                                              behavior: .none,
+                                              interGroupSpacing: 0,
+                                              supplementaryItems: [supplementaryHeaderItem()])
+            section.contentInsets = .init(top: 10, leading: 15, bottom: 10, trailing: 15)
+            
+            return section
+        } else {
+            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
+                                                                heightDimension: .fractionalHeight(1)))
+            
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.7),
+                                                                             heightDimension: .fractionalHeight(0.32)),
+                                                           subitems: [item])
+            group.interItemSpacing = .fixed(15)
+            let section = createLayoutSection(group: group,
+                                              behavior: .continuous,
+                                              interGroupSpacing: 15,
+                                              supplementaryItems: [supplementaryHeaderItem()])
+            section.contentInsets = .init(top: 10, leading: 15, bottom: 10, trailing: 10)
+            return section
+        }
     }
     
     
@@ -341,16 +393,15 @@ private extension BRCollectionView {
     
     func createCuisineSection() -> NSCollectionLayoutSection {
         
-        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.3),
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .absolute(110),
                                                             heightDimension: .fractionalHeight(1)))
         
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                         heightDimension: .fractionalHeight(0.3)),
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.3),
+                                                                         heightDimension: .absolute(200)),
                                                        subitems: [item])
-        group.interItemSpacing = .fixed(15)
         let section = createLayoutSection(group: group,
-                                          behavior: .groupPaging,
-                                          interGroupSpacing: 15,
+                                          behavior: .continuous,
+                                          interGroupSpacing: 20,
                                           supplementaryItems: [supplementaryHeaderItem()])
         section.contentInsets = .init(top: 10, leading: 15, bottom: 0, trailing: 10)
         return section
@@ -381,6 +432,7 @@ private extension BRCollectionView {
         register(BRPopularCollectionViewCell.self, forCellWithReuseIdentifier: BRPopularCollectionViewCell.identifier)
         register(BRRecentCollectionViewCell.self, forCellWithReuseIdentifier: BRRecentCollectionViewCell.identifier)
         register(BRCuisineCollectionViewCell.self, forCellWithReuseIdentifier: BRCuisineCollectionViewCell.identifier)
+        register(BRRecentPlaceholderCell.self, forCellWithReuseIdentifier: BRRecentPlaceholderCell.identifier)
     }
     
     

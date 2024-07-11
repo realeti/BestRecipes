@@ -12,7 +12,7 @@ struct BRTrendingModel {
     let title: String
     let author: String
     let rating: String
-    let imageURL: String
+    let imageURL: String?
 }
 
 
@@ -21,7 +21,7 @@ extension BRTrendingModel {
         self.id = recipe.id
         self.title = recipe.title ?? "Title"
         self.author = recipe.author ?? "Author"
-        self.rating = recipe.rating?.description ?? "1,0"
+        self.rating = String(format: "%0.1f", 5 * (recipe.rating ?? 1) / 100)
         self.imageURL = recipe.imageURL ?? "ImageURL"
     }
 }
