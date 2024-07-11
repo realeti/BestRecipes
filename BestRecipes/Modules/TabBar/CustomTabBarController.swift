@@ -86,7 +86,7 @@ extension CustomTabBarController {
 
 // MARK: - View Controller Type
 enum InitialModuleType {
-    case home, favorite, notification, profile
+    case home, favorite, notification, profile, createRecipe
 }
 
 // MARK: - TabBar Item Configuration

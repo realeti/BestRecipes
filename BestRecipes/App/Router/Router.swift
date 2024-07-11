@@ -15,6 +15,7 @@ protocol RouterProtocol: AnyObject {
     
     func start(with initialModuleType: InitialModuleType)
     func showTrending()
+    func showCreateRecipe()
     func popToRoot()
     func popToPrevious()
 }
@@ -47,6 +48,11 @@ final class Router: RouterProtocol {
         let trendingViewController = builder.createTrendingModule(router: router)
         navigationController.pushViewController(trendingViewController, animated: true)
         builder.configureModule(for: trendingViewController, with: router)
+    }
+    
+    //MARK: - CreateRecipe
+    func showCreateRecipe() {
+        navigationController.pushViewController(CreateRecipeBuilder().buildCreateRecipeModule(), animated: true)
     }
     
     
