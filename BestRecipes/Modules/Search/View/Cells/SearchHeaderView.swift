@@ -25,7 +25,6 @@ class SearchHeaderView: UICollectionReusableView {
         return stackView
     }()
     
-    //let searchButton = UIButton(backgroundImage: .search)
     let searchIcon = UIImageView(
         image: .search,
         contentMode: .scaleAspectFit
@@ -73,8 +72,8 @@ class SearchHeaderView: UICollectionReusableView {
     // MARK: - Set Views
     private func setupUI() {
         addSubview(searchStackView)
-        searchStackView.addArrangedSubviews(searchIcon, searchTextField, searchCancelButton)
-        searchIcon.addSubview(activityIndicator)
+        addSubview(activityIndicator)
+        searchStackView.addArrangedSubviews(searchIcon, activityIndicator, searchTextField, searchCancelButton)
     }
     
     // MARK: - Show Loading indicator
