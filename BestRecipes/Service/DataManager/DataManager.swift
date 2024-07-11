@@ -80,16 +80,16 @@ enum SavedRecipesType: String {
     case recent = "recentRecipes"
 }
 
-protocol DataService {
-    func getRecepies(type: RecipeType, by key: String, offset: Int, completion: @escaping([Recipe]) -> Void)
-    func getImage(_ url: String, completion: @escaping(Data) -> Void)
-    func getRecipesFrom(_ storage: SavedRecipesType) -> [Recipe]
-    func addRecipe(_ recipe: Recipe, to storage: SavedRecipesType)
-    func deleteRecipe(_ recipe: Recipe, from storage: SavedRecipesType)
-}
+//protocol DataService {
+//    func getRecepies(type: RecipeType, by key: String, offset: Int, completion: @escaping([Recipe]) -> Void)
+//    func getImage(_ url: String, completion: @escaping(Data) -> Void)
+//    func getRecipesFrom(_ storage: SavedRecipesType) -> [Recipe]
+//    func addRecipe(_ recipe: Recipe, to storage: SavedRecipesType)
+//    func deleteRecipe(_ recipe: Recipe, from storage: SavedRecipesType)
+//}
 
 
-final class DataManager: DataService {
+final class DataManager {
     
     static let shared = DataManager()
     
@@ -104,9 +104,9 @@ final class DataManager: DataService {
         "67815760a10949b7abd4174a271dbd1d"
     ]
     
-    private var apiKeyIndex = 5
+    private var apiKeyIndex = 3
     
-//    private init() {}
+    private init() {}
     
     func passNextApiKey() -> Bool {
         if apiKeyIndex < apiKeys.count - 1 {

@@ -50,7 +50,7 @@ extension TrendingTableView: UITableViewDataSource {
             let cell = dequeueReusableCell(withIdentifier: "BRTrendingTableViewCell", for: indexPath) as? TrendingTableViewCell else {
             return UITableViewCell()
         }
-        
+
         return cell
     }
 }

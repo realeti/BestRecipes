@@ -48,11 +48,11 @@ final class BRFavoritesButton: UIButton {
 //MARK: - Internal Methods
 
 private extension BRFavoritesButton {
-    @objc func favoritesButtonHandler() {
+    @objc func favoritesButtonHandler(sender: UIButton) {
         if isSelected {
-            delegate?.removeFromFavorites()
+            delegate?.removeFromFavorites(sender.tag)
         } else {
-            delegate?.addToFavorites()
+            delegate?.addToFavorites(sender.tag)
         }
         self.isSelected.toggle()
     }

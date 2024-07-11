@@ -12,8 +12,8 @@ import Foundation
 protocol MainPresenterProtocol: AnyObject {
     func fetchData()
     func performActionForHeader(at index: Int)
-    func addToFavorites()
-    func removeFromFavorites()
+    func addToFavorites(_ sender: Int)
+    func removeFromFavorites(_ sender: Int)
 }
 
 
@@ -23,8 +23,8 @@ final class MainPresenter {
     
     weak var view: MainViewProtocol?
     private let router: RouterProtocol
-    private let network: NetworkService
-    private let storage: DataService
+//    private let network: NetworkService
+    private let storage = DataManager.shared
     
     
     //MARK: - Models
@@ -41,10 +41,10 @@ final class MainPresenter {
     
     //MARK: - Lifecycle
     
-    init(network: NetworkService, router: RouterProtocol, storage: DataService) {
-        self.network = network
+    init(router: RouterProtocol) {
+//        self.network = network
         self.router = router
-        self.storage = storage
+//        self.storage = storage
     }
 }
 
@@ -124,12 +124,13 @@ extension MainPresenter: MainPresenterProtocol {
     }
     
     
-    func addToFavorites() {
+    func addToFavorites(_ sender: Int) {
+        storage.addRecipe(trendingRecipes[sender], to: SavedRecipesType.Type)
         print("add to favorites tapped")
     }
     
     
-    func removeFromFavorites() {
+    func removeFromFavorites(_ sender: Int) {
         print("remove to favorites tapped")
     }
 }

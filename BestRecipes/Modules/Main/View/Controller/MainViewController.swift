@@ -36,8 +36,6 @@ final class MainViewController: UIViewController {
     
     private let presenter: MainPresenterProtocol
 
-    var sections = [BRSection]()
-    
     
     //MARK: - Lifecycle
     

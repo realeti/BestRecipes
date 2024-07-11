@@ -365,6 +365,7 @@ private extension BRCollectionView {
         bounces = false
         showsVerticalScrollIndicator = false
         translatesAutoresizingMaskIntoConstraints = false
+        
     }
     
     

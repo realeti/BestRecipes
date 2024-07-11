@@ -14,6 +14,6 @@ struct BRCategoryModel {
 
 extension BRCategoryModel {
     init(_ recipe: Recipe) {
-        self.categoryType = recipe.dishTypes.first?.name ?? "Category"
+        self.categoryType = "Category"
     }
 }

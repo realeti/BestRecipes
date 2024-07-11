@@ -7,10 +7,10 @@
 
 import Foundation
 
-protocol NetworkService {
-    func fetch<T: Decodable>(_ type: T.Type, from url: String, completion: @escaping(Result<T, NetworkError>) -> Void)
-    func fetchImage(from url: String, completion: @escaping(Result<Data, NetworkError>) -> Void)
-}
+//protocol NetworkService {
+//    func fetch<T: Decodable>(_ type: T.Type, from url: String, completion: @escaping(Result<T, NetworkError>) -> Void)
+//    func fetchImage(from url: String, completion: @escaping(Result<Data, NetworkError>) -> Void)
+//}
 
 
 enum NetworkError: Error {
@@ -20,11 +20,11 @@ enum NetworkError: Error {
 }
 
 
-final class NetworkManager: NetworkService {
+final class NetworkManager {
     
     static let shared = NetworkManager()
     
-    //        private init() {}
+            private init() {}
     
     
     func fetchImage(from url: String, completion: @escaping(Result<Data, NetworkError>) -> Void) {

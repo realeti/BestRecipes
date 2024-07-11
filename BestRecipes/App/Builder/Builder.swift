@@ -31,9 +31,9 @@ final class Builder: BuilderProtocol {
     
     // MARK: - Create TabBar Home
     private func createHomeModule(router: RouterProtocol) -> UIViewController {
-        let network = NetworkManager()
-        let storage = DataManager()
-        let presenter = MainPresenter(network: network, router: router, storage: storage)
+//        let network = NetworkManager()
+//        let storage = DataManager()
+        let presenter = MainPresenter(router: router)
         let viewController = MainViewController(presenter: presenter)
         presenter.view = viewController
         

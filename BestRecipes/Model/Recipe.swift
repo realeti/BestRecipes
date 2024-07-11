@@ -15,12 +15,7 @@ struct Recipe: Codable {
     let rating: Double?
     let readyInMinutes: Int?
     let imageURL: String?
-    let dishTypes: [DishTypes]
     let extendedIngredients: [Ingredient]?
-    
-    struct DishTypes: Codable {
-        let name: String
-    }
     
     
     enum CodingKeys: String, CodingKey {
@@ -31,7 +26,6 @@ struct Recipe: Codable {
         case rating = "spoonacularScore"
         case readyInMinutes = "readyInMinutes"
         case imageURL = "image"
-        case dishTypes = "dishTypes"
         case extendedIngredients = "extendedIngredients"
     }
     
