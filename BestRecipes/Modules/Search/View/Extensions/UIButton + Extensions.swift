@@ -12,6 +12,7 @@ extension UIButton {
         self.init(type: .system)
         
         self.setBackgroundImage(backgroundImage, for: .normal)
+        self.transform = transform
         self.translatesAutoresizingMaskIntoConstraints = false
     }
 }

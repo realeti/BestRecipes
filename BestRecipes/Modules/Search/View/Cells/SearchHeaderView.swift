@@ -25,7 +25,11 @@ class SearchHeaderView: UICollectionReusableView {
         return stackView
     }()
     
-    let searchButton = UIButton(backgroundImage: .search)
+    //let searchButton = UIButton(backgroundImage: .search)
+    let searchIcon = UIImageView(
+        image: .search,
+        contentMode: .scaleAspectFit
+    )
     
     lazy var searchTextField: UITextField = {
         let textField = UITextField()
@@ -46,6 +50,13 @@ class SearchHeaderView: UICollectionReusableView {
         transform: CGAffineTransform(rotationAngle: .pi / 4)
     )
     
+    let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -62,7 +73,19 @@ class SearchHeaderView: UICollectionReusableView {
     // MARK: - Set Views
     private func setupUI() {
         addSubview(searchStackView)
-        searchStackView.addArrangedSubviews(searchButton, searchTextField, searchCancelButton)
+        searchStackView.addArrangedSubviews(searchIcon, searchTextField, searchCancelButton)
+        searchIcon.addSubview(activityIndicator)
+    }
+    
+    // MARK: - Show Loading indicator
+    func showLoading(_ loading: Bool) {
+        if loading {
+            searchIcon.isHidden = true
+            activityIndicator.startAnimating()
+        } else {
+            searchIcon.isHidden = false
+            activityIndicator.stopAnimating()
+        }
     }
 }
 
@@ -83,15 +106,17 @@ extension SearchHeaderView {
     
     private func setupSearchIconsConstraints() {
         NSLayoutConstraint.activate([
-            searchButton.heightAnchor.constraint(equalToConstant: Metrics.searchIconSize),
-            searchButton.widthAnchor.constraint(equalToConstant: Metrics.searchIconSize),
-            searchCancelButton.heightAnchor.constraint(equalToConstant: Metrics.searchIconSize),
-            searchCancelButton.widthAnchor.constraint(equalToConstant: Metrics.searchIconSize)
+            searchIcon.heightAnchor.constraint(equalToConstant: Metrics.iconSizes),
+            searchIcon.widthAnchor.constraint(equalToConstant: Metrics.iconSizes),
+            searchCancelButton.heightAnchor.constraint(equalToConstant: Metrics.iconSizes),
+            searchCancelButton.widthAnchor.constraint(equalToConstant: Metrics.iconSizes),
+            
+            activityIndicator.centerYAnchor.constraint(equalTo: searchIcon.centerYAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: searchIcon.centerXAnchor)
         ])
     }
 }
 
 fileprivate struct Metrics {
-    static let searchIconSize: CGFloat = 20.0
-    static let bottomIndent: CGFloat = 20.0
+    static let iconSizes: CGFloat = 20.0
 }

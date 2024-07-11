@@ -25,12 +25,14 @@ final class CustomTabBarController: UITabBarController {
 
 // MARK: - Setup Tabs
 extension CustomTabBarController {
-    private func setupTabs() {        
+    private func setupTabs() {     
+        let builder = Builder()
+        
         let homeConfig = tabBarItemConfiguration(
             image: .homeInactive,
             selectedImage: .homeActive,
             tag: 0,
-            builder: Builder(),
+            builder: builder,
             initialModuleType: .home
         )
         
@@ -38,7 +40,7 @@ extension CustomTabBarController {
             image: .favoritesInactive,
             selectedImage: .favoritesActive,
             tag: 1,
-            builder: Builder(),
+            builder: builder,
             initialModuleType: .favorite
         )
         
@@ -46,7 +48,7 @@ extension CustomTabBarController {
             image: .notificationInactive,
             selectedImage: .notificationActive,
             tag: 2,
-            builder: Builder(),
+            builder: builder,
             initialModuleType: .notification
         )
         
@@ -54,18 +56,20 @@ extension CustomTabBarController {
             image: .profileInactive,
             selectedImage: .profileActive,
             tag: 3,
-            builder: Builder(),
+            builder: builder,
             initialModuleType: .profile
         )
         
-        let viewControllers = [
+        self.viewControllers = [
             createTabBarItem(with: homeConfig),
             createTabBarItem(with: favoritesConfig),
             createTabBarItem(with: notificationConfig),
             createTabBarItem(with: profileConfig)
         ]
         
-        self.viewControllers = viewControllers
+        if let customTabBar = self.tabBar as? CustomTabBar {
+            customTabBar.tabBarController = self
+        }
     }
 }
 

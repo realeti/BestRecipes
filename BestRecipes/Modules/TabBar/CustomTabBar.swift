@@ -12,6 +12,9 @@ class CustomTabBar: UITabBar {
     private var shapeLayer: CALayer?
     private let plusButton = PlusButton(type: .system)
     
+    // MARK: - Public Properties
+    weak var tabBarController: UITabBarController?
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -105,6 +108,15 @@ extension CustomTabBar {
 extension CustomTabBar {
     @objc private func plusButtonPressed(_ sender: UIButton) {
         print("click plus button")
+        
+        guard let tabBarController,
+              let navigationController = tabBarController.selectedViewController as? UINavigationController else {
+            return
+        }
+        
+        let builder = Builder()
+        let router = Router(navigationController: navigationController, builder: builder)
+        //router.showScreen()
     }
 }
 

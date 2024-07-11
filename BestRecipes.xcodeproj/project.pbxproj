@@ -471,18 +471,10 @@
 		C65550002C3C4DB60016FF73 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				C65550012C3C4DEB0016FF73 /* Model */,
 				C65550032C3C4DF60016FF73 /* Presenter */,
 				C65550022C3C4DF00016FF73 /* View */,
 			);
 			path = Search;
-			sourceTree = "<group>";
-		};
-		C65550012C3C4DEB0016FF73 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		C65550022C3C4DF00016FF73 /* View */ = {
