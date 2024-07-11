@@ -10,7 +10,8 @@ import Foundation
 struct Recipe: Codable {
     let id: Int
     let title: String?
-    let instructions:  String?
+    let instruction: String?
+    let instructions: [Instruction]?
     let author: String?
     let rating: Double?
     let readyInMinutes: Int?
@@ -20,7 +21,8 @@ struct Recipe: Codable {
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case title = "title"
-        case instructions = "instructions"
+        case instruction = "instructions"
+        case instructions = "analyzedInstructions"
         case author = "sourceName"
         case rating = "spoonacularScore"
         case readyInMinutes = "readyInMinutes"
