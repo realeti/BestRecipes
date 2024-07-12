@@ -101,21 +101,10 @@ final class SearchViewCell: UICollectionViewCell {
 // MARK: - Configure Cell
 extension SearchViewCell {
     func configure(_ title: String, _ ingredientsCount: Int, _ recipeMinutes: Int, for indexPath: IndexPath) {
-        /*let mockImages: [UIImage] = [
-            .searchFood1,
-            .searchFood2,
-            .searchFood3,
-            .food1,
-            .food2,
-            .food3,
-            .food4
-        ]*/
-        //recipeImageView.image = mockImages.randomElement() ?? UIImage()
         self.indexPath = indexPath
         
         descriptionTitleLabel.text = title
         ingredientsLabel.text = "\(ingredientsCount) Ingredients | \(recipeMinutes) min"
-        
         delegate?.loadImage(for: self, at: indexPath)
     }
     

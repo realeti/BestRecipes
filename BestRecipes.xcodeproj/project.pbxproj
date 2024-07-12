@@ -62,6 +62,7 @@
 		C690296B2C37369B00E4F985 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690296A2C37369B00E4F985 /* NotificationViewController.swift */; };
 		C690296D2C3736B600E4F985 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C690296C2C3736B600E4F985 /* ProfileViewController.swift */; };
 		C69443802C3E68A3009D9FA7 /* SearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C694437F2C3E68A3009D9FA7 /* SearchHeaderView.swift */; };
+		C6A3A7372C41AE3E0079B648 /* EmptySearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A3A7362C41AE3E0079B648 /* EmptySearchViewCell.swift */; };
 		C6AB90172C386C7400C2D719 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AB90162C386C7400C2D719 /* Constants.swift */; };
 		C6AB90192C386EF700C2D719 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6AB90182C386EF600C2D719 /* Poppins-SemiBold.ttf */; };
 		C6FC31F82C3F18DE00F5191F /* UIButton + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FC31F72C3F18DE00F5191F /* UIButton + Extensions.swift */; };
@@ -125,6 +126,7 @@
 		C690296A2C37369B00E4F985 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		C690296C2C3736B600E4F985 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		C694437F2C3E68A3009D9FA7 /* SearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderView.swift; sourceTree = "<group>"; };
+		C6A3A7362C41AE3E0079B648 /* EmptySearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySearchViewCell.swift; sourceTree = "<group>"; };
 		C6AB90162C386C7400C2D719 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C6AB90182C386EF600C2D719 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		C6FC31F72C3F18DE00F5191F /* UIButton + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton + Extensions.swift"; sourceTree = "<group>"; };
@@ -539,6 +541,7 @@
 			children = (
 				C65F73272C3DA01D007D1B4D /* SearchViewCell.swift */,
 				C694437F2C3E68A3009D9FA7 /* SearchHeaderView.swift */,
+				C6A3A7362C41AE3E0079B648 /* EmptySearchViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -656,6 +659,7 @@
 				C65550052C3C4E160016FF73 /* SearchViewController.swift in Sources */,
 				522898D52C32F2900013FF87 /* BRMockData.swift in Sources */,
 				522898A82C31DD6A0013FF87 /* MainViewController.swift in Sources */,
+				C6A3A7372C41AE3E0079B648 /* EmptySearchViewCell.swift in Sources */,
 				522898E52C34239B0013FF87 /* Builder.swift in Sources */,
 				522898BC2C32E0F30013FF87 /* BRCategoryCollectionViewCell.swift in Sources */,
 				522898E02C34181C0013FF87 /* MainPresenter.swift in Sources */,

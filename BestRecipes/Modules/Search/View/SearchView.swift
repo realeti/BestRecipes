@@ -17,6 +17,7 @@ final class SearchView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.register(SearchHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: K.searchHeaderView)
         collectionView.register(SearchViewCell.self, forCellWithReuseIdentifier: K.searchCell)
+        collectionView.register(EmptySearchViewCell.self, forCellWithReuseIdentifier: K.emptySearchCell)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()

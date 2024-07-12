@@ -111,20 +111,29 @@ extension SearchViewController: UITextFieldDelegate {
 // MARK: - CollectionView DataSource methods
 extension SearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.getRecipes.count
+        let recipesCount = presenter.getRecipes.count
+        return recipesCount > 0 ? recipesCount : 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.searchCell, for: indexPath) as? SearchViewCell else {
-            return UICollectionViewCell()
+        if presenter.getRecipes.isEmpty {
+            guard let emptyCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.emptySearchCell, for: indexPath) as? EmptySearchViewCell else {
+                return UICollectionViewCell()
+            }
+            emptyCell.configure(with: K.noDataText)
+            return emptyCell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.searchCell, for: indexPath) as? SearchViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            let title = presenter.getRecipes[indexPath.row].title ?? ""
+            let ingredientsCount = presenter.getRecipes[indexPath.row].extendedIngredients?.count ?? 0
+            let recipeMinutes = presenter.getRecipes[indexPath.row].readyInMinutes ?? 0
+            cell.delegate = self
+            cell.configure(title, ingredientsCount, recipeMinutes, for: indexPath)
+            return cell
         }
-        
-        let title = presenter.getRecipes[indexPath.row].title ?? ""
-        let ingredientsCount = presenter.getRecipes[indexPath.row].extendedIngredients?.count ?? 0
-        let recipeMinutes = presenter.getRecipes[indexPath.row].readyInMinutes ?? 0
-        cell.delegate = self
-        cell.configure(title, ingredientsCount, recipeMinutes, for: indexPath)
-        return cell
     }
 }
 
