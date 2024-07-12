@@ -72,6 +72,7 @@ final class SearchViewCell: UICollectionViewCell {
     // MARK: - Public Properties
     weak var delegate: SearchViewCellProtocol?
     var indexPath: IndexPath?
+    var recipeImageData: Data?
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -115,15 +116,17 @@ final class SearchViewCell: UICollectionViewCell {
 
 // MARK: - Configure Cell
 extension SearchViewCell {
-    func configure(_ title: String, _ ingredientsCount: Int, _ recipeMinutes: Int, for indexPath: IndexPath) {
+    func configure(_ rating: Double, _ title: String, _ ingredientsCount: Int, _ recipeMinutes: Int, for indexPath: IndexPath) {
         self.indexPath = indexPath
         
+        ratingLabel.text = String(format: "%.1f", rating)
         descriptionTitleLabel.text = title
         ingredientsLabel.text = "\(ingredientsCount) Ingredients | \(recipeMinutes) min"
         delegate?.loadImage(for: self, at: indexPath)
     }
     
     func updateRecipeImage(with imageData: Data) {
+        self.recipeImageData = imageData
         recipeImageView.image = UIImage(data: imageData)
     }
 }

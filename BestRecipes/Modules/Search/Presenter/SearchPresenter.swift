@@ -20,6 +20,7 @@ protocol SearchViewPresenterProtocol: AnyObject {
     
     func recipeSearch(with searchText: String)
     func loadRecipeImage(with imageUrl: String, at indexPath: IndexPath)
+    func showRecipeDetails(for recipe: Recipe, with imageData: Data?)
     func backToHome()
 }
 
@@ -47,6 +48,11 @@ final class SearchPresenter: SearchViewPresenterProtocol {
     // MARK: - Back to Home
     func backToHome() {
         router.popToRoot()
+    }
+    
+    // MARK: - Show Recipe Details
+    func showRecipeDetails(for recipe: Recipe, with imageData: Data?) {
+        //router.showDetail(for: recipe, with: imageData)
     }
 }
 

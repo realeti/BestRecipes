@@ -146,11 +146,12 @@ extension SearchViewController: UICollectionViewDataSource {
         }
         
         let recipe = presenter.getRecipes[indexPath.row]
+        let rating = recipe.rating ?? 0.0
         let title = recipe.title ?? ""
         let ingredientsCount = recipe.extendedIngredients?.count ?? 0
         let recipeMinutes = recipe.readyInMinutes ?? 0
         cell.delegate = self
-        cell.configure(title, ingredientsCount, recipeMinutes, for: indexPath)
+        cell.configure(rating, title, ingredientsCount, recipeMinutes, for: indexPath)
         return cell
     }
 }
@@ -159,7 +160,13 @@ extension SearchViewController: UICollectionViewDataSource {
 extension SearchViewController: UICollectionViewDelegate {
     /// collection selected item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("cell #\(indexPath.row)")
+        guard let cell = collectionView.cellForItem(at: indexPath) as? SearchViewCell else {
+            return
+        }
+        
+        let selectedRecipe = presenter.getRecipes[indexPath.row]
+        let recipeImageData = cell.recipeImageData
+        presenter.showRecipeDetails(for: selectedRecipe, with: recipeImageData)
     }
     
     /// collection header
