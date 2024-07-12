@@ -5,7 +5,7 @@
 //  Created by realeti on 08.07.2024.
 //
 
-import UIKit
+import Foundation
 
 protocol SearchViewProtocol: AnyObject {
     func showLoading(_ loading: Bool)

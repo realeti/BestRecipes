@@ -88,6 +88,19 @@ extension CustomTabBarController {
     }
 }
 
+// MARK: - Custom TabBar Delegate methods
+extension CustomTabBarController: CustomTabBarProtocol {
+    func createRecipeButtonPressed() {
+        guard let navigationController = self.selectedViewController as? UINavigationController else {
+            return
+        }
+        
+        let builder = Builder()
+        let router = Router(navigationController: navigationController, builder: builder)
+        router.showTrending() /// change here
+    }
+}
+
 // MARK: - View Controller Type
 enum InitialModuleType {
     case home, favorite, notification, profile
