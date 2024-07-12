@@ -42,24 +42,18 @@ final class Builder: BuilderProtocol {
     // MARK: - Create TabBar Farvoite
     private func createFavoriteModule(router: RouterProtocol) -> UIViewController {
         let viewController = FavoriteViewController()
-        
-        //setupViewController(viewController, title: "test", with: nil)
         return viewController
     }
     
     // MARK: - Create TabBar Notification
     private func createNotificationModule(router: RouterProtocol) -> UIViewController {
         let viewController = NotificationViewController()
-        
-        //setupViewController(viewController, title: "test", with: nil)
         return viewController
     }
     
     // MARK: - Create TabBar Profile
     private func createProfileModule(router: RouterProtocol) -> UIViewController {
         let viewController = ProfileViewController()
-        
-        //setupViewController(viewController, title: "test", with: nil)
         return viewController
     }
     
@@ -68,6 +62,7 @@ final class Builder: BuilderProtocol {
         let viewController = TrendingViewController()
         let presenter = TrendingPresenter(view: viewController, router: router)
         viewController.presenter = presenter
+        viewController.hidesBottomBarWhenPushed = true
         setTitle(K.trendingTitle, for: viewController)
         
         return viewController
@@ -78,6 +73,7 @@ final class Builder: BuilderProtocol {
         let viewController = SearchViewController()
         let presenter = SearchPresenter(view: viewController, router: router)
         viewController.presenter = presenter
+        viewController.hidesBottomBarWhenPushed = true
         return viewController
     }
 }

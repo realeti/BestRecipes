@@ -72,20 +72,17 @@ class SearchHeaderView: UICollectionReusableView {
     // MARK: - Set Views
     private func setupUI() {
         addSubview(searchStackView)
-        addSubview(activityIndicator)
         searchStackView.addArrangedSubviews(searchIcon, activityIndicator, searchTextField, searchCancelButton)
     }
     
     // MARK: - Show Loading indicator
     func showLoading(_ loading: Bool) {
-        DispatchQueue.main.async {
-            if loading {
-                self.searchIcon.isHidden = true
-                self.activityIndicator.startAnimating()
-            } else {
-                self.searchIcon.isHidden = false
-                self.activityIndicator.stopAnimating()
-            }
+        if loading {
+            self.searchIcon.isHidden = true
+            self.activityIndicator.startAnimating()
+        } else {
+            self.searchIcon.isHidden = false
+            self.activityIndicator.stopAnimating()
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SearchViewController: UIViewController, SearchViewProtocol {
+final class SearchViewController: UIViewController {
     // MARK: - Public Properties
     var presenter: SearchViewPresenterProtocol!
     
@@ -60,16 +60,36 @@ extension SearchViewController {
     }
 }
 
-// MARK: - Presenter Delegate methods
-extension SearchViewController {
+// MARK: - Search Delegate methods
+extension SearchViewController: SearchViewProtocol {
     func showLoading(_ loading: Bool) {
-        headerView?.showLoading(loading)
+        DispatchQueue.main.async {
+            self.headerView?.showLoading(loading)
+        }
     }
     
     func didUpdateRecipes() {
         DispatchQueue.main.async {
             self.searchView.recipeCollection.reloadData()
         }
+    }
+    
+    func didUpdateRecipeImage(_ imageData: Data, at indexPath: IndexPath) {
+        DispatchQueue.main.async {
+            if let cell = self.searchView.recipeCollection.cellForItem(at: indexPath) as? SearchViewCell {
+                cell.updateRecipeImage(with: imageData)
+            }
+        }
+    }
+}
+
+// MARK: - Collection Cell Delegate methods
+extension SearchViewController: SearchViewCellProtocol {
+    func loadImage(for cell: SearchViewCell, at indexPath: IndexPath) {
+        let recipe = presenter.getRecipes[indexPath.row]
+        guard let imageUrl = recipe.imageURL else { return }
+        
+        presenter.loadRecipeImage(with: imageUrl, at: indexPath)
     }
 }
 
@@ -91,7 +111,7 @@ extension SearchViewController: UITextFieldDelegate {
 // MARK: - CollectionView DataSource methods
 extension SearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.recipes.count
+        return presenter.getRecipes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -99,10 +119,11 @@ extension SearchViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let title = presenter.recipes[indexPath.row].title ?? ""
-        let ingredientsCount = presenter.recipes[indexPath.row].extendedIngredients?.count ?? 0
-        let recipeMinutes = presenter.recipes[indexPath.row].readyInMinutes ?? 0
-        cell.configure(title, ingredientsCount, recipeMinutes)
+        let title = presenter.getRecipes[indexPath.row].title ?? ""
+        let ingredientsCount = presenter.getRecipes[indexPath.row].extendedIngredients?.count ?? 0
+        let recipeMinutes = presenter.getRecipes[indexPath.row].readyInMinutes ?? 0
+        cell.delegate = self
+        cell.configure(title, ingredientsCount, recipeMinutes, for: indexPath)
         return cell
     }
 }
@@ -145,19 +166,19 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
 extension SearchViewController {
     private func setHeaderViewActions() {
         headerView?.searchCancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
-        headerView?.searchTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        //headerView?.searchTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     @objc private func cancelButtonPressed(_ sender: UIButton) {
         presenter.backToHome()
     }
     
-    @objc private func textDidChange(textField: UITextField) {
+    /*@objc private func textDidChange(textField: UITextField) {
         guard let text = textField.text, !text.isEmpty, text.count > 2 else {
             return
         }
         self.presenter.recipeSearch(with: text)
-    }
+    }*/
     
     @objc private func hideKeyboard() {
         headerView?.searchTextField.endEditing(true)

@@ -9,17 +9,18 @@ import UIKit
 
 final class CustomTabBarController: UITabBarController {
     // MARK: - Life Cycle
-    override func loadView() {
-        super.loadView()
-        
-        let customTabBar = CustomTabBar()
-        self.setValue(customTabBar, forKey: "tabBar")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupCustomTabBar()
         setupTabs()
+    }
+    
+    // MARK: - Setup Custom TabBar
+    private func setupCustomTabBar() {
+        let customTabBar = CustomTabBar()
+        customTabBar.tabBarController = self
+        self.setValue(customTabBar, forKey: "tabBar")
     }
 }
 
@@ -66,10 +67,6 @@ extension CustomTabBarController {
             createTabBarItem(with: notificationConfig),
             createTabBarItem(with: profileConfig)
         ]
-        
-        if let customTabBar = self.tabBar as? CustomTabBar {
-            customTabBar.tabBarController = self
-        }
     }
 }
 
