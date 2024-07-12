@@ -25,7 +25,9 @@ final class CustomTabBarController: UITabBarController {
 
 // MARK: - Setup Tabs
 extension CustomTabBarController {
-    private func setupTabs() {        
+    private func setupTabs() {       
+        let builder = Builder()
+        
         let homeConfig = tabBarItemConfiguration(
             image: .homeInactive,
             selectedImage: .homeActive,
@@ -66,6 +68,10 @@ extension CustomTabBarController {
         ]
         
         self.viewControllers = viewControllers
+        
+        if let customTabBar = self.tabBar as? CustomTabBar {
+            customTabBar.tabBarController = self
+        }
     }
 }
 

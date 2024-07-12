@@ -10,6 +10,7 @@ import UIKit
 protocol BuilderProtocol: AnyObject {
     func createModule(for initialModuleType: InitialModuleType, router: Router) -> UIViewController
     func createTrendingModule(router: RouterProtocol) -> UIViewController
+    func createCreateRecipeModule(router: RouterProtocol) -> UIViewController
     func configureModule(for viewController: UIViewController, with router: RouterProtocol)
 }
 
@@ -68,6 +69,16 @@ final class Builder: BuilderProtocol {
         let presenter = TrendingPresenter(view: viewController, router: router)
         viewController.presenter = presenter
         setTitle(K.trendingTitle, for: viewController)
+        
+        return viewController
+    }
+    
+    //MARK: - Create Create Recipe
+    func createCreateRecipeModule(router: RouterProtocol) -> UIViewController {
+        let viewController = CreateRecipeViewController()
+        let presenter = CreateRecipePresenter(vc: viewController, router: router)
+        viewController.presenter = presenter
+        setTitle(K.createTitle, for: viewController)
         
         return viewController
     }

@@ -20,12 +20,16 @@ final class CreateRecipeView: UIView {
     private let centralLabel: UILabel = {
         let label = UILabel()
         label.text = "HI"
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 30)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let createRecipeButtom: UIButton = {
         let button = UIButton(type: .system)
-        button.layer.cornerRadius = 20
+        //button.layer.cornerRadius = 1
+        button.setTitle("Button", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -57,7 +61,8 @@ private extension CreateRecipeView {
 private extension CreateRecipeView {
     func setViews() {
         addSubviews(
-            centralLabel
+            centralLabel,
+            createRecipeButtom
         )
     }
     
@@ -71,11 +76,46 @@ private extension CreateRecipeView {
     
     func setupConstrains() {
         NSLayoutConstraint.activate([
-            centralLabel.bottomAnchor.constraint(equalTo: centerYAnchor, constant: -20),
+            centralLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             centralLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            createRecipeButtom.topAnchor.constraint(equalTo: centerYAnchor, constant: 20),
+            createRecipeButtom.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 50),
             createRecipeButtom.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
+    }
+}
+
+
+
+
+
+
+
+
+
+
+import SwiftUI
+
+extension UIViewController {
+    struct Preview: UIViewControllerRepresentable {
+        let viewController: UIViewController
+        
+        func makeUIViewController(context: Context) -> some UIViewController {
+            viewController
+        }
+        
+        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) { }
+    }
+    
+    func preview() -> some View {
+        Preview(viewController: self).edgesIgnoringSafeArea(.all)
+    }
+}
+
+struct CreateRecipeProvider: PreviewProvider {
+    static var previews: some View {
+        Group {
+            UINavigationController(rootViewController: CreateRecipeViewController()).preview()
+        }
     }
 }

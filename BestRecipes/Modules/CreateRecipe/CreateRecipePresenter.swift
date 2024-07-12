@@ -12,16 +12,16 @@ import Foundation
 //}
 
 protocol CreateRecipePresenterProtocol: AnyObject {
-    init(vc: CreateRecipeViewControllerProtocol, router: CreateRecipeRouterProtocol)
+    init(vc: CreateRecipeViewControllerProtocol, router: RouterProtocol)
     func createRecipe()
     func goBack()
 }
 
 final class CreateRecipePresenter: CreateRecipePresenterProtocol {
     private unowned let vc: CreateRecipeViewControllerProtocol
-    private let router: CreateRecipeRouterProtocol
+    private let router: RouterProtocol
     
-    init(vc: CreateRecipeViewControllerProtocol, router: CreateRecipeRouterProtocol) {
+    init(vc: CreateRecipeViewControllerProtocol, router: RouterProtocol) {
         self.vc = vc
         self.router = router
     }
@@ -32,6 +32,6 @@ final class CreateRecipePresenter: CreateRecipePresenterProtocol {
     }
     
     func goBack() {
-        router.goBack()
+        router.popToPrevious()
     }
 }

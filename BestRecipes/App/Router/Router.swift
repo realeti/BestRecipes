@@ -59,6 +59,14 @@ final class Router: RouterProtocol {
         }*/
     }
     
+    //MARK: - Create Recipe
+    func showCreateRecipe() {
+        let router = self
+        let createViewControler = builder.createCreateRecipeModule(router: router)
+        navigationController.pushViewController(createViewControler, animated: true)
+        builder.configureModule(for: createViewControler, with: router)
+    }
+    
     
     //MARK: - PopToRoot
     

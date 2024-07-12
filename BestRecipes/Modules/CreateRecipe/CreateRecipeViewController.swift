@@ -23,6 +23,10 @@ final class CreateRecipeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createRecipeView.delegate = self
+        
+        view.backgroundColor = .redLight
+        
+        //title = "Create Recipe"
     }
 }
 
