@@ -142,16 +142,13 @@ final class DataManager {
             return
         }
         
-        // noimage
         NetworkManager.shared.fetchImage(from: url) { [unowned self] result in
             switch result {
             case .success(let data):
                 imageCaсhe[url] = data
                 completion(data)
             case .failure(_):
-                guard let path = Bundle.main.url(forResource: "noimage", withExtension: "png") else { return }
-                guard let stub = try? Data(contentsOf: path) else { return }
-                completion(stub)
+                completion(Data())
             }
         }
     }

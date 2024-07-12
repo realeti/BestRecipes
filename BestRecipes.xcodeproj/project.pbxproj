@@ -11,7 +11,6 @@
 		245594BE2C34427000F07D86 /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245594BD2C34426F00F07D86 /* TestVC.swift */; };
 		24ACAB0A2C40634E000DFF02 /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24ACAB092C40634E000DFF02 /* Instruction.swift */; };
 		24AE745E2C35495F00CED2BA /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AE745D2C35495F00CED2BA /* SearchResult.swift */; };
-		24AFE69D2C4181DC00499912 /* noimage.png in Resources */ = {isa = PBXBuildFile; fileRef = 24AFE69C2C4181DC00499912 /* noimage.png */; };
 		24B6D96B2C371200006F866F /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B6D96A2C371200006F866F /* DataManager.swift */; };
 		522898A22C31DC3D0013FF87 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898A12C31DC3D0013FF87 /* Network.swift */; };
 		522898A42C31DD550013FF87 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898A32C31DD550013FF87 /* OnboardingViewController.swift */; };
@@ -65,8 +64,6 @@
 		245594BD2C34426F00F07D86 /* TestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestVC.swift; sourceTree = "<group>"; };
 		24ACAB092C40634E000DFF02 /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
 		24AE745D2C35495F00CED2BA /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
-		24AFE69A2C41790500499912 /* noimage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noimage.png; path = BestRecipes/Support/Assets.xcassets/noimage.png; sourceTree = "<group>"; };
-		24AFE69C2C4181DC00499912 /* noimage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = noimage.png; path = BestRecipes/Support/Assets.xcassets/noimage.png; sourceTree = "<group>"; };
 		24B6D96A2C371200006F866F /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		522898A12C31DC3D0013FF87 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		522898A32C31DD550013FF87 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -265,8 +262,6 @@
 		526DF7D12C30D84F008A7818 = {
 			isa = PBXGroup;
 			children = (
-				24AFE69A2C41790500499912 /* noimage.png */,
-				24AFE69C2C4181DC00499912 /* noimage.png */,
 				526DF7DC2C30D84F008A7818 /* BestRecipes */,
 				526DF7DB2C30D84F008A7818 /* Products */,
 			);
@@ -542,7 +537,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24AFE69D2C4181DC00499912 /* noimage.png in Resources */,
 				C6AB90192C386EF700C2D719 /* Poppins-SemiBold.ttf in Resources */,
 				526DF7E72C30D851008A7818 /* Assets.xcassets in Resources */,
 				526DF7FC2C30DA11008A7818 /* Poppins-Bold.ttf in Resources */,
