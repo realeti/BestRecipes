@@ -38,6 +38,22 @@ final class TestVC: UITableViewController {
         }
         recipes = dataManager.getRecipesFrom(.favorites)
         
+        dataManager.addRecipe(
+            Recipe(
+                id: 777,
+                title: "Empty Recipe",
+                instruction: "",
+                instructions: nil,
+                author: nil,
+                spoonacularScore: nil,
+                readyInMinutes: nil,
+                imageURL: "Empty Recipe for Debug",
+                extendedIngredients: nil,
+                servings: nil
+            ),
+            to: .favorites
+        )
+        
         self.tableView.reloadData()
     }
 }

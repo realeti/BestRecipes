@@ -83,8 +83,7 @@ enum SavedRecipesType: String {
 final class DataManager {
     static let shared = DataManager()
     
-    private var imageCaсhe: [String: Data] = [:]
-    private var recipeCache: [String: [Recipe]] = [:]
+    private let fileManager: FileManager = .default
     
     private let apiKeys: [String] = [
         "cc3538ef4d1448949d8c1f17cf5703c1",
@@ -93,6 +92,8 @@ final class DataManager {
         "94a3e904ec2d4cc8bab79ce9735f4d49",
         "67815760a10949b7abd4174a271dbd1d"
     ]
+    private var imageCaсhe: [String: Data] = [:]
+    private var recipeCache: [String: [Recipe]] = [:]
     
     private var apiKeyIndex = 0
     
@@ -141,13 +142,16 @@ final class DataManager {
             return
         }
         
+        // noimage
         NetworkManager.shared.fetchImage(from: url) { [unowned self] result in
             switch result {
             case .success(let data):
                 imageCaсhe[url] = data
                 completion(data)
             case .failure(_):
-                completion(Data())
+                guard let path = Bundle.main.url(forResource: "noimage", withExtension: "png") else { return }
+                guard let stub = try? Data(contentsOf: path) else { return }
+                completion(stub)
             }
         }
     }
