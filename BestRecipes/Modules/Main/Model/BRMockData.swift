@@ -13,10 +13,10 @@ struct BRMockData {
     private init() {}
     
     private let trending: BRSection = {
-        .trending(model: [.init(id: 0, title: "Title1", author: "Author1", rating: "0", imageURL: "food1"),
-                          .init(id: 0, title: "Title1", author: "Author1", rating: "0", imageURL: "food2"),
-                          .init(id: 0, title: "Title1", author: "Author1", rating: "0", imageURL: "food3"),
-                          .init(id: 0, title: "Title1", author: "Author1", rating: "0", imageURL: "food4"),
+        .trending(model: [.init(id: 0, title: "Title1", author: "Author1", authorImage: "emptyAvatar", rating: "0", imageURL: "food1"),
+                          .init(id: 0, title: "Title1", author: "Author1", authorImage: "emptyAvatar", rating: "0", imageURL: "food2"),
+                          .init(id: 0, title: "Title1", author: "Author1", authorImage: "emptyAvatar", rating: "0", imageURL: "food3"),
+                          .init(id: 0, title: "Title1", author: "Author1", authorImage: "emptyAvatar", rating: "0", imageURL: "food4"),
         ])
     }()
     

@@ -105,7 +105,7 @@ final class DataManager {
         "67815760a10949b7abd4174a271dbd1d"
     ]
     
-    private var apiKeyIndex = 4
+    private var apiKeyIndex = 2
     
     private init() {}
     

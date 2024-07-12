@@ -83,13 +83,13 @@ extension BRTrendingCollectionViewCell {
         authorImageView.image = .author
         authorNameLabel.text = model.author
         favoritesButton.tag = tag
-        backgroundImageView.image = UIImage(named: model.imageURL ?? "media")
-
-//        DataManager.shared.getImage(model.imageURL ?? "media") { [weak self] imageData in
-//            DispatchQueue.main.async {
-//                self?.backgroundImageView.image = UIImage(data: imageData)
-//            }
-//        }
+       
+//        backgroundImageView.image = UIImage(named: model.imageURL ?? "media")
+        DataManager.shared.getImage(model.imageURL ?? "media") { [weak self] imageData in
+            DispatchQueue.main.async {
+                self?.backgroundImageView.image = UIImage(data: imageData)
+            }
+        }
     }
 }
 

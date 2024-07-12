@@ -85,12 +85,12 @@ extension BRPopularCollectionViewCell {
         titleLabel.text = model.title
         minutesLabel.text = model.readyInMinutes.description
         
-        foodImageView.image = UIImage(named: model.imageURL ?? "media")
-//        DataManager.shared.getImage(model.imageURL ?? "media") { [weak self] imageData in
-//            DispatchQueue.main.async {
-//                self?.foodImageView.image = UIImage(data: imageData)
-//            }
-//        }
+//        foodImageView.image = UIImage(named: model.imageURL ?? "media")
+        DataManager.shared.getImage(model.imageURL ?? "media") { [weak self] imageData in
+            DispatchQueue.main.async {
+                self?.foodImageView.image = UIImage(data: imageData)
+            }
+        }
     }
 }
 

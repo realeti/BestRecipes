@@ -58,14 +58,16 @@ final class BRCuisineCollectionViewCell: UICollectionViewCell {
 
 extension BRCuisineCollectionViewCell {
     func configure(with model: BRCuisineModel) {
-//        DataManager.shared.getImage(model.imageURL ?? "media") { [weak self] imageData in
-//            DispatchQueue.main.async {
-//                self?.cuisineImageView.image = UIImage(data: imageData)
-//            }
-//        }
-        
-        cuisineImageView.image = UIImage(named: model.imageURL ?? "media")
         titleLabel.text = model.title
+        
+//        cuisineImageView.image = UIImage(named: model.imageURL ?? "media")
+        DataManager.shared.getImage(model.imageURL ?? "media") { [weak self] imageData in
+            DispatchQueue.main.async {
+                self?.cuisineImageView.image = UIImage(data: imageData)
+            }
+        }
+        
+        
     }
 }
 

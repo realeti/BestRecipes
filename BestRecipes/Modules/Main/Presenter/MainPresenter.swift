@@ -28,30 +28,42 @@ final class MainPresenter {
     
     //MARK: - Models
     
-    private var sections = BRMockData.shared.pageData
-//    private var sections = [BRSection]()
+//    private var sections = BRMockData.shared.pageData
+        private var sections = [BRSection]()
     
     private var trendingRecipes: [Recipe] = []
     private var popularRecipes: [Recipe] = []
     private var recentRecipes: [Recipe] = []
     private var cuisineRecipes: [Recipe] = []
     
-    public var categories: [BRCategoryModel] =
-    [.init(type: "Main course", request: "main%20course"),
-     .init(type: "Side dish", request: "side%20dish"),
-     .init(type: "Dessert", request: "dessert"),
-     .init(type: "Appetizer", request: "appetizer"),
-     .init(type: "Salad", request: "salad"),
-     .init(type: "Bread", request: "bread"),
-     .init(type: "Breakfast", request: "breakfast"),
-     .init(type: "Soup", request: "soup"),
-     .init(type: "Beverage", request: "beverage"),
-     .init(type: "Sauce", request: "sauce"),
-     .init(type: "Marinade", request: "marinade"),
-     .init(type: "Finger food", request: "fingerfood"),
-     .init(type: "Snack", request: "snack"),
-     .init(type: "Drink", request: "drink")
+    private var categories: [BRCategoryModel] = [
+        .init(type: "Main course", request: "main%20course"),
+        .init(type: "Side dish", request: "side%20dish"),
+        .init(type: "Dessert", request: "dessert"),
+        .init(type: "Appetizer", request: "appetizer"),
+        .init(type: "Salad", request: "salad"),
+        .init(type: "Bread", request: "bread"),
+        .init(type: "Breakfast", request: "breakfast"),
+        .init(type: "Soup", request: "soup"),
+        .init(type: "Beverage", request: "beverage"),
+        .init(type: "Sauce", request: "sauce"),
+        .init(type: "Marinade", request: "marinade"),
+        .init(type: "Finger food", request: "fingerfood"),
+        .init(type: "Snack", request: "snack"),
+        .init(type: "Drink", request: "drink")
     ]
+    
+    private let authors: [BRAuthorsModel] = [
+        .init(authorImageName: "Foodista"),
+        .init(authorImageName: "foodista.com"),
+        .init(authorImageName: "Afrolems"),
+        .init(authorImageName: "Full Belly Sisters"),
+        .init(authorImageName: "Pink When"),
+        .init(authorImageName: "blogspot.com"),
+        .init(authorImageName: "Food and Spice"),
+        .init(authorImageName: "pinkwhen.com")
+    ]
+        
     
     private var recent: [BRRecentModel] = []
     
@@ -106,7 +118,9 @@ extension MainPresenter: MainPresenterProtocol {
     
     func configureModels(trending: [Recipe], popular: [Recipe], cuisine: [Recipe]) {
         sections.append(.trending(model: trending.map({ recipe in
-            return BRTrendingModel(recipe)
+            var trendingModel = BRTrendingModel(recipe)
+            trendingModel.authorImage = recipe.author ?? "emptyAvatar"
+            return trendingModel
         })))
         sections.append(.category(model: categories))
         sections.append(.popular(model: popular.map({ recipe in

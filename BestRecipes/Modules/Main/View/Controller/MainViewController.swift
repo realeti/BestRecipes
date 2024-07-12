@@ -61,7 +61,7 @@ final class MainViewController: UIViewController {
         configureCollectionView()
         configure()
         setConstraints()
-//        presenter.fetchData()
+        presenter.fetchData()
     }
 }
 

@@ -12,13 +12,12 @@ final class BRCollectionView: UICollectionView {
     //MARK: - Properties
     
     private let collectionLayout = UICollectionViewLayout()
-    private var placeholderView: UIView?
     
     
     //MARK: - Models
     
-    private(set) var sections = BRMockData.shared.pageData
-//    private var sections: [BRSection] = []
+//    private(set) var sections = BRMockData.shared.pageData
+    private var sections: [BRSection] = []
     
     private var categories: [BRCategoryModel] = []
     private var recent: [BRRecentModel] = []
@@ -194,7 +193,7 @@ extension BRCollectionView: UICollectionViewDataSource {
             //MARK: - Recent Cell
             
         case .recent(model: let models):
-            if models.count == 1 {
+            if models.count == 0 {
                 guard let cell = dequeueReusableCell(withReuseIdentifier: BRRecentPlaceholderCell.identifier, for: indexPath) as? BRRecentPlaceholderCell else {
                     return UICollectionViewCell()
                 }
