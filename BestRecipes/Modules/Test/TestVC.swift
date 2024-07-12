@@ -92,7 +92,7 @@ extension TestVC {
         
         dataManager.getImage(recipe.imageURL ?? "") { imageData in
             DispatchQueue.main.async {
-                cell.imageView?.image = UIImage(data: imageData)
+                cell.imageView?.image = !imageData.isEmpty ? UIImage(data: imageData) : UIImage(named: "noimage")
             }
         }
         

@@ -8,7 +8,7 @@
 import Foundation
 
 enum Link: String {
-    case search = "https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&apiKey="
+    case search = "https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&fillIngredients=true&apiKey="
     case image = "https://img.spoonacular.com/ingredients_100x100/"
 }
 
