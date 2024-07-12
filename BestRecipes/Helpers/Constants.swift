@@ -19,7 +19,7 @@ struct K {
     
     // MARK: - Search
     static let searchPlaceholer = "How to make..."
-    static let noDataText = "Nothing here, keep searching!"
+    static let emptySearchText = "Nothing here, keep searching!"
     
     // MARK: - Reusable
     static let searchCell = "searchCell"
