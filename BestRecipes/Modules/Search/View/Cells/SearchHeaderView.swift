@@ -9,7 +9,7 @@ import UIKit
 
 class SearchHeaderView: UICollectionReusableView {
     // MARK: - UI
-    lazy var searchStackView: UIStackView = {
+    private lazy var searchStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 10
@@ -49,7 +49,7 @@ class SearchHeaderView: UICollectionReusableView {
         transform: CGAffineTransform(rotationAngle: .pi / 4)
     )
     
-    let activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.hidesWhenStopped = true
         indicator.translatesAutoresizingMaskIntoConstraints = false

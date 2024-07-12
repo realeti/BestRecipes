@@ -39,7 +39,6 @@ final class SearchViewCell: UICollectionViewCell {
     )
     
     private let ratingLabel = UILabel(
-        text: "5.0",
         font: .poppinsBold,
         fontSize: 14.0
     )
@@ -54,17 +53,21 @@ final class SearchViewCell: UICollectionViewCell {
     }()
     
     private let descriptionTitleLabel = UILabel(
-        text: "How to make yam & vegetable sauce at home",
         font: .poppinsBold,
         fontSize: 16.0,
         numberOfLines: 2
     )
     
     private let ingredientsLabel = UILabel(
-        text: "9 Ingredients | 25 min",
         font: .poppinsRegular,
         fontSize: 12.0
     )
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
     
     // MARK: - Public Properties
     weak var delegate: SearchViewCellProtocol?
@@ -88,6 +91,7 @@ final class SearchViewCell: UICollectionViewCell {
         recipeImageView.image = nil
         descriptionTitleLabel.text = nil
         ingredientsLabel.text = nil
+        activityIndicator.stopAnimating()
     }
     
     // MARK: - Set Views
@@ -95,6 +99,17 @@ final class SearchViewCell: UICollectionViewCell {
         contentView.addSubviews(recipeImageView, ratingStackView, descriptionStackView)
         ratingStackView.addArrangedSubviews(ratingStarImageView, ratingLabel)
         descriptionStackView.addArrangedSubviews(descriptionTitleLabel, ingredientsLabel)
+        recipeImageView.addSubview(activityIndicator)
+    }
+    
+    // MARK: - Show Loading indicator
+    func showLoading(_ loading: Bool) {
+        if loading {
+            activityIndicator.startAnimating()
+        } else {
+            activityIndicator.stopAnimating()
+            activityIndicator.removeFromSuperview()
+        }
     }
 }
 
@@ -120,6 +135,7 @@ extension SearchViewCell {
         setupRatingStackViewConstraints()
         setupRatingStarImageConstraints()
         setupDescriptionStackViewConstraints()
+        setupActivityIndicatorConstraints()
     }
     
     private func setupRecipeImageConstraints() {
@@ -150,6 +166,13 @@ extension SearchViewCell {
             descriptionStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 2.0),
             contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: descriptionStackView.trailingAnchor, multiplier: 2.0),
             bottomAnchor.constraint(equalToSystemSpacingBelow: descriptionStackView.bottomAnchor, multiplier: 2.0)
+        ])
+    }
+    
+    private func setupActivityIndicatorConstraints() {
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: recipeImageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: recipeImageView.centerYAnchor)
         ])
     }
 }

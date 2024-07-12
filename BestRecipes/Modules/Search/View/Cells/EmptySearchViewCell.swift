@@ -48,7 +48,8 @@ extension EmptySearchViewCell {
         NSLayoutConstraint.activate([
             textLabel.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 3.0),
             textLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1.0),
-            trailingAnchor.constraint(equalToSystemSpacingAfter: textLabel.trailingAnchor, multiplier: 1.0)
+            trailingAnchor.constraint(equalToSystemSpacingAfter: textLabel.trailingAnchor, multiplier: 1.0),
+            bottomAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: textLabel.bottomAnchor, multiplier: 1.0)
         ])
     }
 }

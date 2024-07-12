@@ -8,7 +8,8 @@
 import Foundation
 
 protocol SearchViewProtocol: AnyObject {
-    func showLoading(_ loading: Bool)
+    func showSearchLoading(_ loading: Bool)
+    func showRecipeImageLoading(_ loading: Bool, at indexPath: IndexPath)
     func didUpdateRecipes()
     func didUpdateRecipeImage(_ imageData: Data, at: IndexPath)
 }
@@ -53,7 +54,7 @@ final class SearchPresenter: SearchViewPresenterProtocol {
 extension SearchPresenter {
     func recipeSearch(with searchText: String) {
         searchTimer?.invalidate()
-        view?.showLoading(true)
+        view?.showSearchLoading(true)
         
         searchTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [weak self] _ in
             self?.loadRecipeData(with: searchText)
@@ -63,13 +64,16 @@ extension SearchPresenter {
     private func loadRecipeData(with searchText: String) {
         DataManager.shared.getRecepies(type: .search, by: searchText) { [weak self] result in
             self?.recipes = result
-            self?.view?.showLoading(false)
+            self?.view?.showSearchLoading(false)
             self?.view?.didUpdateRecipes()
         }
     }
     
     func loadRecipeImage(with imageUrl: String, at indexPath: IndexPath) {
+        view?.showRecipeImageLoading(true, at: indexPath)
+        
         DataManager.shared.getImage(imageUrl) { [weak self] imageData in
+            self?.view?.showRecipeImageLoading(false, at: indexPath)
             self?.view?.didUpdateRecipeImage(imageData, at: indexPath)
         }
     }

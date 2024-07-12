@@ -62,9 +62,17 @@ extension SearchViewController {
 
 // MARK: - Search Delegate methods
 extension SearchViewController: SearchViewProtocol {
-    func showLoading(_ loading: Bool) {
+    func showSearchLoading(_ loading: Bool) {
         DispatchQueue.main.async {
             self.headerView?.showLoading(loading)
+        }
+    }
+    
+    func showRecipeImageLoading(_ loading: Bool, at indexPath: IndexPath) {
+        DispatchQueue.main.async {
+            if let cell = self.searchView.recipeCollection.cellForItem(at: indexPath) as? SearchViewCell {
+                cell.showLoading(loading)
+            }
         }
     }
     
