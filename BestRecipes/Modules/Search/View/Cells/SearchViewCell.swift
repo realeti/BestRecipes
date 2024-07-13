@@ -13,6 +13,14 @@ protocol SearchViewCellProtocol: AnyObject {
 
 final class SearchViewCell: UICollectionViewCell {
     // MARK: - UI
+    private lazy var containerView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 12
+        view.layer.masksToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let recipeImageView = UIImageView(
         contentMode: .scaleAspectFill,
         cornerRadius: 12
@@ -54,13 +62,13 @@ final class SearchViewCell: UICollectionViewCell {
     
     private let descriptionTitleLabel = UILabel(
         font: .poppinsBold,
-        fontSize: 16.0,
+        fontSize: 19.0,
         numberOfLines: 2
     )
     
     private let ingredientsLabel = UILabel(
         font: .poppinsRegular,
-        fontSize: 12.0
+        fontSize: 15.0
     )
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
@@ -97,10 +105,11 @@ final class SearchViewCell: UICollectionViewCell {
     
     // MARK: - Set Views
     private func setupUI() {
-        contentView.addSubviews(recipeImageView, ratingStackView, descriptionStackView)
+        contentView.addSubviews(containerView, ratingStackView, descriptionStackView)
         ratingStackView.addArrangedSubviews(ratingStarImageView, ratingLabel)
         descriptionStackView.addArrangedSubviews(descriptionTitleLabel, ingredientsLabel)
-        recipeImageView.addSubview(activityIndicator)
+        containerView.addSubview(recipeImageView)
+        containerView.addSubview(activityIndicator)
     }
     
     // MARK: - Show Loading indicator
@@ -134,6 +143,7 @@ extension SearchViewCell {
 // MARK: - Setup Constraints
 extension SearchViewCell {
     private func setupConstraints() {
+        setupContainerViewConstraints()
         setupRecipeImageConstraints()
         setupRatingStackViewConstraints()
         setupRatingStarImageConstraints()
@@ -141,19 +151,28 @@ extension SearchViewCell {
         setupActivityIndicatorConstraints()
     }
     
+    private func setupContainerViewConstraints() {
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+    }
+    
     private func setupRecipeImageConstraints() {
         NSLayoutConstraint.activate([
-            recipeImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            recipeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            recipeImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            recipeImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            recipeImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            recipeImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: -70),
+            recipeImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 70),
+            recipeImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
     }
     
     private func setupRatingStackViewConstraints() {
         NSLayoutConstraint.activate([
-            ratingStackView.topAnchor.constraint(equalToSystemSpacingBelow: recipeImageView.topAnchor, multiplier: 1.0),
-            ratingStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: recipeImageView.leadingAnchor, multiplier: 1.0)
+            ratingStackView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.0),
+            ratingStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1.0)
         ])
     }
     
@@ -167,15 +186,15 @@ extension SearchViewCell {
     private func setupDescriptionStackViewConstraints() {
         NSLayoutConstraint.activate([
             descriptionStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 2.0),
-            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: descriptionStackView.trailingAnchor, multiplier: 2.0),
+            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: descriptionStackView.trailingAnchor, multiplier: 5.0),
             bottomAnchor.constraint(equalToSystemSpacingBelow: descriptionStackView.bottomAnchor, multiplier: 2.0)
         ])
     }
     
     private func setupActivityIndicatorConstraints() {
         NSLayoutConstraint.activate([
-            activityIndicator.centerXAnchor.constraint(equalTo: recipeImageView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: recipeImageView.centerYAnchor)
+            activityIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
 }
