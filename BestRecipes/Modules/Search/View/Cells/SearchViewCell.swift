@@ -125,13 +125,13 @@ final class SearchViewCell: UICollectionViewCell {
 
 // MARK: - Configure Cell
 extension SearchViewCell {
-    func configure(_ rating: Double, _ title: String, _ ingredientsCount: Int, _ recipeMinutes: Int, for indexPath: IndexPath) {
-        self.indexPath = indexPath
+    func configure(with config: SearchCellConfiguration) {
+        self.indexPath = config.indexPath
         
-        ratingLabel.text = String(format: "%.1f", rating)
-        descriptionTitleLabel.text = title
-        ingredientsLabel.text = "\(ingredientsCount) Ingredients | \(recipeMinutes) min"
-        delegate?.loadImage(for: self, at: indexPath)
+        ratingLabel.text = String(format: "%.1f", config.rating)
+        descriptionTitleLabel.text = config.title
+        ingredientsLabel.text = "\(config.ingredientsCount) Ingredients | \(config.recipeMinutes) min"
+        delegate?.loadImage(for: self, at: config.indexPath)
     }
     
     func updateRecipeImage(with imageData: Data) {
@@ -197,6 +197,15 @@ extension SearchViewCell {
             activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
+}
+
+// MARK: - Search Cell Configuration
+struct SearchCellConfiguration {
+    let rating: Double
+    let title: String
+    let ingredientsCount: Int
+    let recipeMinutes: Int
+    let indexPath: IndexPath
 }
 
 fileprivate struct Metrics {

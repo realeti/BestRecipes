@@ -146,12 +146,16 @@ extension SearchViewController: UICollectionViewDataSource {
         }
         
         let recipe = presenter.getRecipes[indexPath.row]
-        let rating = recipe.rating ?? 0.0
-        let title = recipe.title ?? ""
-        let ingredientsCount = recipe.extendedIngredients?.count ?? 0
-        let recipeMinutes = recipe.readyInMinutes ?? 0
+        let cellConfig = SearchCellConfiguration(
+            rating: recipe.rating,
+            title: recipe.title ?? "",
+            ingredientsCount: recipe.extendedIngredients?.count ?? 0,
+            recipeMinutes: recipe.readyInMinutes ?? 0,
+            indexPath: indexPath
+        )
+        
         cell.delegate = self
-        cell.configure(rating, title, ingredientsCount, recipeMinutes, for: indexPath)
+        cell.configure(with: cellConfig)
         return cell
     }
 }

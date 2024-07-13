@@ -25,8 +25,7 @@ final class Builder: BuilderProtocol {
         case .notification:
             createNotificationModule(router: router)
         case .profile:
-            //createProfileModule(router: router)
-            createSearchModule(router: router)
+            createProfileModule(router: router)
         }
     }
     
