@@ -30,6 +30,7 @@ final class MainViewController: UIViewController {
         $0.font = Font.getFont(.poppinsRegular, size: 14)
         $0.tintColor = .greyBase
         $0.setupLeftImage()
+        $0.isUserInteractionEnabled = true
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UITextField())
@@ -64,6 +65,23 @@ final class MainViewController: UIViewController {
         configure()
         setConstraints()
         presenter.fetchData()
+        setupTapGesture()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
+    }
+    
+    private func setupTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(textFieldPressed))
+        searchTextField.addGestureRecognizer(tapGesture)
     }
 }
 
@@ -123,5 +141,13 @@ private extension MainViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+}
+
+
+//MARK: - Actions
+private extension MainViewController {
+    @objc func textFieldPressed() {
+        presenter.showSearch()
     }
 }

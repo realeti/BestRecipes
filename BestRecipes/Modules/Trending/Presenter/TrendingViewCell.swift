@@ -8,6 +8,7 @@
 import UIKit
 
 protocol TrendingViewCellProtocol: AnyObject {
+    func loadImage(for cell: TrendingViewCell, at indexPath: IndexPath)
     func saveRecipe(at indexPath: IndexPath, imageData: Data)
 }
 
@@ -134,6 +135,12 @@ final class TrendingViewCell: UICollectionViewCell {
         fontSize: 12.0
     )
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     // MARK: - Public Properties
     weak var delegate: TrendingViewCellProtocol?
     var indexPath: IndexPath?
@@ -161,6 +168,7 @@ final class TrendingViewCell: UICollectionViewCell {
         authorImageView.image = nil
         authorNameLabel.text = nil
         recipeSaveButton.setBackgroundImage(nil, for: .normal)
+        activityIndicator.stopAnimating()
     }
     
     @objc private func saveButtonPressed(_ sender: UIButton) {
@@ -173,7 +181,7 @@ final class TrendingViewCell: UICollectionViewCell {
     // MARK: - Set Views
     private func setupUI() {
         contentView.addSubview(containerView)
-        containerView.addSubviews(recipeImageView, ratingStackView, recipeSaveContainer, timeContainer)
+        containerView.addSubviews(recipeImageView, ratingStackView, recipeSaveContainer, timeContainer, activityIndicator)
         ratingStackView.addArrangedSubviews(ratingStarImageView, ratingLabel)
         recipeSaveContainer.addSubview(recipeSaveButton)
         timeContainer.addSubview(timeLabel)
@@ -183,23 +191,38 @@ final class TrendingViewCell: UICollectionViewCell {
         authorStackView.addArrangedSubviews(authorImageView, authorNameLabel)
     }
     
-    func setupMockData() {
+    // MARK: - Show Loading indicator
+    func showLoading(_ loading: Bool) {
+        if loading {
+            activityIndicator.startAnimating()
+        } else {
+            activityIndicator.stopAnimating()
+            activityIndicator.removeFromSuperview()
+        }
+    }
+    
+    /*func setupMockData() {
         recipeImageView.image = UIImage(resource: .searchFood2)
         ratingLabel.text = "5.0"
         timeLabel.text = "15:10"
         titleLabel.text = "How to make sharwama at home"
         authorImageView.image = UIImage(resource: .author)
         authorNameLabel.text = "By Zeelicious Foods"
-    }
+    }*/
 }
 
 // MARK: - Configure Cell
 extension TrendingViewCell {
-    func configure(indexPath: IndexPath, isRecipeSaved: Bool) {
-        self.indexPath = indexPath
+    func configure(with config: TrendingCellConfiguration) {
+        titleLabel.text = config.title
+        ratingLabel.text = String(format: "%.1f", config.rating)
+        timeLabel.text = config.recipeMinutes
+        authorNameLabel.text = config.authorName
+        indexPath = config.indexPath
         
-        let saveButtonImage: UIImage = isRecipeSaved ? .favoritesActive : .favoritesInactive
-        recipeSaveButton.setBackgroundImage(saveButtonImage, for: .normal)
+        setupSaveButtonImage(isRecipeSaved: config.isRecipeSaved)
+        setupAuthorImage()
+        delegate?.loadImage(for: self, at: config.indexPath)
     }
     
     func updateRecipeImage(with imageData: Data) {
@@ -212,6 +235,16 @@ extension TrendingViewCell {
         UIView.transition(with: recipeSaveButton, duration: 0.3, options: .transitionFlipFromLeft, animations: {
             self.recipeSaveButton.setBackgroundImage(newImage, for: .normal)
         }, completion: nil)
+    }
+    
+    private func setupSaveButtonImage(isRecipeSaved: Bool) {
+        let saveButtonImage: UIImage = isRecipeSaved ? .favoritesActive : .favoritesInactive
+        recipeSaveButton.setBackgroundImage(saveButtonImage, for: .normal)
+    }
+    
+    private func setupAuthorImage() {
+        let images: [UIImage] = [.author, .author2]
+        authorImageView.image = images.randomElement() ?? UIImage()
     }
 }
 
@@ -312,6 +345,16 @@ extension TrendingViewCell {
             authorImageView.widthAnchor.constraint(equalToConstant: Metrics.authorImageSize)
         ])
     }
+}
+
+// MARK: - Trending Cell Configuration
+struct TrendingCellConfiguration {
+    let title: String
+    let rating: Double
+    let recipeMinutes: String
+    let authorName: String
+    let isRecipeSaved: Bool
+    let indexPath: IndexPath
 }
 
 fileprivate struct Metrics {

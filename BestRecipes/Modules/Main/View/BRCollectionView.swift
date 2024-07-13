@@ -237,8 +237,8 @@ extension BRCollectionView: UICollectionViewDataSource {
                                                  for: indexPath) as? BRRecentCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            let model = models[indexPath.row]
-            cell.configure(with: model)
+            //let model = models[indexPath.row]
+            //cell.configure(with: model)
             return cell
             
             //MARK: - Cuisine Cell

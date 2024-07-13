@@ -33,7 +33,7 @@ final class SearchViewCell: UICollectionViewCell {
         stackView.alignment = .center
         stackView.distribution = .fill
         stackView.backgroundColor = .greyDark
-        stackView.layoutMargins = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
+        stackView.layoutMargins = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         stackView.layer.cornerRadius = 8
         stackView.layer.masksToBounds = true
         stackView.isLayoutMarginsRelativeArrangement = true
@@ -108,8 +108,7 @@ final class SearchViewCell: UICollectionViewCell {
         contentView.addSubviews(containerView, ratingStackView, descriptionStackView)
         ratingStackView.addArrangedSubviews(ratingStarImageView, ratingLabel)
         descriptionStackView.addArrangedSubviews(descriptionTitleLabel, ingredientsLabel)
-        containerView.addSubview(recipeImageView)
-        containerView.addSubview(activityIndicator)
+        containerView.addSubviews(recipeImageView, activityIndicator)
     }
     
     // MARK: - Show Loading indicator

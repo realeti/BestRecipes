@@ -41,6 +41,22 @@ extension TrendingViewController: TrendingViewProtocol {
     func updateRecipes() {
         //
     }
+    
+    func showRecipeImageLoading(_ loading: Bool, at indexPath: IndexPath) {
+        DispatchQueue.main.async {
+            if let cell = self.trendingView.trendingCollection.cellForItem(at: indexPath) as? TrendingViewCell {
+                cell.showLoading(loading)
+            }
+        }
+    }
+    
+    func didUpdateRecipeImage(_ imageData: Data, at indexPath: IndexPath) {
+        DispatchQueue.main.async {
+            if let cell = self.trendingView.trendingCollection.cellForItem(at: indexPath) as? TrendingViewCell {
+                cell.updateRecipeImage(with: imageData)
+            }
+        }
+    }
 }
 
 // MARK: - Collection Cell Delegate methods
@@ -64,12 +80,19 @@ extension TrendingViewController: TrendingViewCellProtocol {
         }
         cell.updateSaveButtonImage(isRecipeSaved: isRecipeSaved)
     }
+    
+    func loadImage(for cell: TrendingViewCell, at indexPath: IndexPath) {
+        let recipe = presenter.getRecipes[indexPath.row]
+        guard let imageUrl = recipe.imageURL else { return }
+        
+        presenter.loadRecipeImage(with: imageUrl, at: indexPath)
+    }
 }
 
 // MARK: - CollectionView DataSource methods
 extension TrendingViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 12
+        return presenter.getRecipes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -77,11 +100,29 @@ extension TrendingViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
+        let recipe = presenter.getRecipes[indexPath.row]
         let isRecipeSaved = presenter.isRecipeSaved(at: indexPath.row)
+        let recipeMinutes = recipe.readyInMinutes ?? 0
+        let strRecipeMinutes = formatMinutesToString(minutes: recipeMinutes)
+        let cellConfig = TrendingCellConfiguration(
+            title: recipe.title ?? "",
+            rating: recipe.rating,
+            recipeMinutes: strRecipeMinutes,
+            authorName: recipe.author ?? "",
+            isRecipeSaved: isRecipeSaved,
+            indexPath: indexPath
+        )
+        
         cell.delegate = self
-        cell.configure(indexPath: indexPath, isRecipeSaved: isRecipeSaved)
-        cell.setupMockData()
+        cell.configure(with: cellConfig)
         return cell
+    }
+    
+    private func formatMinutesToString(minutes: Int) -> String {
+        let totalSeconds = minutes * 60
+        let mins = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%02d:%02d", mins, seconds)
     }
 }
 

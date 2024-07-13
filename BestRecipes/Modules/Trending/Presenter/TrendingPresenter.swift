@@ -9,12 +9,15 @@ import Foundation
 
 protocol TrendingViewProtocol: AnyObject {
     func updateRecipes()
+    func showRecipeImageLoading(_ loading: Bool, at indexPath: IndexPath)
+    func didUpdateRecipeImage(_ imageData: Data, at: IndexPath)
 }
 
 protocol TrendingPresenterProtocol {
-    init(view: TrendingViewProtocol, router: RouterProtocol)
+    init(view: TrendingViewProtocol, router: RouterProtocol, recipes: [Recipe])
     var getRecipes: [Recipe] { get }
 
+    func loadRecipeImage(with imageUrl: String, at indexPath: IndexPath)
     func showRecipeDetails(for recipe: Recipe, with imageData: Data?)
     func saveRecipe(recipe: Recipe, imageData: Data)
     func deleteRecipe(recipe: Recipe)
@@ -38,11 +41,11 @@ final class TrendingPresenter: TrendingPresenterProtocol {
     }
     
     //MARK: - Init
-    init(view: TrendingViewProtocol, router: RouterProtocol) {
+    init(view: TrendingViewProtocol, router: RouterProtocol, recipes: [Recipe]) {
         self.view = view
         self.router = router
-        
-        savedRecipes = Array(repeating: false, count: 12)
+        self.recipes = recipes
+        savedRecipes = Array(repeating: false, count: recipes.count)
     }
     
     // MARK: - Show Recipe Details
@@ -69,5 +72,17 @@ extension TrendingPresenter {
     func deleteRecipe(recipe: Recipe) {
         DataManager.shared.deleteRecipe(recipe, from: .favorites)
         print("recipe deleted")
+    }
+}
+
+// MARK: - Load Recipe Image
+extension TrendingPresenter {
+    func loadRecipeImage(with imageUrl: String, at indexPath: IndexPath) {
+        view?.showRecipeImageLoading(true, at: indexPath)
+        
+        DataManager.shared.getImage(imageUrl) { [weak self] imageData in
+            self?.view?.showRecipeImageLoading(false, at: indexPath)
+            self?.view?.didUpdateRecipeImage(imageData, at: indexPath)
+        }
     }
 }
