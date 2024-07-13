@@ -25,6 +25,7 @@ struct K {
     static let searchCell = "searchCell"
     static let emptySearchCell = "emptySearchCell"
     static let searchHeaderView = "searchHeaderView"
+    static let trendingCell = "trendingCell"
     
     private init () {}
 }
