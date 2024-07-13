@@ -7,10 +7,17 @@
 
 import UIKit
 
-class CustomTabBar: UITabBar {
+protocol CustomTabBarProtocol: AnyObject {
+    func createRecipeButtonPressed()
+}
+
+final class CustomTabBar: UITabBar {
     // MARK: - UI
     private var shapeLayer: CALayer?
-    private let plusButton = PlusButton(type: .system)
+    private let createRecipeButton = PlusButton(type: .system)
+    
+    // MARK: - Public Properties
+    weak var tabBarController: CustomTabBarProtocol?
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -37,12 +44,12 @@ class CustomTabBar: UITabBar {
     
     // MARK: - Set Views
     private func setupUI() {
-        addSubview(plusButton)
+        addSubview(createRecipeButton)
     }
     
     // MARK: - Configure UI
     private func configureUI() {
-        plusButton.addTarget(self, action: #selector(plusButtonPressed), for: .touchUpInside)
+        createRecipeButton.addTarget(self, action: #selector(createRecipeButtonPressed), for: .touchUpInside)
     }
 }
 
@@ -64,7 +71,7 @@ extension CustomTabBar {
 extension CustomTabBar {
     private func layoutTabBarItems() {
         // array with view controllers only
-        let tabBarItems = subviews.filter { $0 is UIControl && $0 != plusButton }
+        let tabBarItems = subviews.filter { $0 is UIControl && $0 != createRecipeButton }
         
         guard tabBarItems.count == 4 else {
             fatalError("This layout assumes exactly 4 tab bar items")
@@ -93,25 +100,26 @@ extension CustomTabBar {
 extension CustomTabBar {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            plusButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            plusButton.centerYAnchor.constraint(equalTo: topAnchor, constant: Metrics.plusButtonTopIndent),
-            plusButton.heightAnchor.constraint(equalToConstant: Metrics.plusButtonSize),
-            plusButton.widthAnchor.constraint(equalToConstant: Metrics.plusButtonSize)
+            createRecipeButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            createRecipeButton.centerYAnchor.constraint(equalTo: topAnchor, constant: Metrics.plusButtonTopIndent),
+            createRecipeButton.heightAnchor.constraint(equalToConstant: Metrics.plusButtonSize),
+            createRecipeButton.widthAnchor.constraint(equalToConstant: Metrics.plusButtonSize)
         ])
     }
 }
 
 // MARK: - Actions
 extension CustomTabBar {
-    @objc private func plusButtonPressed(_ sender: UIButton) {
+    @objc private func createRecipeButtonPressed(_ sender: UIButton) {
         print("click plus button")
+        tabBarController?.createRecipeButtonPressed()
     }
 }
 
 // MARK: - Hit test
 extension CustomTabBar {
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        plusButton.frame.contains(point) ? plusButton : super.hitTest(point, with: event)
+        createRecipeButton.frame.contains(point) ? createRecipeButton : super.hitTest(point, with: event)
     }
 }
 

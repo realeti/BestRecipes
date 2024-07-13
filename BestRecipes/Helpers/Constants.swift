@@ -17,5 +17,14 @@ struct K {
     static let trendingTitle = "Trending now"
     static let createTitle = "Create recipe"
     
+    // MARK: - Search
+    static let searchPlaceholer = "How to make..."
+    static let emptySearchText = "Nothing here, keep searching!"
+    
+    // MARK: - Reusable
+    static let searchCell = "searchCell"
+    static let emptySearchCell = "emptySearchCell"
+    static let searchHeaderView = "searchHeaderView"
+    
     private init () {}
 }
