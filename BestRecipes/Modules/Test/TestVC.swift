@@ -106,7 +106,7 @@ final class TestVC: UITableViewController {
                 spoonacularScore: nil,
                 readyInMinutes: nil,
                 imageURL: "Empty Recipe for Debug",
-                extendedIngredients: nil,
+                extendedIngredients: nil, dishTypes: [],
                 servings: nil
             ),
             to: .favorites

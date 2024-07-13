@@ -2,38 +2,87 @@
 //  TrendingPresenter.swift
 //  BestRecipes
 //
-//  Created by Evgenii Mazrukho on 02.07.2024.
+//  Created by realeti on 13.07.2024.
 //
 
-import UIKit
+import Foundation
 
-//MARK: - Presenter Protocol
-
-protocol TrendingPresenterProtocol {
-    init(view: TrendingViewProtocol, router: RouterProtocol)
-    func backTap()
+protocol TrendingViewProtocol: AnyObject {
+    func updateRecipes()
+    func showRecipeImageLoading(_ loading: Bool, at indexPath: IndexPath)
+    func didUpdateRecipeImage(_ imageData: Data, at: IndexPath)
 }
 
+protocol TrendingPresenterProtocol {
+    init(view: TrendingViewProtocol, router: RouterProtocol, recipes: [Recipe])
+    var getRecipes: [Recipe] { get }
+
+    func loadRecipeImage(with imageUrl: String, at indexPath: IndexPath)
+    func showRecipeDetails(for recipe: Recipe, with imageData: Data?)
+    func saveRecipe(recipe: Recipe, imageData: Data)
+    func deleteRecipe(recipe: Recipe)
+    func toggleSaveState(at recipeId: Int)
+    func isRecipeSaved(at recipeId: Int) -> Bool
+}
 
 final class TrendingPresenter: TrendingPresenterProtocol {
+    // MARK: - Private Properties
+    private var recipes: [Recipe] = []
+    private var savedRecipes: [Bool] = []
     
-    //MARK: - Properties
-    
+    // MARK: - Public Properties
+    let router: RouterProtocol
     weak var view: TrendingViewProtocol?
-    var router: RouterProtocol?
     
-    
-    //MARK: - Lifecycle
-    
-    init(view: TrendingViewProtocol, router: RouterProtocol) {
-        self.view = view
-        self.router = router
+    var getRecipes: [Recipe] {
+        get {
+            return recipes
+        }
     }
     
+    //MARK: - Init
+    init(view: TrendingViewProtocol, router: RouterProtocol, recipes: [Recipe]) {
+        self.view = view
+        self.router = router
+        self.recipes = recipes
+        savedRecipes = Array(repeating: false, count: recipes.count)
+    }
     
-    //MARK: - External Methods
+    // MARK: - Show Recipe Details
+    func showRecipeDetails(for recipe: Recipe, with imageData: Data?) {
+        //router.showDetail(for: recipe, with: imageData)
+    }
     
-    func backTap() {
-        router?.popToRoot()
+    func toggleSaveState(at recipeId: Int) {
+        savedRecipes[recipeId].toggle()
+    }
+    
+    func isRecipeSaved(at recipeId: Int) -> Bool {
+        return savedRecipes[recipeId]
+    }
+}
+
+// MARK: - Save & Delete Recipe
+extension TrendingPresenter {
+    func saveRecipe(recipe: Recipe, imageData: Data) {
+        DataManager.shared.addRecipe(recipe, to: .favorites)
+        print("recipe saved")
+    }
+    
+    func deleteRecipe(recipe: Recipe) {
+        DataManager.shared.deleteRecipe(recipe, from: .favorites)
+        print("recipe deleted")
+    }
+}
+
+// MARK: - Load Recipe Image
+extension TrendingPresenter {
+    func loadRecipeImage(with imageUrl: String, at indexPath: IndexPath) {
+        view?.showRecipeImageLoading(true, at: indexPath)
+        
+        DataManager.shared.getImage(imageUrl) { [weak self] imageData in
+            self?.view?.showRecipeImageLoading(false, at: indexPath)
+            self?.view?.didUpdateRecipeImage(imageData, at: indexPath)
+        }
     }
 }

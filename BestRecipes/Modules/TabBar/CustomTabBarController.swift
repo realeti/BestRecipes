@@ -94,7 +94,7 @@ extension CustomTabBarController: CustomTabBarProtocol {
         
         let builder = Builder()
         let router = Router(navigationController: navigationController, builder: builder)
-        router.showTrending() /// change here
+        //router.show() /// change here
     }
 }
 

@@ -9,7 +9,8 @@ import UIKit
 
 protocol BuilderProtocol: AnyObject {
     func createModule(for initialModuleType: InitialModuleType, router: Router) -> UIViewController
-    func createTrendingModule(router: RouterProtocol) -> UIViewController
+    func createTrendingModule(router: RouterProtocol, recipes: [Recipe]) -> UIViewController
+    func createSearchModule(router: RouterProtocol) -> UIViewController
     func configureModule(for viewController: UIViewController, with router: RouterProtocol)
 }
 
@@ -59,9 +60,9 @@ final class Builder: BuilderProtocol {
     }
     
     // MARK: - Create Trending
-    func createTrendingModule(router: RouterProtocol) -> UIViewController {
+    func createTrendingModule(router: RouterProtocol, recipes: [Recipe]) -> UIViewController {
         let viewController = TrendingViewController()
-        let presenter = TrendingPresenter(view: viewController, router: router)
+        let presenter = TrendingPresenter(view: viewController, router: router, recipes: recipes)
         viewController.presenter = presenter
         viewController.hidesBottomBarWhenPushed = true
         setTitle(K.trendingTitle, for: viewController)

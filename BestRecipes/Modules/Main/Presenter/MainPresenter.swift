@@ -16,6 +16,7 @@ protocol MainPresenterProtocol: AnyObject {
     func addToFavorites(_ sender: Int)
     func removeFromFavorites(_ sender: Int)
     func addRecent()
+    func showSearch()
 }
 
 
@@ -153,8 +154,8 @@ extension MainPresenter: MainPresenterProtocol {
     func performActionForHeader(at index: Int) {
         switch index {
         case 0:
-            print(index)
-            router.showTrending()
+            print("trending #\(index)")
+            router.showTrending(trendingRecipes)
         case 3:
             print(index)
         case 4:
@@ -182,5 +183,9 @@ extension MainPresenter: MainPresenterProtocol {
         self.view?.addRecentRecipe(recentRecipes.map({ recipe in
             return BRRecentModel(recipe)
         }))
+    }
+    
+    func showSearch() {
+        router.showSearch()
     }
 }
