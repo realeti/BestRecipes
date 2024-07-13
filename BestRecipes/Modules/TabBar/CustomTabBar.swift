@@ -105,6 +105,13 @@ extension CustomTabBar {
 extension CustomTabBar {
     @objc private func plusButtonPressed(_ sender: UIButton) {
         print("click plus button")
+        
+//        DataManager.shared.getRecepies(type: .trend) { recipe in
+//            recipe.forEach {
+//                DataManager.shared.addRecipe($0, to: .recent)
+//            }
+//        }
+        
     }
 }
 

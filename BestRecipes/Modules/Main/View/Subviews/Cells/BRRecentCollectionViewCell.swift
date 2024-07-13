@@ -13,7 +13,7 @@ final class BRRecentCollectionViewCell: UICollectionViewCell {
     
     private let foodImageView: UIImageView = {
         $0.image = .food3
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -66,8 +66,14 @@ final class BRRecentCollectionViewCell: UICollectionViewCell {
 extension BRRecentCollectionViewCell {
     func configure(with model: BRRecentModel) {
         titleLabel.text = model.title
-        foodImageView.image = UIImage(named: model.imageURL)
         authorNameLabel.text = model.author
+        
+//        foodImageView.image = UIImage(named: model.imageURL)
+        DataManager.shared.getImage(model.imageURL) { [weak self] imageData in
+            DispatchQueue.main.async {
+                self?.foodImageView.image = UIImage(data: imageData)
+            }
+        }
     }
 }
 

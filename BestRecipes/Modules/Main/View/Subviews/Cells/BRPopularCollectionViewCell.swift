@@ -111,7 +111,7 @@ private extension BRPopularCollectionViewCell {
     func setCostraints() {
         NSLayoutConstraint.activate([
             foodImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            foodImageView.topAnchor.constraint(equalTo: topAnchor),
+            foodImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             foodImageView.heightAnchor.constraint(equalToConstant: 110),
             foodImageView.widthAnchor.constraint(equalToConstant: 110),
             

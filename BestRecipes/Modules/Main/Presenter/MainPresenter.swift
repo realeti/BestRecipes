@@ -11,9 +11,11 @@ import Foundation
 
 protocol MainPresenterProtocol: AnyObject {
     func fetchData()
+    func fetchPopularsByCategory(_ mealType: String)
     func performActionForHeader(at index: Int)
     func addToFavorites(_ sender: Int)
     func removeFromFavorites(_ sender: Int)
+    func addRecent()
 }
 
 
@@ -65,7 +67,9 @@ final class MainPresenter {
     ]
         
     
-    private var recent: [BRRecentModel] = []
+    private var recent: [BRRecentModel] = DataManager.shared.getRecipesFrom(.recent).map { recipe in
+        BRRecentModel(recipe)
+    }
     
     
     //MARK: - Lifecycle
@@ -91,7 +95,7 @@ extension MainPresenter: MainPresenterProtocol {
         }
         
         group.enter()
-        storage.getRecepies(type: .tags, by: "main%20course") { recipes in
+        storage.getRecepies(type: .type, by: "main%20course") { recipes in
             defer {
                 group.leave()
             }
@@ -136,6 +140,16 @@ extension MainPresenter: MainPresenterProtocol {
     }
     
     
+    func fetchPopularsByCategory(_ mealType: String) {
+        storage.getRecepies(type: .type, by: mealType) { recipes in
+            self.popularRecipes = recipes
+            self.view?.setPopularByCategory(self.popularRecipes.map({ recipe in
+                return BRPopularModel(recipe)
+            }))
+        }
+    }
+    
+    
     func performActionForHeader(at index: Int) {
         switch index {
         case 0:
@@ -153,11 +167,20 @@ extension MainPresenter: MainPresenterProtocol {
     
     func addToFavorites(_ sender: Int) {
         print("add to favorites tapped \(sender)")
-        storage.addRecipe(trendingRecipes[sender], to: SavedRecipesType.favorites)
+        storage.addRecipe(trendingRecipes[sender], to: .favorites)
     }
     
     
     func removeFromFavorites(_ sender: Int) {
         print("remove to favorites tapped \(sender)")
+        storage.deleteRecipe(trendingRecipes[sender], from: .favorites)
+    }
+    
+    
+    func addRecent() {
+        self.recentRecipes = storage.getRecipesFrom(.recent)
+        self.view?.addRecentRecipe(recentRecipes.map({ recipe in
+            return BRRecentModel(recipe)
+        }))
     }
 }

@@ -12,6 +12,8 @@ import UIKit
 protocol MainViewProtocol: AnyObject {
     func render(sections: [BRSection])
     func addCategories(category: [BRCategoryModel])
+    func setPopularByCategory(_ popular: [BRPopularModel])
+    func addRecentRecipe(_ recent: [BRRecentModel])
 }
 
 
@@ -78,6 +80,16 @@ extension MainViewController: MainViewProtocol {
         collectionView.updateCategory(category: category)
         let defaultIndexPath = IndexPath(item: 0, section: 1)
         collectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: [])
+    }
+    
+    
+    func setPopularByCategory(_ popular: [BRPopularModel]) {
+        collectionView.updatePopular(popular: popular)
+    }
+    
+    
+    func addRecentRecipe(_ recent: [BRRecentModel]) {
+        collectionView.updateRecent(recent: recent)
     }
 }
 

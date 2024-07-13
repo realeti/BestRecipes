@@ -11,18 +11,19 @@ final class BRCollectionView: UICollectionView {
     
     //MARK: - Properties
     
-    private let collectionLayout = UICollectionViewLayout()
+    private var collectionLayout = UICollectionViewLayout()
     
     
     //MARK: - Models
     
-//    private(set) var sections = BRMockData.shared.pageData
+    //    private(set) var sections = BRMockData.shared.pageData
     private var sections: [BRSection] = []
     
     private var categories: [BRCategoryModel] = []
+    private var popular: [BRPopularModel] = []
     private var recent: [BRRecentModel] = []
-    
-    
+
+
     //MARK: - Dependencies
     
     weak var presenter: MainPresenterProtocol?
@@ -59,6 +60,8 @@ extension BRCollectionView: UICollectionViewDelegate {
             print(indexPath.item)
         case 1:
             print(indexPath.item)
+            print(categories[indexPath.item].request)
+            presenter?.fetchPopularsByCategory(categories[indexPath.item].request)
         case 2:
             print(indexPath.item)
         case 3:
@@ -77,13 +80,43 @@ extension BRCollectionView: UICollectionViewDelegate {
 extension BRCollectionView {
     func updateContent(sections: [BRSection]) {
         self.sections = sections
-        reloadData()
+            reloadData()
     }
     
     
     func updateCategory(category: [BRCategoryModel]) {
         self.categories = category
-        reloadData()
+            self.reloadData()
+    }
+    
+    
+    func updatePopular(popular: [BRPopularModel]) {
+        DispatchQueue.main.async { [unowned self] in
+            performBatchUpdates {
+                sections.remove(at: 2)
+                sections.insert(.popular(model: popular), at: 2)
+//                deleteSections(IndexSet(integer: 2))
+//                insertSections(IndexSet(integer: 2))
+                reloadSections(IndexSet.init(integer: 2))
+            }
+        }
+    }
+    
+    
+    func updateRecent(recent: [BRRecentModel]) {
+//        self.recent = recent
+        
+        DispatchQueue.main.async { [unowned self] in
+            performBatchUpdates {
+                
+                self.recent = recent
+                
+                sections.remove(at: 3)
+//                sections.insert(contentsOf: recent, at: 3)
+                sections.insert(.recent(model: recent), at: 3)
+            }
+            reloadSections(IndexSet(integer: 3))
+        }
     }
 }
 
@@ -103,7 +136,6 @@ extension BRCollectionView: UICollectionViewDataSource {
             return model.count
         case .category(let model):
             return model.count
-//            return model.isEmpty ? categories.count : model.count
         case .popular(let model):
             return model.count
         case .recent(let model):
@@ -193,22 +225,21 @@ extension BRCollectionView: UICollectionViewDataSource {
             //MARK: - Recent Cell
             
         case .recent(model: let models):
-            if models.count == 0 {
-                guard let cell = dequeueReusableCell(withReuseIdentifier: BRRecentPlaceholderCell.identifier, for: indexPath) as? BRRecentPlaceholderCell else {
-                    return UICollectionViewCell()
-                }
-                
-                return cell
-            } else {
-                guard let cell = dequeueReusableCell(withReuseIdentifier: BRRecentCollectionViewCell.identifier,
-                                                     for: indexPath) as? BRRecentCollectionViewCell else {
-                    return UICollectionViewCell()
-                }
-                let model = models[indexPath.row]
-                cell.configure(with: model)
-                
-                return cell
+//            if models.isEmpty {
+//                guard let cell = dequeueReusableCell(withReuseIdentifier: BRRecentPlaceholderCell.identifier, for: indexPath) as? BRRecentPlaceholderCell else {
+//                    return UICollectionViewCell()
+//                }
+//                
+//                return cell
+//            }
+            
+            guard let cell = dequeueReusableCell(withReuseIdentifier: BRRecentCollectionViewCell.identifier,
+                                                 for: indexPath) as? BRRecentCollectionViewCell else {
+                return UICollectionViewCell()
             }
+            let model = models[indexPath.row]
+            cell.configure(with: model)
+            return cell
             
             //MARK: - Cuisine Cell
             
@@ -297,7 +328,7 @@ private extension BRCollectionView {
                                                             heightDimension: .fractionalHeight(1)))
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.75),
-                                                                         heightDimension: .fractionalHeight(0.35)),
+                                                                         heightDimension: .fractionalHeight(0.4)),
                                                        subitems: [item])
         
         let section = createLayoutSection(group: group,
@@ -338,7 +369,7 @@ private extension BRCollectionView {
                                                             heightDimension: .fractionalHeight(1)))
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.38),
-                                                                         heightDimension: .fractionalHeight(0.4)),
+                                                                         heightDimension: .fractionalHeight(0.45)),
                                                        subitems: [item])
         
         let section = createLayoutSection(group: group,
@@ -353,38 +384,38 @@ private extension BRCollectionView {
     //MARK: - Recent Section
     
     func createRecentSection() -> NSCollectionLayoutSection {
-        if recent.count == 0 {
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .fractionalHeight(1.0))
-            
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                            heightDimension: .fractionalHeight(0.2)),
-                                                          subitems: [item])
-
-            let section = createLayoutSection(group: group,
-                                              behavior: .none,
-                                              interGroupSpacing: 0,
-                                              supplementaryItems: [supplementaryHeaderItem()])
-            section.contentInsets = .init(top: 10, leading: 15, bottom: 10, trailing: 15)
-            
-            return section
-        } else {
-            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
-                                                                heightDimension: .fractionalHeight(1)))
-            
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.7),
-                                                                             heightDimension: .fractionalHeight(0.32)),
-                                                           subitems: [item])
-            group.interItemSpacing = .fixed(15)
-            let section = createLayoutSection(group: group,
-                                              behavior: .continuous,
-                                              interGroupSpacing: 15,
-                                              supplementaryItems: [supplementaryHeaderItem()])
-            section.contentInsets = .init(top: 10, leading: 15, bottom: 10, trailing: 10)
-            return section
-        }
+//        if recent.isEmpty {
+//            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+//                                                  heightDimension: .fractionalHeight(1.0))
+//            
+//            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//            
+//            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+//                                                                             heightDimension: .fractionalHeight(0.2)),
+//                                                           subitems: [item])
+//            
+//            let section = createLayoutSection(group: group,
+//                                              behavior: .continuous,
+//                                              interGroupSpacing: 0,
+//                                              supplementaryItems: [supplementaryHeaderItem()])
+//            section.contentInsets = .init(top: 10, leading: 15, bottom: 10, trailing: 15)
+//            
+//            return section
+//        }
+        
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
+                                                            heightDimension: .fractionalHeight(1)))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.7),
+                                                                         heightDimension: .fractionalHeight(0.35)),
+                                                       subitems: [item])
+        group.interItemSpacing = .fixed(15)
+        let section = createLayoutSection(group: group,
+                                          behavior: .continuous,
+                                          interGroupSpacing: 15,
+                                          supplementaryItems: [supplementaryHeaderItem()])
+        section.contentInsets = .init(top: 10, leading: 15, bottom: 10, trailing: 10)
+        return section
     }
     
     

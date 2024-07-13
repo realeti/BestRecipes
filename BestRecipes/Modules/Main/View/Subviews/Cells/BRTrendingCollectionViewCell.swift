@@ -30,6 +30,7 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
         $0.font = Font.getFont(.poppinsBold, size: 16)
         $0.numberOfLines = 2
         $0.adjustsFontSizeToFitWidth = true
+        $0.minimumScaleFactor = 0.8
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UILabel())
@@ -134,7 +135,7 @@ private extension BRTrendingCollectionViewCell {
             authorImageView.heightAnchor.constraint(equalToConstant: 28),
             authorImageView.widthAnchor.constraint(equalToConstant: 28),
             
-            authorNameLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            authorNameLabel.centerYAnchor.constraint(equalTo: authorImageView.centerYAnchor),
             authorNameLabel.leadingAnchor.constraint(equalTo: authorImageView.trailingAnchor, constant: 10),
             authorNameLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
