@@ -44,6 +44,7 @@ final class Builder: BuilderProtocol {
     // MARK: - Create TabBar Farvoite
     private func createFavoriteModule(router: RouterProtocol) -> UIViewController {
         let viewController = FavoriteViewController()
+        let presenter = FavoritePresenter(view: viewController, router: router)
         return viewController
     }
     
