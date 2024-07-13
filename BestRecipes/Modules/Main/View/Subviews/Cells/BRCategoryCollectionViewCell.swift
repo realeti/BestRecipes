@@ -23,7 +23,7 @@ final class BRCategoryCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Properties
     
-    static let idCell = "BRCategoryCollectionViewCell"
+    static let identifier = "BRCategoryCollectionViewCell"
     
     override var isSelected: Bool {
         didSet {
@@ -52,8 +52,8 @@ final class BRCategoryCollectionViewCell: UICollectionViewCell {
 //MARK: - External Methods
 
 extension BRCategoryCollectionViewCell {
-    func configureCell(category name: String) {
-        nameCategoryLabel.text = name
+    func configure(with model: BRCategoryModel) {
+        nameCategoryLabel.text = model.type
     }
 }
 
@@ -63,14 +63,14 @@ extension BRCategoryCollectionViewCell {
 private extension BRCategoryCollectionViewCell {
     func configure() {
         layer.cornerRadius = 10
-        
         addSubview(nameCategoryLabel)
     }
     
     
     func setCostraints() {
         NSLayoutConstraint.activate([
-            nameCategoryLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            nameCategoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
+            nameCategoryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
             nameCategoryLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }

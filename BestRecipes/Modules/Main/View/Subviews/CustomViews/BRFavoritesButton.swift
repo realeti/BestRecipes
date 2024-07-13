@@ -25,12 +25,12 @@ final class BRFavoritesButton: UIButton {
     
     //MARK: - Lifecycle
     
-//    init(presenter: MainPresenterProtocol) {
-//        self.delegate = presenter
-//        super.init(frame: .zero)
-//        
-//        configure()
-//    }
+    init(presenter: MainPresenterProtocol) {
+        self.delegate = presenter
+        super.init(frame: .zero)
+        
+        configure()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -48,11 +48,11 @@ final class BRFavoritesButton: UIButton {
 //MARK: - Internal Methods
 
 private extension BRFavoritesButton {
-    @objc func favoritesButtonHandler() {
+    @objc func favoritesButtonHandler(sender: UIButton) {
         if isSelected {
-            delegate?.removeFromFavorites()
+            delegate?.removeFromFavorites(sender.tag)
         } else {
-            delegate?.addToFavorites()
+            delegate?.addToFavorites(sender.tag)
         }
         self.isSelected.toggle()
     }
@@ -60,7 +60,7 @@ private extension BRFavoritesButton {
     
     func configure() {
         backgroundColor = .white
-        layer.cornerRadius = 16
+        layer.cornerRadius = 15
         setImage(.favoritesInactive, for: .normal)
         setImage(.favoritesInactive, for: .highlighted)
         translatesAutoresizingMaskIntoConstraints = false

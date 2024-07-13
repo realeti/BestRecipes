@@ -31,7 +31,7 @@ final class BRPopularCollectionViewCell: UICollectionViewCell {
         $0.text = "Chicken and Vegetable wrap"
         $0.textColor = .blackBase
         $0.font = Font.getFont(.poppinsBold, size: 14)
-        $0.numberOfLines = 2
+        $0.numberOfLines = 3
         $0.textAlignment = .center
         $0.adjustsFontSizeToFitWidth = true
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -59,8 +59,7 @@ final class BRPopularCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Properties
     
-    static let idCell = "BRPopularCollectionViewCell"
-//    weak var delegate: MainPresenterProtocol?
+    static let identifier = "BRPopularCollectionViewCell"
     
     
     //MARK: - Lifecycle
@@ -82,10 +81,16 @@ final class BRPopularCollectionViewCell: UICollectionViewCell {
 //MARK: - External Methods
 
 extension BRPopularCollectionViewCell {
-    func configureCell(image: UIImage, title: String, time: String) {
-        foodImageView.image = image
-        titleLabel.text = title
-        minutesLabel.text = time
+    func configure(with model: BRPopularModel) {
+        titleLabel.text = model.title
+        minutesLabel.text = model.readyInMinutes.description
+        
+//        foodImageView.image = UIImage(named: model.imageURL ?? "media")
+        DataManager.shared.getImage(model.imageURL ?? "media") { [weak self] imageData in
+            DispatchQueue.main.async {
+                self?.foodImageView.image = UIImage(data: imageData)
+            }
+        }
     }
 }
 
@@ -94,33 +99,19 @@ extension BRPopularCollectionViewCell {
 
 private extension BRPopularCollectionViewCell {
     
-    //MARK: - Action
-    
-//    @objc func favoritesButtonHandler() {
-//        if favoritesButton.isSelected {
-//            delegate?.removeFromFavorites()
-//        } else {
-//            delegate?.addToFavorites()
-//        }
-//        favoritesButton.isSelected.toggle()
-//    }
-
-    
     //MARK: - Setup UI
     
     func configure() {
         addSubviews(backgroundCellView, foodImageView,
                     titleLabel,
                     timeLabel, minutesLabel, favoritesButton)
-        
-//        favoritesButton.addTarget(self, action: #selector(favoritesButtonHandler), for: .touchUpInside)
     }
     
     
     func setCostraints() {
         NSLayoutConstraint.activate([
             foodImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            foodImageView.topAnchor.constraint(equalTo: topAnchor),
+            foodImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             foodImageView.heightAnchor.constraint(equalToConstant: 110),
             foodImageView.widthAnchor.constraint(equalToConstant: 110),
             
@@ -143,8 +134,8 @@ private extension BRPopularCollectionViewCell {
             
             favoritesButton.trailingAnchor.constraint(equalTo: backgroundCellView.trailingAnchor, constant: -10),
             favoritesButton.bottomAnchor.constraint(equalTo: backgroundCellView.bottomAnchor, constant: -10),
-            favoritesButton.heightAnchor.constraint(equalToConstant: 24),
-            favoritesButton.widthAnchor.constraint(equalToConstant: 24)
+            favoritesButton.heightAnchor.constraint(equalToConstant: 28),
+            favoritesButton.widthAnchor.constraint(equalToConstant: 28)
         ])
     }
 }

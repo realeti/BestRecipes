@@ -13,7 +13,7 @@ final class BRRecentCollectionViewCell: UICollectionViewCell {
     
     private let foodImageView: UIImageView = {
         $0.image = .food3
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +35,6 @@ final class BRRecentCollectionViewCell: UICollectionViewCell {
         $0.textColor = .greyBase
         $0.font = Font.getFont(.poppinsRegular, size: 10)
         $0.numberOfLines = 1
-//        $0.adjustsFontSizeToFitWidth = true
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UILabel())
@@ -43,7 +42,7 @@ final class BRRecentCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Properties
     
-    static let idCell = "BRRecentCollectionViewCell"
+    static let identifier = "BRRecentCollectionViewCell"
     
     
     //MARK: - Lifecycle
@@ -65,10 +64,16 @@ final class BRRecentCollectionViewCell: UICollectionViewCell {
 //MARK: - External Methods
 
 extension BRRecentCollectionViewCell {
-    func configureCell(image: UIImage, title: String, authorName: String) {
-        foodImageView.image = image
-        titleLabel.text = title
-        authorNameLabel.text = authorName
+    func configure(with model: BRRecentModel) {
+        titleLabel.text = model.title
+        authorNameLabel.text = model.author
+        
+//        foodImageView.image = UIImage(named: model.imageURL)
+        DataManager.shared.getImage(model.imageURL) { [weak self] imageData in
+            DispatchQueue.main.async {
+                self?.foodImageView.image = UIImage(data: imageData)
+            }
+        }
     }
 }
 

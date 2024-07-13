@@ -80,7 +80,17 @@ enum SavedRecipesType: String {
     case recent = "recentRecipes"
 }
 
+//protocol DataService {
+//    func getRecepies(type: RecipeType, by key: String, offset: Int, completion: @escaping([Recipe]) -> Void)
+//    func getImage(_ url: String, completion: @escaping(Data) -> Void)
+//    func getRecipesFrom(_ storage: SavedRecipesType) -> [Recipe]
+//    func addRecipe(_ recipe: Recipe, to storage: SavedRecipesType)
+//    func deleteRecipe(_ recipe: Recipe, from storage: SavedRecipesType)
+//}
+
+
 final class DataManager {
+    
     static let shared = DataManager()
     
     private let fileManager: FileManager = .default
@@ -96,7 +106,7 @@ final class DataManager {
     private var imageCaсhe: [String: Data] = [:]
     private var recipeCache: [String: [Recipe]] = [:]
     
-    private var apiKeyIndex = 0
+    private var apiKeyIndex = 4
     
     private init() {}
     

@@ -7,16 +7,25 @@
 
 import Foundation
 
+//protocol NetworkService {
+//    func fetch<T: Decodable>(_ type: T.Type, from url: String, completion: @escaping(Result<T, NetworkError>) -> Void)
+//    func fetchImage(from url: String, completion: @escaping(Result<Data, NetworkError>) -> Void)
+//}
+
+
 enum NetworkError: Error {
     case invalidURL
     case noData
     case decodingError
 }
 
+
 final class NetworkManager {
+    
     static let shared = NetworkManager()
     
-    private init() {}
+            private init() {}
+    
     
     func fetchImage(from url: String, completion: @escaping(Result<Data, NetworkError>) -> Void) {
         guard let url = URL(string: url) else {
@@ -35,6 +44,7 @@ final class NetworkManager {
         }
     }
     
+    
     func fetch<T: Decodable>(_ type: T.Type, from url: String, completion: @escaping(Result<T, NetworkError>) -> Void) {
         guard let url = URL(string: url) else {
             completion(.failure(.invalidURL))
@@ -46,7 +56,7 @@ final class NetworkManager {
                 print(error ?? "No error description")
                 return
             }
-                                    
+            
             do {
                 let dataModel = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(dataModel))

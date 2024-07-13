@@ -17,6 +17,7 @@ struct Recipe: Codable {
     let readyInMinutes: Int?
     let imageURL: String?
     let extendedIngredients: [Ingredient]?
+    let dishTypes: [String]?
     let servings: Int?
     
     enum CodingKeys: String, CodingKey {
@@ -29,6 +30,7 @@ struct Recipe: Codable {
         case readyInMinutes = "readyInMinutes"
         case imageURL = "image"
         case extendedIngredients = "extendedIngredients"
+        case dishTypes = "dishTypes"
         case servings = "servings"
     }
     

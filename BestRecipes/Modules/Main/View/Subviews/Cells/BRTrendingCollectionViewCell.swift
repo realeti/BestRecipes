@@ -28,8 +28,9 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
         $0.text = "How to sharwama at home"
         $0.textColor = .blackBase
         $0.font = Font.getFont(.poppinsBold, size: 16)
-        $0.numberOfLines = 1
+        $0.numberOfLines = 2
         $0.adjustsFontSizeToFitWidth = true
+        $0.minimumScaleFactor = 0.8
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UILabel())
@@ -55,8 +56,7 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Properties
     
-    static let idCell = "BRTrendingCollectionViewCell"
-//    weak var delegate: MainPresenterProtocol?
+    static let identifier = "BRTrendingCollectionViewCell"
     
     
     //MARK: - Lifecycle
@@ -78,13 +78,19 @@ final class BRTrendingCollectionViewCell: UICollectionViewCell {
 //MARK: - External Methods
 
 extension BRTrendingCollectionViewCell {
-    func configureCell(rating: String, image: UIImage, title: String, authorImage: UIImage, author: String, index: IndexPath) {
-        ratingView.rateLabel.text = rating
-        backgroundImageView.image = image
-        titleLabel.text = title
-        authorImageView.image = authorImage
-        authorNameLabel.text = author
-        favoritesButton.tag = index.item
+    func configure(with model: BRTrendingModel, tag: Int) {
+        ratingView.rateLabel.text = model.rating.description
+        titleLabel.text = model.title
+        authorImageView.image = .author
+        authorNameLabel.text = model.author
+        favoritesButton.tag = tag
+       
+//        backgroundImageView.image = UIImage(named: model.imageURL ?? "media")
+        DataManager.shared.getImage(model.imageURL ?? "media") { [weak self] imageData in
+            DispatchQueue.main.async {
+                self?.backgroundImageView.image = UIImage(data: imageData)
+            }
+        }
     }
 }
 
@@ -93,18 +99,6 @@ extension BRTrendingCollectionViewCell {
 
 private extension BRTrendingCollectionViewCell {
     
-    //MARK: - Action
-    
-//    @objc func favoritesButtonHandler() {
-//        if favoritesButton.isSelected {
-//            delegate?.removeFromFavorites()
-//        } else {
-//            delegate?.addToFavorites()
-//        }
-//        favoritesButton.isSelected.toggle()
-//    }
-    
-    
     //MARK: - Setup UI
     
     func configure() {
@@ -112,8 +106,6 @@ private extension BRTrendingCollectionViewCell {
                     ratingView, favoritesButton,
                     titleLabel,
                     authorImageView, authorNameLabel)
-        
-//        favoritesButton.addTarget(self, action: #selector(favoritesButtonHandler), for: .touchUpInside)
     }
     
     
@@ -140,12 +132,14 @@ private extension BRTrendingCollectionViewCell {
             
             authorImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             authorImageView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            authorImageView.heightAnchor.constraint(equalToConstant: 32),
-            authorImageView.widthAnchor.constraint(equalToConstant: 32),
+            authorImageView.heightAnchor.constraint(equalToConstant: 28),
+            authorImageView.widthAnchor.constraint(equalToConstant: 28),
             
-            authorNameLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            authorNameLabel.centerYAnchor.constraint(equalTo: authorImageView.centerYAnchor),
             authorNameLabel.leadingAnchor.constraint(equalTo: authorImageView.trailingAnchor, constant: 10),
             authorNameLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
         ])
     }
 }
+
+
