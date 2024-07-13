@@ -22,7 +22,11 @@ class CreateRecipeView: UIView {
     
     private let createRecipeButtom: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Button", for: .normal)
+        button.setTitle("Create recipe", for: .normal)
+        button.titleLabel?.font = Font.getFont(.poppinsRegular, size: 16)
+        button.tintColor = .white
+        button.backgroundColor = .redBase
+        button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -42,18 +46,22 @@ class CreateRecipeView: UIView {
     }
     
     private func makeTableView() -> UITableView {
-        let element = UITableView()
-        
-        element.dataSource = self
-        element.delegate = self
-        element.register(
+        let table = UITableView()
+        table.backgroundColor = .none
+        table.separatorStyle = .none
+        table.bounces = false
+        table.showsVerticalScrollIndicator = false
+        table.dataSource = self
+        table.delegate = self
+        table.register(
             CreateRecipeIngredientCell.self,
             forCellReuseIdentifier: CreateRecipeIngredientCell.identifier
         )
-        element.translatesAutoresizingMaskIntoConstraints = false
-        
-        return element
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
     }
+    
+    private var ingredientCount = 1
     
 }
 
@@ -90,7 +98,7 @@ private extension CreateRecipeView {
             
             createRecipeButtom.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 13),
             createRecipeButtom.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            createRecipeButtom.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16),
+            createRecipeButtom.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             createRecipeButtom.heightAnchor.constraint(equalToConstant: 56)
         ])
     }
@@ -102,20 +110,35 @@ extension CreateRecipeView: UITableViewDataSource {
         2
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        "Section №\(section)"
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 { return UIView() }
+        
+        let header = UIView()
+        let label = UILabel()
+        label.text = "Ingredients"
+        label.font = Font.getFont(.poppinsSemiBold, size: 20)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        header.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: header.leadingAnchor, constant: 16),
+            label.centerYAnchor.constraint(equalTo: header.centerYAnchor)
+        ])
+        
+        return header
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? 4 : 10
+        section == 0 ? 4 : ingredientCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: CreateRecipeIngredientCell.identifier,
             for: indexPath
         ) as? CreateRecipeIngredientCell else { return UITableViewCell() }
+        cell.cellIndexPath = indexPath
+        cell.delegate = self
         
         return cell
     }
@@ -134,15 +157,40 @@ extension CreateRecipeView: UITableViewDelegate {
                 60
             }
         } else {
-            45
+            45 + 16
         }
     }
 }
 
+//MARK: - CreateRecipeIngredientCellDelegate
+extension CreateRecipeView: CreateRecipeIngredientCellDelegate {
+    func didTapButton(_ indexPath: IndexPath?, _ plusButton: Bool) {
+        guard let targetSection = indexPath?.section,
+              let targetRow = indexPath?.row else { return }
+        if plusButton {
+            ingredientCount += 1
+            tableView.insertRows(at: [[targetSection, targetRow + 1]], with: .automatic)
+        } else {
+            ingredientCount -= 1
+            tableView.deleteRows(at: [[targetSection, targetRow]], with: .automatic)
+        }
+        
+        updateIndexses()
+    }
+}
 
-
-
-
+extension CreateRecipeView {
+    func updateIndexses() {
+        for row in 0..<tableView.numberOfRows(inSection: 1) {
+            let indexPath = IndexPath(row: row, section: 1)
+            if let cell = tableView.cellForRow(at: indexPath) {
+                guard let customCell = cell as? CreateRecipeIngredientCell else { return }
+                customCell.cellIndexPath = [1, row]
+                print(cell)
+            }
+        }
+    }
+}
 
 
 

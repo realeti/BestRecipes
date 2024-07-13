@@ -7,90 +7,113 @@
 
 import UIKit
 
+protocol CreateRecipeIngredientCellDelegate: AnyObject {
+    func didTapButton(_ indexPath: IndexPath?, _ plusButton: Bool)
+}
+
 final class CreateRecipeIngredientCell: UITableViewCell {
     static let identifier = "IngredientCell"
     
-    private lazy var containerView: UIView = {
+    private let container: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemPink
+        view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private lazy var stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.backgroundColor = .blue
-        
-        stack.axis = .horizontal
-        stack.spacing = 3
-        stack.alignment = .center
-        stack.distribution = .fill
-        stack.layoutMargins = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
-        
-        stack.isLayoutMarginsRelativeArrangement = true
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
+    private lazy var ingredientName = createTextField("name")
+    
+    private lazy var ingredientWeight = createTextField("weight")
+    
+    private let button: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "Plus-Border"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
-    private let lable1: UILabel = {
-        let label = UILabel()
-        label.text = "LABEL 1"
-        label.font = .systemFont(ofSize: 30)
-        label.backgroundColor = .red
-        return label
-    }()
+    weak var delegate: CreateRecipeIngredientCellDelegate?
     
-    private let lable2: UILabel = {
-        let label = UILabel()
-        label.text = "LABEL 2"
-        label.font = .systemFont(ofSize: 30)
-        label.backgroundColor = .yellow
-        return label
-    }()
+    var cellIndexPath: IndexPath?
     
-    private let lable3: UILabel = {
-        let label = UILabel()
-        label.text = "LABEL 3"
-        label.font = .systemFont(ofSize: 30)
-        label.backgroundColor = .green
-        return label
-    }()
-    
-    var indexPath: IndexPath?
+    private var plusButton = true
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupViews()
         setupConstrains()
+        setupActions()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        button.setImage(UIImage(named: "Plus-Border"), for: .normal)
+        plusButton = true
+    }
+    
+    private func createTextField(_ placeholder: String) -> UITextField {
+        let field = UITextField()
+        field.font = Font.getFont(.poppinsRegular, size: 14)
+        field.placeholder = placeholder
+        field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: field.frame.height))
+        field.leftViewMode = .always
+        field.layer.borderColor = UIColor.greyBorder.cgColor
+        field.layer.borderWidth = 1.0
+        field.layer.cornerRadius = 8.0
+        field.translatesAutoresizingMaskIntoConstraints = false
+        return field
+    }
+    
+    @objc func buttonTapped() {
+        delegate?.didTapButton(cellIndexPath, plusButton)
+        button.setImage(UIImage(named: "Minus-Border"), for: .normal)
+        plusButton = false
+    }
+    
     private func setupViews() {
-        stackView.addArrangedSubviews(lable1, lable2, lable3)
-        containerView.addSubview(stackView)
+        backgroundColor = .clear
+        selectionStyle = .none
         
-        addSubviews(containerView)
+        container.addSubviews(ingredientName, ingredientWeight, button)
+        contentView.addSubviews(container)
+        addSubviews(container)
     }
     
     private func setupConstrains() {
         NSLayoutConstraint.activate([
+            container.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            container.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            container.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
             
-            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 1),
-            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -1),
-            stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 1),
-            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -1),
+            ingredientName.topAnchor.constraint(equalTo: container.topAnchor),
+            ingredientName.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            ingredientName.trailingAnchor.constraint(equalTo: container.centerXAnchor, constant: -8),
+            ingredientName.bottomAnchor.constraint(equalTo: container.bottomAnchor),
             
-            containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            containerView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            containerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-            //containerView.heightAnchor.constraint(equalToConstant: 200),
-            //containerView.widthAnchor.constraint(equalToConstant: 300)
+            ingredientWeight.topAnchor.constraint(equalTo: container.topAnchor),
+            ingredientWeight.leadingAnchor.constraint(equalTo: container.centerXAnchor, constant: 8),
+            ingredientWeight.trailingAnchor.constraint(equalTo: button.leadingAnchor, constant: -18),
+            ingredientWeight.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            
+            button.heightAnchor.constraint(equalToConstant: 21),
+            button.widthAnchor.constraint(equalToConstant: 21),
+            button.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            button.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -18),
+            
         ])
+    }
+    
+    private func setupActions() {
+        button.addTarget(
+            self,
+            action: #selector(buttonTapped),
+            for: .touchUpInside
+        )
     }
 }
 
