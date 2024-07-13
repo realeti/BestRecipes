@@ -63,13 +63,13 @@ extension TrendingViewController: TrendingViewProtocol {
 extension TrendingViewController: TrendingViewCellProtocol {
     func saveRecipe(at indexPath: IndexPath, imageData: Data) {
         presenter.toggleSaveState(at: indexPath.row)
-        //let selectedRecipe = presenter.getRecipes[indexPath.row]
+        let selectedRecipe = presenter.getRecipes[indexPath.row]
         let isRecipeSaved = presenter.isRecipeSaved(at: indexPath.row)
         
         if !isRecipeSaved {
-            //presenter.saveRecipe(recipe: selectedRecipe, imageData: imageData)
+            presenter.saveRecipe(recipe: selectedRecipe, imageData: imageData)
         } else {
-            //presenter.deleteRecipe(recipe: selectedRecipe)
+            presenter.deleteRecipe(recipe: selectedRecipe)
         }
         updateSaveButtonImage(at: indexPath, isRecipeSaved: isRecipeSaved)
     }
@@ -130,9 +130,9 @@ extension TrendingViewController: UICollectionViewDataSource {
 extension TrendingViewController: UICollectionViewDelegate {
     /// collection selected item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? TrendingViewCell else {
+        /*guard let cell = collectionView.cellForItem(at: indexPath) as? TrendingViewCell else {
             return
-        }
+        }*/
         
         //let selectedRecipe = presenter.getRecipes[indexPath.row]
         //let recipeImageData = cell.recipeImageData
