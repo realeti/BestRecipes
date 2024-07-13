@@ -16,6 +16,7 @@
 		24AE745E2C35495F00CED2BA /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AE745D2C35495F00CED2BA /* SearchResult.swift */; };
 		24AFE6A52C41B7B600499912 /* CreateRecipeIngredientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AFE6A42C41B7B600499912 /* CreateRecipeIngredientCell.swift */; };
 		24B6D96B2C371200006F866F /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B6D96A2C371200006F866F /* DataManager.swift */; };
+		24C02B412C43102A008768F0 /* CreateRecipeServesesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C02B402C43102A008768F0 /* CreateRecipeServesesCell.swift */; };
 		522898A22C31DC3D0013FF87 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898A12C31DC3D0013FF87 /* Network.swift */; };
 		522898A42C31DD550013FF87 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898A32C31DD550013FF87 /* OnboardingViewController.swift */; };
 		522898A82C31DD6A0013FF87 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522898A72C31DD6A0013FF87 /* MainViewController.swift */; };
@@ -73,6 +74,7 @@
 		24AE745D2C35495F00CED2BA /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		24AFE6A42C41B7B600499912 /* CreateRecipeIngredientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeIngredientCell.swift; sourceTree = "<group>"; };
 		24B6D96A2C371200006F866F /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		24C02B402C43102A008768F0 /* CreateRecipeServesesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeServesesCell.swift; sourceTree = "<group>"; };
 		522898A12C31DC3D0013FF87 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		522898A32C31DD550013FF87 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		522898A72C31DD6A0013FF87 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				24AFE6A42C41B7B600499912 /* CreateRecipeIngredientCell.swift */,
+				24C02B402C43102A008768F0 /* CreateRecipeServesesCell.swift */,
 			);
 			path = CreateRecipeCells;
 			sourceTree = "<group>";
@@ -605,6 +608,7 @@
 				522898DC2C337F260013FF87 /* CreateLayout.swift in Sources */,
 				245594BE2C34427000F07D86 /* TestVC.swift in Sources */,
 				526DF80A2C30DE07008A7818 /* UIView + ext.swift in Sources */,
+				24C02B412C43102A008768F0 /* CreateRecipeServesesCell.swift in Sources */,
 				522898D12C32EFC00013FF87 /* BRListItem.swift in Sources */,
 				522898D52C32F2900013FF87 /* BRMockData.swift in Sources */,
 				522898A82C31DD6A0013FF87 /* MainViewController.swift in Sources */,

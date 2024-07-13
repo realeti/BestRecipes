@@ -1,22 +1,22 @@
 //
-//  CreateRecipeIngredientCell.swift
+//  CreateRecipeServesesCell.swift
 //  BestRecipes
 //
-//  Created by nik on 12.07.24.
+//  Created by nik on 13.07.24.
 //
 
 import UIKit
 
-protocol CreateRecipeIngredientCellDelegate: AnyObject {
+protocol CreateRecipeServesesCellDelegate: AnyObject {
     func didTapButton(_ indexPath: IndexPath?, _ plusButton: Bool)
 }
 
-final class CreateRecipeIngredientCell: UITableViewCell {
-    static let identifier = "IngredientCell"
+final class CreateRecipeServesesCell: UITableViewCell {
+    static let identifier = "ServesesCell"
     
     private let container: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .blue
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -50,6 +50,11 @@ final class CreateRecipeIngredientCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        button.setImage(UIImage(named: "Plus-Border"), for: .normal)
+        plusButton = true
+    }
+    
     private func createTextField(_ placeholder: String) -> UITextField {
         let field = UITextField()
         field.font = Font.getFont(.poppinsRegular, size: 14)
@@ -65,10 +70,6 @@ final class CreateRecipeIngredientCell: UITableViewCell {
     
     @objc func buttonTapped() {
         delegate?.didTapButton(cellIndexPath, plusButton)
-        plusButton
-            ? button.setImage(UIImage(named: "Minus-Border"), for: .normal)
-            : button.setImage(UIImage(named: "Plus-Border"), for: .normal)
-        plusButton.toggle()
     }
     
     private func setupViews() {
@@ -125,7 +126,7 @@ final class CreateRecipeIngredientCell: UITableViewCell {
 
 import SwiftUI
 
-struct CreateRecipeIngredientCellProvider: PreviewProvider {
+struct CreateRecipeServesesCellProvider: PreviewProvider {
     static var previews: some View {
         Group {
             UINavigationController(rootViewController: CreateRecipeViewController()).preview()

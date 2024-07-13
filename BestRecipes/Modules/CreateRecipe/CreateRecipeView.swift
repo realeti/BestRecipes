@@ -57,6 +57,10 @@ class CreateRecipeView: UIView {
             CreateRecipeIngredientCell.self,
             forCellReuseIdentifier: CreateRecipeIngredientCell.identifier
         )
+        table.register(
+            CreateRecipeServesesCell.self,
+            forCellReuseIdentifier: CreateRecipeServesesCell.identifier
+        )
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }
@@ -133,14 +137,23 @@ extension CreateRecipeView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: CreateRecipeIngredientCell.identifier,
-            for: indexPath
-        ) as? CreateRecipeIngredientCell else { return UITableViewCell() }
-        cell.cellIndexPath = indexPath
-        cell.delegate = self
-        
-        return cell
+        if indexPath.section == 0 {
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: CreateRecipeServesesCell.identifier,
+                for: indexPath
+            ) as? CreateRecipeServesesCell else { return UITableViewCell() }
+            cell.cellIndexPath = indexPath
+            cell.delegate = self
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: CreateRecipeIngredientCell.identifier,
+                for: indexPath
+            ) as? CreateRecipeIngredientCell else { return UITableViewCell() }
+            cell.cellIndexPath = indexPath
+            cell.delegate = self
+            return cell
+        }
     }
 }
 
@@ -186,7 +199,6 @@ extension CreateRecipeView {
             if let cell = tableView.cellForRow(at: indexPath) {
                 guard let customCell = cell as? CreateRecipeIngredientCell else { return }
                 customCell.cellIndexPath = [1, row]
-                print(cell)
             }
         }
     }
