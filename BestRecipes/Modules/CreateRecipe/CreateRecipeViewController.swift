@@ -24,9 +24,17 @@ final class CreateRecipeViewController: UIViewController {
         super.viewDidLoad()
         createRecipeView.delegate = self
         
-        view.backgroundColor = .redLight
+        view.backgroundColor = .greyBase
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        //title = "Create Recipe"
+        tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
     }
 }
 
