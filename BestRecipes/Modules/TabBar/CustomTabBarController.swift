@@ -9,28 +9,31 @@ import UIKit
 
 final class CustomTabBarController: UITabBarController {
     // MARK: - Life Cycle
-    override func loadView() {
-        super.loadView()
-        
-        let customTabBar = CustomTabBar()
-        self.setValue(customTabBar, forKey: "tabBar")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupCustomTabBar()
         setupTabs()
+    }
+    
+    // MARK: - Setup Custom TabBar
+    private func setupCustomTabBar() {
+        let customTabBar = CustomTabBar()
+        customTabBar.tabBarController = self
+        self.setValue(customTabBar, forKey: "tabBar")
     }
 }
 
 // MARK: - Setup Tabs
 extension CustomTabBarController {
-    private func setupTabs() {        
+    private func setupTabs() {     
+        let builder = Builder()
+        
         let homeConfig = tabBarItemConfiguration(
             image: .homeInactive,
             selectedImage: .homeActive,
             tag: 0,
-            builder: Builder(),
+            builder: builder,
             initialModuleType: .home
         )
         
@@ -38,7 +41,7 @@ extension CustomTabBarController {
             image: .favoritesInactive,
             selectedImage: .favoritesActive,
             tag: 1,
-            builder: Builder(),
+            builder: builder,
             initialModuleType: .favorite
         )
         
@@ -46,7 +49,7 @@ extension CustomTabBarController {
             image: .notificationInactive,
             selectedImage: .notificationActive,
             tag: 2,
-            builder: Builder(),
+            builder: builder,
             initialModuleType: .notification
         )
         
@@ -54,18 +57,16 @@ extension CustomTabBarController {
             image: .profileInactive,
             selectedImage: .profileActive,
             tag: 3,
-            builder: Builder(),
+            builder: builder,
             initialModuleType: .profile
         )
         
-        let viewControllers = [
+        self.viewControllers = [
             createTabBarItem(with: homeConfig),
             createTabBarItem(with: favoritesConfig),
             createTabBarItem(with: notificationConfig),
             createTabBarItem(with: profileConfig)
         ]
-        
-        self.viewControllers = viewControllers
     }
 }
 
@@ -81,6 +82,19 @@ extension CustomTabBarController {
         navigationController.tabBarItem.tag = config.tag
 
         return navigationController
+    }
+}
+
+// MARK: - Custom TabBar Delegate methods
+extension CustomTabBarController: CustomTabBarProtocol {
+    func createRecipeButtonPressed() {
+        guard let navigationController = self.selectedViewController as? UINavigationController else {
+            return
+        }
+        
+        let builder = Builder()
+        let router = Router(navigationController: navigationController, builder: builder)
+        router.showTrending() /// change here
     }
 }
 

@@ -8,7 +8,7 @@
 import Foundation
 
 enum Link: String {
-    case search = "https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&apiKey="
+    case search = "https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&fillIngredients=true&apiKey="
     case image = "https://img.spoonacular.com/ingredients_100x100/"
 }
 
@@ -93,16 +93,18 @@ final class DataManager {
     
     static let shared = DataManager()
     
-    private var imageCaсhe: [String: Data] = [:]
-    private var recipeCache: [String: [Recipe]] = [:]
+    private let fileManager: FileManager = .default
     
     private let apiKeys: [String] = [
         "cc3538ef4d1448949d8c1f17cf5703c1",
         "b00472aa0b6b4e94b37c893f41ac110c",
         "5aacdbb3cbe1434194ec06aac794bec6",
         "94a3e904ec2d4cc8bab79ce9735f4d49",
-        "67815760a10949b7abd4174a271dbd1d"
+        "67815760a10949b7abd4174a271dbd1d",
+        "27e0d44421784a0881805de490c3972c"
     ]
+    private var imageCaсhe: [String: Data] = [:]
+    private var recipeCache: [String: [Recipe]] = [:]
     
     private var apiKeyIndex = 4
     
@@ -141,6 +143,7 @@ final class DataManager {
                 completion(searchResult.results)
             case .failure(let error):
                 print(error)
+                completion([])
             }
         }
     }
