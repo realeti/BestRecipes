@@ -16,18 +16,18 @@ final class DetailView: UIView {
     private let topStack = UIStackView()
     private let bottomStack = UIStackView()
     
-    private let topLabel = UILabel()
+    //let topLabel = UILabel()
     
-    private let imageFood = UIImageView()
+    let imageFood = UIImageView()
     
     private let starImage = UIImageView()
-    private let rateLabel = UILabel()
-    private let reviewsLabel = UILabel()
+    let rateLabel = UILabel()
+    let reviewsLabel = UILabel()
     private let spacerView = UIView()
     
-    private var ingredients: [DetailIngredient] = []
+    var ingredients: [DetailIngredient] = []
     
-    private let detailTextView = DetailText()
+    let detailTextView = DetailText()
     
     private let tableView = DetailTableView()
     
@@ -54,7 +54,7 @@ private extension DetailView {
     func setupView() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubviews([topLabel, mainVerticalStack, detailTextView, tableView])
+        contentView.addSubviews([mainVerticalStack, detailTextView, tableView])
         mainVerticalStack.addArrangedSubviews([topStack, bottomStack])
         topStack.addArrangedSubviews([imageFood])
         bottomStack.addArrangedSubviews([starImage, rateLabel, reviewsLabel, spacerView])
@@ -65,7 +65,7 @@ private extension DetailView {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         mainVerticalStack.translatesAutoresizingMaskIntoConstraints = false
-        topLabel.translatesAutoresizingMaskIntoConstraints = false
+        //topLabel.translatesAutoresizingMaskIntoConstraints = false
         detailTextView.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -82,13 +82,13 @@ private extension DetailView {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            topLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 16),
+            /*topLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 16),
             topLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 19),
-            topLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -19),
+            topLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -19),*/
             
             mainVerticalStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             mainVerticalStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            mainVerticalStack.topAnchor.constraint(equalTo: topLabel.bottomAnchor, constant: 16),
+            mainVerticalStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             
             detailTextView.topAnchor.constraint(equalTo: mainVerticalStack.bottomAnchor, constant: 15),
             detailTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -115,10 +115,12 @@ private extension DetailView {
         topStack.axis = .vertical
         topStack.spacing = 16
         
-        topLabel.font = Font.getFont(.poppinsBold, size: 24)
-        topLabel.numberOfLines = 0
+        //topLabel.font = Font.getFont(.poppinsBold, size: 24)
+        //topLabel.numberOfLines = 0
         
         imageFood.contentMode = .scaleToFill
+        imageFood.layer.cornerRadius = 12
+        imageFood.layer.masksToBounds = true
         
         bottomStack.spacing = 5
         bottomStack.contentMode = .scaleAspectFit
@@ -142,35 +144,6 @@ extension DetailView {
         self.tableView.layoutIfNeeded()
         self.heightTableViewConstraint?.constant = self.tableView.contentSize.height
         self.layoutIfNeeded()
-    }
-}
-
-
-extension DetailView: DetailViewProtocol {
-    func setTitle(_ title: String) {
-        topLabel.text = title
-    }
-
-    func setImage(url: String) {
-      // метод для получения image
-//        imageFood.loadImage1(from: url)
-    }
-
-    func setRatingText(_ text: String) {
-        rateLabel.text = text
-    }
-
-    func setReviewsCount(_ count: String) {
-        reviewsLabel.text = count
-    }
-
-    func setInstructions(_ instructions: [Step]) {
-        detailTextView.updateInstructionText(with: instructions)
-    }
-
-    func updateIngredients(_ ingredients: [DetailIngredient]) {
-        self.ingredients = ingredients
-        updateTableView()
     }
 }
 

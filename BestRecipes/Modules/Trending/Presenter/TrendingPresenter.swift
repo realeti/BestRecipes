@@ -8,7 +8,6 @@
 import Foundation
 
 protocol TrendingViewProtocol: AnyObject {
-    func updateRecipes()
     func showRecipeImageLoading(_ loading: Bool, at indexPath: IndexPath)
     func didUpdateRecipeImage(_ imageData: Data, at: IndexPath)
 }
@@ -50,7 +49,15 @@ final class TrendingPresenter: TrendingPresenterProtocol {
     
     // MARK: - Show Recipe Details
     func showRecipeDetails(for recipe: Recipe, with imageData: Data?) {
-        //router.showDetail(for: recipe, with: imageData)
+        let recipeDetail = RecipeDetailModel(
+            title: recipe.title ?? "",
+            instructions: [],
+            rating: recipe.rating,
+            reviewsCount: recipe.reviewsCount,
+            imageURL: recipe.imageURL ?? "",
+            ingredients: []
+        )
+        router.showDetail(recipe: recipeDetail)
     }
     
     func toggleSaveState(at recipeId: Int) {

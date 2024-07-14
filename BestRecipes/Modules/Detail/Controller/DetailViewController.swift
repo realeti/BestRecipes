@@ -12,57 +12,43 @@ final class DetailViewController: UIViewController {
     private let customView = DetailView()
     var presenter: DetailPresenter?
 
-    init(model: RecipeDetailModel) {
-        super.init(nibName: nil, bundle: nil)
-        self.presenter = DetailPresenter(view: customView, model: model)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     override func loadView() {
         self.view = customView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter?.viewDidLoad()
-//        navigationBarCustom()
+        presenter?.loadData()
     }
 }
 
-
-
-
-
-//final class DetailViewController: UIViewController {
-//
-//    private let customView = DetailView()
-//
-//    override func loadView() {
-//        self.view = customView
-//        navigationBarCustom()
-//
-//
-//extension DetailViewController {
-//
-//    func navigationBarCustom() {
-//        navigationItem.title = "Recipe detail".uppercased()
-//        let backButton = UIButton()
-//        backButton.setImage(UIImage(named: "arrowBackNavigation"), for: UIControl.State())
-//        backButton.addTarget(self, action: #selector(actionBackNavigationButton), for: UIControl.Event.touchUpInside)
-//        let leftBarButtonItem = UIBarButtonItem(customView: backButton)
-//        navigationItem.leftBarButtonItem = leftBarButtonItem
-//    }
-//    @objc func actionBackNavigationButton() {
-//        navigationController?.popViewController(animated: true)
-//    }
-//}
-//
-//
-//
-//@available(iOS 17.0, *)
-//#Preview {
-//    DetailViewController()
-//}
+extension DetailViewController: DetailViewProtocol {
+    func setImage(url: String) {
+        presenter?.loadRecipeImage(with: url)
+    }
+    
+    func setRatingText(_ text: String) {
+        customView.rateLabel.text = text
+    }
+    
+    func setReviewsCount(_ count: String) {
+        customView.reviewsLabel.text = count
+    }
+    
+    func setInstructions(_ instructions: [Step]) {
+        customView.detailTextView.updateInstructionText(with: instructions)
+    }
+    
+    func updateIngredients(_ ingredients: [DetailIngredient]) {
+        customView.ingredients = ingredients
+        customView.updateTableView()
+    }
+    
+    func didUpdateRecipeImage(_ imageData: Data) {
+        if !imageData.isEmpty {
+            self.customView.imageFood.image = UIImage(data: imageData)
+        } else {
+            self.customView.imageFood.image = UIImage(resource: .noimage)
+        }
+    }
+}

@@ -15,6 +15,7 @@ protocol RouterProtocol: AnyObject {
     
     func start(with initialModuleType: InitialModuleType)
     func showTrending(_ recipes: [Recipe])
+    func showDetail(recipe: RecipeDetailModel)
     func showSearch()
     func popToRoot()
     func popToPrevious()
@@ -48,11 +49,11 @@ final class Router: RouterProtocol {
     
     //MARK: - Detail
     
-    func showDetail() {
-        /*if let navigationController {
-            guard let detailViewController = builder?.getDetailViewController(router: self) else { return }
-            navigationController?.pushViewController(detailViewController, animated: true)
-        }*/
+    func showDetail(recipe: RecipeDetailModel) {
+        let router = self
+        let detailViewController = builder.createDetailModule(router: router, recipe: recipe)
+        navigationController.pushViewController(detailViewController, animated: true)
+        builder.configureModule(for: detailViewController, with: router)
     }
     
     //MARK: - Search

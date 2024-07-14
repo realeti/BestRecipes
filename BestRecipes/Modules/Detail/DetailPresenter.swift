@@ -9,12 +9,12 @@ import Foundation
 import UIKit
 
 protocol DetailViewProtocol: AnyObject {
-    func setTitle(_ title: String)
     func setImage(url: String)
     func setRatingText(_ text: String)
     func setReviewsCount(_ count: String)
     func setInstructions(_ instructions: [Step])
     func updateIngredients(_ ingredients: [DetailIngredient])
+    func didUpdateRecipeImage(_ imageData: Data)
 }
 
 protocol DetailTableViewData: AnyObject {
@@ -27,17 +27,25 @@ final class DetailPresenter {
     private weak var view: DetailViewProtocol?
     private var model: RecipeDetailModel
 
-    init(view: DetailViewProtocol, model: RecipeDetailModel) {
+    init(view: DetailViewProtocol, router: RouterProtocol, model: RecipeDetailModel) {
         self.view = view
         self.model = model
     }
 
-    func viewDidLoad() {
-        view?.setTitle(model.title)
+    func loadData() {
         view?.setImage(url: model.imageURL)
         view?.setRatingText("\(model.rating)")
         view?.setReviewsCount("(\(model.reviewsCount) reviews)")
         view?.setInstructions(model.instructions ?? [])
         view?.updateIngredients(model.ingredients)
+    }
+}
+
+// MARK: - Load Recipe Image
+extension DetailPresenter {
+    func loadRecipeImage(with imageUrl: String) {
+        DataManager.shared.getImage(imageUrl) { [weak self] imageData in
+            self?.view?.didUpdateRecipeImage(imageData)
+        }
     }
 }
