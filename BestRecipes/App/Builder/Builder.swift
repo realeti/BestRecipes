@@ -12,6 +12,7 @@ protocol BuilderProtocol: AnyObject {
     func createTrendingModule(router: RouterProtocol, recipes: [Recipe]) -> UIViewController
     func createSearchModule(router: RouterProtocol) -> UIViewController
     func configureModule(for viewController: UIViewController, with router: RouterProtocol)
+    func getOnBoardingViewModule(with router: RouterProtocol) -> UIViewController
 }
 
 
@@ -76,6 +77,13 @@ final class Builder: BuilderProtocol {
         let presenter = SearchPresenter(view: viewController, router: router)
         viewController.presenter = presenter
         viewController.hidesBottomBarWhenPushed = true
+        return viewController
+    }
+    
+    func getOnBoardingViewModule(with router: RouterProtocol) -> UIViewController {
+        let viewController = OnboardingViewController()
+        let presenter = OnBoardingPresenter(view: viewController, router: router)
+        viewController.presenter = presenter
         return viewController
     }
 }
