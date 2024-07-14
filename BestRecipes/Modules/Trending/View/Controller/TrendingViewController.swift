@@ -62,15 +62,18 @@ extension TrendingViewController: TrendingViewProtocol {
 // MARK: - Collection Cell Delegate methods
 extension TrendingViewController: TrendingViewCellProtocol {
     func saveRecipe(at indexPath: IndexPath, imageData: Data) {
-        presenter.toggleSaveState(at: indexPath.row)
         let selectedRecipe = presenter.getRecipes[indexPath.row]
-        let isRecipeSaved = presenter.isRecipeSaved(at: indexPath.row)
+        var isRecipeSaved = presenter.isRecipeSaved(at: indexPath.row)
         
         if !isRecipeSaved {
             presenter.saveRecipe(recipe: selectedRecipe, imageData: imageData)
         } else {
             presenter.deleteRecipe(recipe: selectedRecipe)
         }
+        
+        presenter.toggleSaveState(at: indexPath.row)
+        isRecipeSaved = presenter.isRecipeSaved(at: indexPath.row)
+        
         updateSaveButtonImage(at: indexPath, isRecipeSaved: isRecipeSaved)
     }
     

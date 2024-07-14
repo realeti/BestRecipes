@@ -12,15 +12,9 @@ protocol FavoriteViewProtocol: AnyObject {
     
 }
 
-
 final class FavoriteViewController: UIViewController, FavoriteViewProtocol {
     
-    //MARK: - TEST router + presenter + builder
-    
-    var presenter: FavoritePresenterProtocol?
-    
-    var recipes = DataManager.shared.getRecipesFrom(.favorites)
-    
+    var presenter: FavoritePresenterProtocol!
     
     private let tableView = FavoriteTableView()
     
@@ -35,8 +29,16 @@ final class FavoriteViewController: UIViewController, FavoriteViewProtocol {
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 15).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -15).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        presenter?.loadRecipes()
         
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -51,8 +53,7 @@ extension FavoriteViewController: UITableViewDelegate , UITableViewDataSource {
     //MARK: - DataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //presenter?.recipes.count ?? 0
-        recipes.count
+        presenter.recipes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -61,22 +62,21 @@ extension FavoriteViewController: UITableViewDelegate , UITableViewDataSource {
             print("debag1")
             return UITableViewCell()
         }
-        let selectedrecipe = recipes[indexPath.row]//presenter?.recipes [indexPath.row] else {return UITableViewCell ()}
+        let selectedrecipe = presenter.recipes[indexPath.row]
+        cell.delegate = self
+        
         cell.configureCell(
-            rating:"\(selectedrecipe.rating)",
+            rating: selectedrecipe.rating,
             imageUrl: selectedrecipe.imageURL ?? "",
             title: selectedrecipe.title ?? "",
-            authorImage: UIImage(),
             author: selectedrecipe.author ?? "",
             index: indexPath
         )
         
-     
-        
         print(cell)
         return cell
     }
-    
+
     func setDelegates() {
         tableView.delegate = self
         tableView.dataSource = self

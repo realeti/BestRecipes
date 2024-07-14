@@ -516,6 +516,23 @@
 			path = Launch;
 			sourceTree = "<group>";
 		};
+		C60FC3992C43B28C00C86FBB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C60FC39A2C43B2DE00C86FBB /* Cells */,
+				FC5826152C4306FB00726275 /* Controller */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C60FC39A2C43B2DE00C86FBB /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FC58261D2C4307DF00726275 /* FavoriteTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		C65550002C3C4DB60016FF73 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -566,6 +583,7 @@
 		C69029662C37365000E4F985 /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
+				C60FC3992C43B28C00C86FBB /* View */,
 				FC5826142C4306EF00726275 /* Presenter */,
 			);
 			path = Favorite;
@@ -619,8 +637,6 @@
 			isa = PBXGroup;
 			children = (
 				FC5826172C43077100726275 /* FavoritePresenter.swift */,
-				FC5826152C4306FB00726275 /* Controller */,
-				FC5826192C43078900726275 /* FavoriteViewController.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -628,18 +644,10 @@
 		FC5826152C4306FB00726275 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				FC5826162C43071000726275 /* View */,
+				FC5826192C43078900726275 /* FavoriteViewController.swift */,
+				FC58261B2C4307BF00726275 /* FavoriteTableView.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		FC5826162C43071000726275 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				FC58261B2C4307BF00726275 /* FavoriteTableView.swift */,
-				FC58261D2C4307DF00726275 /* FavoriteTableViewCell.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

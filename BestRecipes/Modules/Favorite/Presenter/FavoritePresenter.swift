@@ -11,11 +11,8 @@ import UIKit
 
 protocol FavoritePresenterProtocol {
     init(view: FavoriteViewProtocol, router: RouterProtocol)
-    func backTap()
     func loadRecipes ()
-    var recipes: [Recipe]{
-        get
-    }
+    var recipes: [Recipe] { get }
 }
 
 
@@ -34,14 +31,9 @@ final class FavoritePresenter: FavoritePresenterProtocol {
         self.router = router
     }
     
-    
     //MARK: - External Methods
     
-    func backTap() {
-        router?.popToRoot()
-    }
     func loadRecipes() {
         recipes = DataManager.shared.getRecipesFrom (.favorites)
     }
-    
 }

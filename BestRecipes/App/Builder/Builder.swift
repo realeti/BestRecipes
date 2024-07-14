@@ -45,6 +45,7 @@ final class Builder: BuilderProtocol {
     private func createFavoriteModule(router: RouterProtocol) -> UIViewController {
         let viewController = FavoriteViewController()
         let presenter = FavoritePresenter(view: viewController, router: router)
+        viewController.presenter = presenter
         return viewController
     }
     

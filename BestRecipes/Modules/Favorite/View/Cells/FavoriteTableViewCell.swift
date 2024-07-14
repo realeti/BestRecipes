@@ -8,14 +8,37 @@ final class FavoriteTableViewCell: UITableViewCell {
         $0.image = .media
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
-        $0.layer.cornerRadius = 10
+        $0.layer.cornerRadius = 12
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UIImageView())
     
     public lazy var favoritesButton = BRFavoritesButton()
     
-    private let ratingView = BRRatingView()
+    private lazy var ratingStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 3
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.backgroundColor = .greyDark
+        stackView.layoutMargins = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+        stackView.layer.cornerRadius = 8
+        stackView.layer.masksToBounds = true
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let ratingStarImageView = UIImageView(
+        image: .star,
+        contentMode: .scaleAspectFit
+    )
+    
+    private let ratingLabel = UILabel(
+        font: .poppinsBold,
+        fontSize: 14.0
+    )
     
     private let titleLabel: UILabel = {
         $0.text = "How to sharwama at home"
@@ -45,6 +68,8 @@ final class FavoriteTableViewCell: UITableViewCell {
         return $0
     }(UILabel())
     
+    weak var delegate: FavoriteViewProtocol?
+    
     
     //MARK: - Lifecycle
     
@@ -66,11 +91,9 @@ final class FavoriteTableViewCell: UITableViewCell {
 //MARK: - External Methods
 
 extension FavoriteTableViewCell {
-    func configureCell(rating: String, imageUrl: String, title: String, authorImage: UIImage, author: String, index: IndexPath) {
-        ratingView.rateLabel.text = rating
-        backgroundImageView.image = UIImage()
+    func configureCell(rating: Double, imageUrl: String, title: String, author: String, index: IndexPath) {
+        ratingLabel.text = String(format: "%.1f", rating)
         titleLabel.text = title
-        authorImageView.image = authorImage
         authorNameLabel.text = author
         favoritesButton.tag = index.item
         
@@ -79,6 +102,13 @@ extension FavoriteTableViewCell {
                 self.backgroundImageView.image = !imageData.isEmpty ? UIImage(data: imageData) : UIImage(named: "noimage")
             }
         }
+        
+        setupAuthorImage()
+    }
+    
+    private func setupAuthorImage() {
+        let images: [UIImage] = [.author, .author2]
+        authorImageView.image = images.randomElement() ?? UIImage()
     }
 }
 
@@ -92,8 +122,10 @@ private extension FavoriteTableViewCell {
     func configure() {
         
         contentView.addSubviews(backgroundImageView,
-                    titleLabel,ratingView,favoritesButton,
+                    titleLabel,ratingStackView,favoritesButton,
                     authorImageView, authorNameLabel)
+        
+        ratingStackView.addArrangedSubviews(ratingStarImageView, ratingLabel)
         
     }
     
@@ -108,12 +140,13 @@ private extension FavoriteTableViewCell {
             backgroundImageView.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 24),
             backgroundImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             backgroundImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            backgroundImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -75),
+            //backgroundImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -75),
+            backgroundImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.52),
             
-            ratingView.topAnchor.constraint(equalTo: backgroundImageView.topAnchor, constant: 10),
-            ratingView.leadingAnchor.constraint(equalTo: backgroundImageView.leadingAnchor, constant: 10),
-            ratingView.heightAnchor.constraint(equalToConstant: 28),
-            ratingView.widthAnchor.constraint(equalToConstant:  60),
+            ratingStackView.topAnchor.constraint(equalToSystemSpacingBelow: backgroundImageView.topAnchor, multiplier: 1.0),
+            ratingStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: backgroundImageView.leadingAnchor, multiplier: 1.0),
+            ratingStarImageView.heightAnchor.constraint(equalToConstant: 16.0),
+            ratingStarImageView.widthAnchor.constraint(equalToConstant: 16.0),
             
             favoritesButton.topAnchor.constraint(equalTo: backgroundImageView.topAnchor, constant: 10),
             favoritesButton.trailingAnchor.constraint(equalTo: backgroundImageView.trailingAnchor, constant: -10),

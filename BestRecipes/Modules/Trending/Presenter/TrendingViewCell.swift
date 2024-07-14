@@ -71,11 +71,9 @@ final class TrendingViewCell: UICollectionViewCell {
     
     private lazy var recipeSaveButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setBackgroundImage(.favoritesInactive, for: .normal)
-        
         let action = UIAction { _ in
             self.delegate?.saveRecipe(
-                at: self.indexPath!,
+                at: self.indexPath ?? IndexPath(),
                 imageData: self.recipeImageData ?? Data()
             )
         }
