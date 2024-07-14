@@ -12,6 +12,7 @@ import UIKit
 protocol FavoritePresenterProtocol {
     init(view: FavoriteViewProtocol, router: RouterProtocol)
     func loadRecipes ()
+    func deleteRecipe(_ recipe: Recipe, recipeId: Int)
     var recipes: [Recipe] { get }
 }
 
@@ -35,5 +36,12 @@ final class FavoritePresenter: FavoritePresenterProtocol {
     
     func loadRecipes() {
         recipes = DataManager.shared.getRecipesFrom (.favorites)
+    }
+    
+    func deleteRecipe(_ recipe: Recipe, recipeId: Int) {
+        DataManager.shared.deleteRecipe(recipe, from: .favorites)
+        recipes.remove(at: recipeId)
+        view?.didDeleteRecipe()
+        print("recipe removed")
     }
 }

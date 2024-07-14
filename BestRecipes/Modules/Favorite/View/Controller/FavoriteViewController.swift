@@ -9,7 +9,8 @@ import UIKit
 import SwiftUI
 
 protocol FavoriteViewProtocol: AnyObject {
-    
+    func deleteRecipe(at indexPath: IndexPath)
+    func didDeleteRecipe()
 }
 
 final class FavoriteViewController: UIViewController, FavoriteViewProtocol {
@@ -106,5 +107,20 @@ struct ViewControllerProvider: PreviewProvider {
     static var previews: some View {
         UINavigationController (rootViewController: FavoriteViewController()).showPreview()
         
+    }
+}
+
+// MARK: - Favoirte VC Delegate methods
+extension FavoriteViewController {
+    func deleteRecipe(at indexPath: IndexPath) {
+        let recipeId = indexPath.row
+        let selectedRecipe = presenter.recipes[recipeId]
+        presenter.deleteRecipe(selectedRecipe, recipeId: recipeId)
+    }
+    
+    func didDeleteRecipe() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }

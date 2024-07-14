@@ -5,15 +5,13 @@ final class FavoriteTableViewCell: UITableViewCell {
     //MARK: - UI
     
     private let backgroundImageView: UIImageView = {
-        $0.image = .media
+        //$0.image = .media
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 12
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UIImageView())
-    
-    public lazy var favoritesButton = BRFavoritesButton()
     
     private lazy var ratingStackView: UIStackView = {
         let stackView = UIStackView()
@@ -39,6 +37,39 @@ final class FavoriteTableViewCell: UITableViewCell {
         font: .poppinsBold,
         fontSize: 14.0
     )
+    
+    private lazy var recipeSaveContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        
+        /// corner radius
+        view.layer.cornerRadius = Metrics.recipeSaveContainerSize / 2
+        view.layer.masksToBounds = true
+        
+        /// shadow
+        view.layer.shadowOffset = CGSize(width: 0, height: 8)
+        view.layer.shadowRadius = 25
+        view.layer.shadowColor = UIColor.red.cgColor
+        view.layer.shadowOpacity = 1.0
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var recipeSaveButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setBackgroundImage(.favoritesActive, for: .normal)
+        
+        let action = UIAction { _ in
+            self.delegate?.deleteRecipe(
+                at: self.indexPath ?? IndexPath()
+            )
+        }
+        
+        button.addAction(action, for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     private let titleLabel: UILabel = {
         $0.text = "How to sharwama at home"
@@ -69,6 +100,7 @@ final class FavoriteTableViewCell: UITableViewCell {
     }(UILabel())
     
     weak var delegate: FavoriteViewProtocol?
+    var indexPath: IndexPath?
     
     
     //MARK: - Lifecycle
@@ -95,7 +127,7 @@ extension FavoriteTableViewCell {
         ratingLabel.text = String(format: "%.1f", rating)
         titleLabel.text = title
         authorNameLabel.text = author
-        favoritesButton.tag = index.item
+        self.indexPath = index
         
         DataManager.shared.getImage(imageUrl) { imageData in
             DispatchQueue.main.async {
@@ -122,9 +154,10 @@ private extension FavoriteTableViewCell {
     func configure() {
         
         contentView.addSubviews(backgroundImageView,
-                    titleLabel,ratingStackView,favoritesButton,
+                    titleLabel,ratingStackView,recipeSaveContainer,
                     authorImageView, authorNameLabel)
         
+        recipeSaveContainer.addSubview(recipeSaveButton)
         ratingStackView.addArrangedSubviews(ratingStarImageView, ratingLabel)
         
     }
@@ -148,10 +181,15 @@ private extension FavoriteTableViewCell {
             ratingStarImageView.heightAnchor.constraint(equalToConstant: 16.0),
             ratingStarImageView.widthAnchor.constraint(equalToConstant: 16.0),
             
-            favoritesButton.topAnchor.constraint(equalTo: backgroundImageView.topAnchor, constant: 10),
-            favoritesButton.trailingAnchor.constraint(equalTo: backgroundImageView.trailingAnchor, constant: -10),
-            favoritesButton.heightAnchor.constraint(equalToConstant: 32),
-            favoritesButton.widthAnchor.constraint(equalToConstant: 32),
+            recipeSaveContainer.topAnchor.constraint(equalToSystemSpacingBelow: backgroundImageView.topAnchor, multiplier: 1.0),
+            trailingAnchor.constraint(equalToSystemSpacingAfter: recipeSaveContainer.trailingAnchor, multiplier: 1.0),
+            recipeSaveContainer.widthAnchor.constraint(equalToConstant: Metrics.recipeSaveContainerSize),
+            recipeSaveContainer.heightAnchor.constraint(equalToConstant: Metrics.recipeSaveContainerSize),
+            
+            recipeSaveButton.centerXAnchor.constraint(equalTo: recipeSaveContainer.centerXAnchor),
+            recipeSaveButton.centerYAnchor.constraint(equalTo: recipeSaveContainer.centerYAnchor),
+            recipeSaveButton.widthAnchor.constraint(equalToConstant: Metrics.recipeSaveButtonSize),
+            recipeSaveButton.heightAnchor.constraint(equalToConstant: Metrics.recipeSaveButtonSize),
             
             titleLabel.topAnchor.constraint(equalTo: backgroundImageView.bottomAnchor, constant: 10),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -167,4 +205,9 @@ private extension FavoriteTableViewCell {
             authorNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
+}
+
+fileprivate struct Metrics {
+    static let recipeSaveContainerSize: CGFloat = 32.0
+    static let recipeSaveButtonSize: CGFloat = 20.5
 }
