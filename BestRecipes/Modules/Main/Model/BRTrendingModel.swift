@@ -23,7 +23,7 @@ extension BRTrendingModel {
         self.title = recipe.title ?? "Title"
         self.author = recipe.author ?? "author"
         self.authorImage = "emptyAvatar"
-        self.rating = String(format: "%0.1f", 5 * (recipe.rating ?? 1) / 100)
+        self.rating = String(format: "%0.1f", recipe.rating)
         self.imageURL = recipe.imageURL ?? "ImageURL"
     }
 }
