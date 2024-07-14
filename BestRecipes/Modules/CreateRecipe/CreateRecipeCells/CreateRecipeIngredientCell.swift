@@ -122,13 +122,13 @@ final class CreateRecipeIngredientCell: UITableViewCell {
 
 
 
-
-import SwiftUI
-
-struct CreateRecipeIngredientCellProvider: PreviewProvider {
-    static var previews: some View {
-        Group {
-            UINavigationController(rootViewController: CreateRecipeViewController()).preview()
-        }
-    }
-}
+//
+//import SwiftUI
+//
+//struct CreateRecipeIngredientCellProvider: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            UINavigationController(rootViewController: CreateRecipeViewController()).preview()
+//        }
+//    }
+//}

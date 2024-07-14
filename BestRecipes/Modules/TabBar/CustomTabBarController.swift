@@ -100,7 +100,7 @@ extension CustomTabBarController: CustomTabBarProtocol {
         
         let builder = Builder()
         let router = Router(navigationController: navigationController, builder: builder)
-        //router.show() /// change here
+        router.showCreateRecipe()
     }
 }
 

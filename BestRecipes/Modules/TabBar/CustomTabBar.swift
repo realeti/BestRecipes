@@ -19,9 +19,6 @@ final class CustomTabBar: UITabBar {
     // MARK: - Public Properties
     weak var tabBarController: CustomTabBarProtocol?
     
-    // MARK: - Public Properties
-    weak var tabBarController: UITabBarController?
-    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
