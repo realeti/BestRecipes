@@ -16,35 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        
-        #warning("убрать debug")
-        //DEBUG
-        let recipes: [Recipe] = DataManager.shared.getRecipesFrom(.favorites)
-        let recipeDetailModel: RecipeDetailModel =
-        RecipeDetailModel(
-            title: recipes[0].title ?? "",
-            instructions: recipes[0].instructions?[0].steps ?? [],
-            rating: recipes[0].rating,
-            reviewsCount: recipes[0].reviewsCount,
-            imageURL: recipes[0].imageURL ?? "",
-            ingredients: recipes[0].extendedIngredients?.map{ ingredient in
-                DetailIngredient(
-                    name: ingredient.name,
-                    amount: ingredient.amount,
-                    imageName: ingredient.imageName
-                )
-            } ?? []
-        )
-        print("МОДЕЛЬ:\n", recipeDetailModel)
-        
-        let vc = DetailViewController(model: recipeDetailModel)
-        let view = DetailView()
-        let presenter = DetailPresenter(view: view, model: recipeDetailModel)
-        vc.presenter = presenter
-        
-        //DEBUG
-        
-        window?.rootViewController = UINavigationController(rootViewController: vc)//CustomTabBarController()
+        window?.rootViewController = CustomTabBarController()
         window?.makeKeyAndVisible()
     }
 }
