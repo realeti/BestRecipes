@@ -17,8 +17,12 @@ class CreateRecipeView: UIView {
     weak var delegate: CreateRecipeViewDelegate?
     
     //MARK: - Private properties
-    private lazy var tableView = makeTableView()
+    private var ingredientCount = 1
     
+    private let pickerView = UIPickerView()
+    private var servesesVariants = (1...10).map { $0 }
+    
+    private lazy var tableView = makeTableView()
     
     private let createRecipeButtom: UIButton = {
         let button = UIButton(type: .system)
@@ -33,6 +37,13 @@ class CreateRecipeView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        pickerView.isHidden = true
+        pickerView.backgroundColor = .white
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        
         setViews()
         setupConstrains()
         setupTargetAction()
@@ -54,6 +65,14 @@ class CreateRecipeView: UIView {
         table.dataSource = self
         table.delegate = self
         table.register(
+            CreateRecipeImageCell.self,
+            forCellReuseIdentifier: CreateRecipeImageCell.identifier
+        )
+        table.register(
+            CreateRecipeTitleCell.self,
+            forCellReuseIdentifier: CreateRecipeTitleCell.identifier
+        )
+        table.register(
             CreateRecipeIngredientCell.self,
             forCellReuseIdentifier: CreateRecipeIngredientCell.identifier
         )
@@ -64,9 +83,6 @@ class CreateRecipeView: UIView {
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }
-    
-    private var ingredientCount = 1
-    
 }
 
 //MARK: - Selectors
@@ -81,7 +97,8 @@ private extension CreateRecipeView {
     func setViews() {
         addSubviews(
             tableView,
-            createRecipeButtom
+            createRecipeButtom,
+            pickerView
         )
     }
     
@@ -103,7 +120,12 @@ private extension CreateRecipeView {
             createRecipeButtom.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 13),
             createRecipeButtom.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             createRecipeButtom.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            createRecipeButtom.heightAnchor.constraint(equalToConstant: 56)
+            createRecipeButtom.heightAnchor.constraint(equalToConstant: 56),
+            
+            pickerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            pickerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            pickerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            pickerView.heightAnchor.constraint(equalToConstant: 300)
         ])
     }
 }
@@ -138,13 +160,45 @@ extension CreateRecipeView: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: CreateRecipeServesesCell.identifier,
-                for: indexPath
-            ) as? CreateRecipeServesesCell else { return UITableViewCell() }
-            cell.cellIndexPath = indexPath
-            cell.delegate = self
-            return cell
+            switch indexPath.row {
+            case 0:
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: CreateRecipeImageCell.identifier,
+                    for: indexPath
+                ) as? CreateRecipeImageCell else { return UITableViewCell() }
+                cell.cellIndexPath = indexPath
+                cell.delegate = self
+                return cell
+            case 1:
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: CreateRecipeTitleCell.identifier,
+                    for: indexPath
+                ) as? CreateRecipeTitleCell else { return UITableViewCell() }
+                cell.cellIndexPath = indexPath
+                cell.delegate = self
+                return cell
+            case 2:
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: CreateRecipeServesesCell.identifier,
+                    for: indexPath
+                ) as? CreateRecipeServesesCell else { return UITableViewCell() }
+                cell.cellIndexPath = indexPath
+                cell.delegate = self
+                return cell
+            case 3:
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: CreateRecipeServesesCell.identifier,
+                    for: indexPath
+                ) as? CreateRecipeServesesCell else { return UITableViewCell() }
+                cell.cellIndexPath = indexPath
+                cell.cellLabel.text = "Cook time"
+                cell.cellImageView.image = UIImage(named: "Clock")
+                cell.servesCount.text = "15 min"
+                cell.delegate = self
+                return cell
+            default:
+                return UITableViewCell()
+            }
         } else {
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: CreateRecipeIngredientCell.identifier,
@@ -163,15 +217,37 @@ extension CreateRecipeView: UITableViewDelegate {
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
-                200
+                200 + 16
             case 1:
-                45
+                45 + 16
             default:
-                60
+                60 + 16
             }
         } else {
             45 + 16
         }
+    }
+}
+
+//MARK: - CreateRecipeTitleCellDelegate
+extension CreateRecipeView: CreateRecipeImageCellDelegate {
+    func didTapImageButton(_ indexPath: IndexPath?, _ plusButton: Bool) {
+        print("didTapImageButton")
+    }
+}
+
+//MARK: - CreateRecipeTitleCellDelegate
+extension CreateRecipeView: CreateRecipeTitleCellDelegate {
+    func didTapTitleButton(_ indexPath: IndexPath?) {
+        print("didTapTitleButton")
+    }
+}
+
+//MARK: - CreateRecipeIngredientCellDelegate
+extension CreateRecipeView: CreateRecipeServesesCellDelegate {
+    func didTapServesesButton(_ indexPath: IndexPath?) {
+        print("didTapServesesButton")
+        pickerView.isHidden.toggle()
     }
 }
 
@@ -192,6 +268,22 @@ extension CreateRecipeView: CreateRecipeIngredientCellDelegate {
     }
 }
 
+//MARK: - Picker functionality
+extension CreateRecipeView: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        servesesVariants.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        String(servesesVariants[row])
+    }
+}
+
+
 extension CreateRecipeView {
     func updateIndexses() {
         for row in 0..<tableView.numberOfRows(inSection: 1) {
@@ -203,6 +295,9 @@ extension CreateRecipeView {
         }
     }
 }
+
+
+
 
 
 

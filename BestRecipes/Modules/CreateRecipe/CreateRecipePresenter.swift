@@ -27,8 +27,7 @@ final class CreateRecipePresenter: CreateRecipePresenterProtocol {
     }
     
     func createRecipe() {
-        print(#function)
-        print("bitton Taped")
+        router.popToPrevious()
     }
     
     func goBack() {

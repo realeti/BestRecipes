@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CreateRecipeServesesCellDelegate: AnyObject {
-    func didTapButton(_ indexPath: IndexPath?, _ plusButton: Bool)
+    func didTapServesesButton(_ indexPath: IndexPath?)
 }
 
 final class CreateRecipeServesesCell: UITableViewCell {
@@ -16,23 +16,56 @@ final class CreateRecipeServesesCell: UITableViewCell {
     
     private let container: UIView = {
         let view = UIView()
-        view.backgroundColor = .blue
+        view.backgroundColor = .greyBorder
+        view.layer.cornerRadius = 12
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private lazy var ingredientName = createTextField("name")
+    private let cellImageConteiner: UIView = {
+        let view = UIImageView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 12
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
-    private lazy var ingredientWeight = createTextField("weight")
+    lazy var  cellImageView: UIImageView = {
+        
+        let view = UIImageView()
+        view.image = UIImage(named: "Profile") ?? UIImage()
+        view.contentMode = .scaleAspectFill
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    lazy var cellLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Serves"
+        label.font = Font.getFont(.poppinsSemiBold, size: 16)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var servesCount: UILabel = {
+        let label = UILabel()
+        label.text = "01"
+        label.font = Font.getFont(.poppinsRegular, size: 16)
+        label.textAlignment = .right
+        label.textColor = .greyBase
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     private let button: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "Plus-Border"), for: .normal)
+        button.setImage(UIImage(named: "Arrow-Right"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    weak var delegate: CreateRecipeIngredientCellDelegate?
+    weak var delegate: CreateRecipeServesesCellDelegate?
     
     var cellIndexPath: IndexPath?
     
@@ -69,14 +102,16 @@ final class CreateRecipeServesesCell: UITableViewCell {
     }
     
     @objc func buttonTapped() {
-        delegate?.didTapButton(cellIndexPath, plusButton)
+        delegate?.didTapServesesButton(cellIndexPath)
     }
     
     private func setupViews() {
         backgroundColor = .clear
         selectionStyle = .none
         
-        container.addSubviews(ingredientName, ingredientWeight, button)
+        cellImageConteiner.addSubview(cellImageView)
+        container.addSubviews(cellImageConteiner, cellLabel, servesCount, button)
+        
         contentView.addSubviews(container)
         addSubviews(container)
     }
@@ -88,21 +123,28 @@ final class CreateRecipeServesesCell: UITableViewCell {
             container.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
             container.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
             
-            ingredientName.topAnchor.constraint(equalTo: container.topAnchor),
-            ingredientName.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            ingredientName.trailingAnchor.constraint(equalTo: container.centerXAnchor, constant: -8),
-            ingredientName.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            cellImageConteiner.heightAnchor.constraint(equalToConstant: 36),
+            cellImageConteiner.widthAnchor.constraint(equalToConstant: 36),
+            cellImageConteiner.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            cellImageConteiner.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
             
-            ingredientWeight.topAnchor.constraint(equalTo: container.topAnchor),
-            ingredientWeight.leadingAnchor.constraint(equalTo: container.centerXAnchor, constant: 8),
-            ingredientWeight.trailingAnchor.constraint(equalTo: button.leadingAnchor, constant: -18),
-            ingredientWeight.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            cellImageView.heightAnchor.constraint(equalToConstant: 20),
+            cellImageView.heightAnchor.constraint(equalToConstant: 20),
+            cellImageView.centerXAnchor.constraint(equalTo: cellImageConteiner.centerXAnchor),
+            cellImageView.centerYAnchor.constraint(equalTo: cellImageConteiner.centerYAnchor),
+            
+            cellLabel.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            cellLabel.leadingAnchor.constraint(equalTo: cellImageConteiner.trailingAnchor, constant: 16),
+            
+            servesCount.topAnchor.constraint(equalTo: container.topAnchor),
+            servesCount.leadingAnchor.constraint(equalTo: container.centerXAnchor, constant: 8),
+            servesCount.trailingAnchor.constraint(equalTo: button.leadingAnchor, constant: -18),
+            servesCount.bottomAnchor.constraint(equalTo: container.bottomAnchor),
             
             button.heightAnchor.constraint(equalToConstant: 21),
             button.widthAnchor.constraint(equalToConstant: 21),
             button.centerYAnchor.constraint(equalTo: container.centerYAnchor),
             button.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -18),
-            
         ])
     }
     
@@ -115,21 +157,3 @@ final class CreateRecipeServesesCell: UITableViewCell {
     }
 }
 
-
-
-
-
-
-
-
-
-
-import SwiftUI
-
-struct CreateRecipeServesesCellProvider: PreviewProvider {
-    static var previews: some View {
-        Group {
-            UINavigationController(rootViewController: CreateRecipeViewController()).preview()
-        }
-    }
-}

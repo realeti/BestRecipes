@@ -8,7 +8,6 @@
 import UIKit
 
 protocol CreateRecipeViewControllerProtocol: AnyObject {
-    func sayHi()
 }
 
 final class CreateRecipeViewController: UIViewController {
@@ -24,7 +23,7 @@ final class CreateRecipeViewController: UIViewController {
         super.viewDidLoad()
         createRecipeView.delegate = self
         
-        view.backgroundColor = .greyBase
+        view.backgroundColor = .white
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,14 +40,10 @@ final class CreateRecipeViewController: UIViewController {
 //MARK: - CreateRecipeViewDelegate
 extension CreateRecipeViewController: CreateRecipeViewDelegate {
     func createRecipeButtonPressed() {
-        print("CreateRecipeViewController: CreateRecipeViewDelegate -> createRecipeButtonPressed()")
         presenter?.createRecipe()
     }
 }
 
 //MARK: - CreateRecipeViewControllerProtocol
 extension CreateRecipeViewController: CreateRecipeViewControllerProtocol {
-    func sayHi() {
-        print("HI!")
-    }
 }
