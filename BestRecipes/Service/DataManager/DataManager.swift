@@ -102,7 +102,7 @@ final class DataManager {
         "94a3e904ec2d4cc8bab79ce9735f4d49",
         "67815760a10949b7abd4174a271dbd1d",
         "27e0d44421784a0881805de490c3972c",
-        "70566ce42eb64166a684c1f887b1e7bb",
+        "70566ce42eb64166a684c1f887b1e7bb"
     ]
     private var imageCaсhe: [String: Data] = [:]
     private var recipeCache: [String: [Recipe]] = [:]
