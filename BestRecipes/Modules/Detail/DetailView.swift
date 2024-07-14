@@ -9,17 +9,19 @@
 import UIKit
 
 final class DetailView: UIView {
-    
     private let contentView = UIView()
     private let scrollView = UIScrollView()
     private let mainVerticalStack = UIStackView()
     private let topStack = UIStackView()
     private let bottomStack = UIStackView()
     
-    //let topLabel = UILabel()
-    
+    let topLabel = UILabel(
+        color: .black,
+        font: .poppinsBold,
+        fontSize: 24.0,
+        numberOfLines: 2
+    )
     let imageFood = UIImageView()
-    
     private let starImage = UIImageView()
     let rateLabel = UILabel()
     let reviewsLabel = UILabel()
@@ -54,7 +56,7 @@ private extension DetailView {
     func setupView() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubviews([mainVerticalStack, detailTextView, tableView])
+        contentView.addSubviews([topLabel, mainVerticalStack, /*detailTextView, tableView*/])
         mainVerticalStack.addArrangedSubviews([topStack, bottomStack])
         topStack.addArrangedSubviews([imageFood])
         bottomStack.addArrangedSubviews([starImage, rateLabel, reviewsLabel, spacerView])
@@ -64,17 +66,19 @@ private extension DetailView {
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
+        topLabel.translatesAutoresizingMaskIntoConstraints = false
         mainVerticalStack.translatesAutoresizingMaskIntoConstraints = false
-        //topLabel.translatesAutoresizingMaskIntoConstraints = false
+        imageFood.translatesAutoresizingMaskIntoConstraints = false
+        starImage.translatesAutoresizingMaskIntoConstraints = false
         detailTextView.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             
-            scrollView.topAnchor.constraint(equalTo: topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).withPriority(.defaultHigh),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).withPriority(.defaultHigh),
+            scrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
@@ -82,24 +86,31 @@ private extension DetailView {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            /*topLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 16),
-            topLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 19),
-            topLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -19),*/
+            topLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            topLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            topLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
             
-            mainVerticalStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            mainVerticalStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            mainVerticalStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            mainVerticalStack.topAnchor.constraint(equalTo: topLabel.bottomAnchor, constant: 16),
+            mainVerticalStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            mainVerticalStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            detailTextView.topAnchor.constraint(equalTo: mainVerticalStack.bottomAnchor, constant: 15),
-            detailTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            detailTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            imageFood.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageFood.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageFood.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.52),
             
-            tableView.topAnchor.constraint(equalTo: detailTextView.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            starImage.widthAnchor.constraint(equalToConstant: 16.0),
+            starImage.heightAnchor.constraint(equalToConstant: 16.0),
+            
+            /*detailTextView.topAnchor.constraint(equalTo: mainVerticalStack.bottomAnchor, constant: 15),
+            detailTextView.leadingAnchor.constraint(equalTo: imageFood.leadingAnchor),
+            detailTextView.trailingAnchor.constraint(equalTo: imageFood.trailingAnchor),*/
+            
+            /*tableView.topAnchor.constraint(equalTo: detailTextView.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),*/
         ])
-        heightTableViewConstraint = tableView.heightAnchor.constraint(equalToConstant: 0)
+        //heightTableViewConstraint = tableView.heightAnchor.constraint(equalToConstant: 0)
         heightTableViewConstraint?.isActive = true
     }
     
@@ -107,6 +118,7 @@ private extension DetailView {
         
         backgroundColor = .white
         
+        scrollView.alwaysBounceHorizontal = false
         scrollView.showsVerticalScrollIndicator = false
         
         mainVerticalStack.axis = .vertical
@@ -115,8 +127,7 @@ private extension DetailView {
         topStack.axis = .vertical
         topStack.spacing = 16
         
-        //topLabel.font = Font.getFont(.poppinsBold, size: 24)
-        //topLabel.numberOfLines = 0
+        topLabel.text = "How to make Tasty Fish (point & Kill)"
         
         imageFood.contentMode = .scaleToFill
         imageFood.layer.cornerRadius = 12
@@ -127,7 +138,7 @@ private extension DetailView {
         
         bottomStack.axis = .horizontal
         
-        starImage.image = UIImage(named: "star")
+        starImage.image = UIImage(resource: .star)
         starImage.contentMode = .scaleAspectFit
         
         rateLabel.font = Font.getFont(.poppinsBold, size: 14)
@@ -158,3 +169,9 @@ extension DetailView: DetailTableViewData {
     }
 }
 
+extension NSLayoutConstraint {
+    func withPriority(_ priority: UILayoutPriority) -> NSLayoutConstraint {
+        self.priority = priority
+        return self
+    }
+}

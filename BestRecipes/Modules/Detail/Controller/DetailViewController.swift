@@ -27,8 +27,8 @@ extension DetailViewController: DetailViewProtocol {
         presenter?.loadRecipeImage(with: url)
     }
     
-    func setRatingText(_ text: String) {
-        customView.rateLabel.text = text
+    func setRating(_ rating: Double) {
+        customView.rateLabel.text = String(format: "%.1f", rating)
     }
     
     func setReviewsCount(_ count: String) {

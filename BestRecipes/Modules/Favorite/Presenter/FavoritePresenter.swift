@@ -49,11 +49,11 @@ final class FavoritePresenter: FavoritePresenterProtocol {
     func showRecipeDetails(for recipe: Recipe) {
         let recipeDetail = RecipeDetailModel(
             title: recipe.title ?? "",
-            instructions: [],
+            instructions: [Step(number: 0, step: "123")],
             rating: recipe.rating,
             reviewsCount: recipe.reviewsCount,
             imageURL: recipe.imageURL ?? "",
-            ingredients: []
+            ingredients: [DetailIngredient(name: "test", amount: 1.0, imageName: "name")]
         )
         router.showDetail(recipe: recipeDetail)
     }

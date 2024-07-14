@@ -10,7 +10,7 @@ import UIKit
 
 protocol DetailViewProtocol: AnyObject {
     func setImage(url: String)
-    func setRatingText(_ text: String)
+    func setRating(_ rating: Double)
     func setReviewsCount(_ count: String)
     func setInstructions(_ instructions: [Step])
     func updateIngredients(_ ingredients: [DetailIngredient])
@@ -34,7 +34,7 @@ final class DetailPresenter {
 
     func loadData() {
         view?.setImage(url: model.imageURL)
-        view?.setRatingText("\(model.rating)")
+        view?.setRating(model.rating)
         view?.setReviewsCount("(\(model.reviewsCount) reviews)")
         view?.setInstructions(model.instructions ?? [])
         view?.updateIngredients(model.ingredients)
