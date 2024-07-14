@@ -41,7 +41,7 @@ final class FavoritePresenter: FavoritePresenterProtocol {
     func deleteRecipe(_ recipe: Recipe, recipeId: Int) {
         DataManager.shared.deleteRecipe(recipe, from: .favorites)
         recipes.remove(at: recipeId)
-        view?.didDeleteRecipe()
+        view?.didDeletedRecipe()
         print("recipe removed")
     }
 }

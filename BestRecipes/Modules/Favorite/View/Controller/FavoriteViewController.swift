@@ -10,7 +10,7 @@ import SwiftUI
 
 protocol FavoriteViewProtocol: AnyObject {
     func deleteRecipe(at indexPath: IndexPath)
-    func didDeleteRecipe()
+    func didDeletedRecipe()
 }
 
 final class FavoriteViewController: UIViewController, FavoriteViewProtocol {
@@ -118,7 +118,7 @@ extension FavoriteViewController {
         presenter.deleteRecipe(selectedRecipe, recipeId: recipeId)
     }
     
-    func didDeleteRecipe() {
+    func didDeletedRecipe() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
