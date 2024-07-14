@@ -11,6 +11,7 @@ protocol BuilderProtocol: AnyObject {
     func createModule(for initialModuleType: InitialModuleType, router: Router) -> UIViewController
     func createTrendingModule(router: RouterProtocol, recipes: [Recipe]) -> UIViewController
     func createSearchModule(router: RouterProtocol) -> UIViewController
+    func createCreateRecipeModule(router: RouterProtocol) -> UIViewController
     func configureModule(for viewController: UIViewController, with router: RouterProtocol)
     func getOnBoardingViewModule(with router: RouterProtocol) -> UIViewController
 }
@@ -45,6 +46,8 @@ final class Builder: BuilderProtocol {
     // MARK: - Create TabBar Farvoite
     private func createFavoriteModule(router: RouterProtocol) -> UIViewController {
         let viewController = FavoriteViewController()
+        let presenter = FavoritePresenter(view: viewController, router: router)
+        viewController.presenter = presenter
         return viewController
     }
     
@@ -80,6 +83,12 @@ final class Builder: BuilderProtocol {
         return viewController
     }
     
+    // MARK: - Create Create Recipe
+    func createCreateRecipeModule(router: RouterProtocol) -> UIViewController {
+        let viewController = CreateRecipeViewController()
+        let presenter = CreateRecipePresenter(vc: viewController, router: router)
+        viewController.presenter = presenter
+        viewController.hidesBottomBarWhenPushed = true
     func getOnBoardingViewModule(with router: RouterProtocol) -> UIViewController {
         let viewController = OnboardingViewController()
         let presenter = OnBoardingPresenter(view: viewController, router: router)

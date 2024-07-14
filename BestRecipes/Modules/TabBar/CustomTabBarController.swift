@@ -67,6 +67,12 @@ extension CustomTabBarController {
             createTabBarItem(with: notificationConfig),
             createTabBarItem(with: profileConfig)
         ]
+        
+        self.viewControllers = viewControllers
+        
+        if let customTabBar = self.tabBar as? CustomTabBar {
+            customTabBar.tabBarController = self
+        }
     }
 }
 
@@ -94,7 +100,7 @@ extension CustomTabBarController: CustomTabBarProtocol {
         
         let builder = Builder()
         let router = Router(navigationController: navigationController, builder: builder)
-        //router.show() /// change here
+        router.showCreateRecipe()
     }
 }
 
