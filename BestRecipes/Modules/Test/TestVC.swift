@@ -38,6 +38,22 @@ final class TestVC: UITableViewController {
         }
         recipes = dataManager.getRecipesFrom(.favorites)
         
+        dataManager.addRecipe(
+            Recipe(
+                id: 777,
+                title: "Empty Recipe",
+                instruction: "",
+                instructions: nil,
+                author: nil,
+                spoonacularScore: nil,
+                readyInMinutes: nil,
+                imageURL: "Empty Recipe for Debug",
+                extendedIngredients: nil, dishTypes: [],
+                servings: nil
+            ),
+            to: .favorites
+        )
+        
         self.tableView.reloadData()
     }
 }
@@ -76,7 +92,7 @@ extension TestVC {
         
         dataManager.getImage(recipe.imageURL ?? "") { imageData in
             DispatchQueue.main.async {
-                cell.imageView?.image = UIImage(data: imageData)
+                cell.imageView?.image = !imageData.isEmpty ? UIImage(data: imageData) : UIImage(named: "noimage")
             }
         }
         

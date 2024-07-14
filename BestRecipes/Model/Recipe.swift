@@ -13,10 +13,12 @@ struct Recipe: Codable {
     let instruction: String?
     let instructions: [Instruction]?
     let author: String?
-    let rating: Double?
+    let spoonacularScore: Double?
     let readyInMinutes: Int?
     let imageURL: String?
     let extendedIngredients: [Ingredient]?
+    let dishTypes: [String]?
+    let servings: Int?
     
     enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -24,10 +26,18 @@ struct Recipe: Codable {
         case instruction = "instructions"
         case instructions = "analyzedInstructions"
         case author = "sourceName"
-        case rating = "spoonacularScore"
+        case spoonacularScore = "spoonacularScore"
         case readyInMinutes = "readyInMinutes"
         case imageURL = "image"
         case extendedIngredients = "extendedIngredients"
+        case dishTypes = "dishTypes"
+        case servings = "servings"
+    }
+    
+    var rating: Double {
+        guard let spoonacularScore else { return 0.0 }
+        
+        return 5 * spoonacularScore / 100.0
     }
     
     let reviewsCount: Int = Int.random(in: 200...500)

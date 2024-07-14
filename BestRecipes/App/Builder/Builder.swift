@@ -9,8 +9,8 @@ import UIKit
 
 protocol BuilderProtocol: AnyObject {
     func createModule(for initialModuleType: InitialModuleType, router: Router) -> UIViewController
-    func createTrendingModule(router: RouterProtocol) -> UIViewController
-    func createCreateRecipeModule(router: RouterProtocol) -> UIViewController
+    func createTrendingModule(router: RouterProtocol, recipes: [Recipe]) -> UIViewController
+    func createSearchModule(router: RouterProtocol) -> UIViewController
     func configureModule(for viewController: UIViewController, with router: RouterProtocol)
 }
 
@@ -32,9 +32,11 @@ final class Builder: BuilderProtocol {
     
     // MARK: - Create TabBar Home
     private func createHomeModule(router: RouterProtocol) -> UIViewController {
-        let viewController = MainViewController()
-        let presenter = MainPresenter(view: viewController, router: router)
-        viewController.presenter = presenter
+//        let network = NetworkManager()
+//        let storage = DataManager()
+        let presenter = MainPresenter(router: router)
+        let viewController = MainViewController(presenter: presenter)
+        presenter.view = viewController
         
         return viewController
     }
@@ -42,44 +44,38 @@ final class Builder: BuilderProtocol {
     // MARK: - Create TabBar Farvoite
     private func createFavoriteModule(router: RouterProtocol) -> UIViewController {
         let viewController = FavoriteViewController()
-        
-        //setupViewController(viewController, title: "test", with: nil)
         return viewController
     }
     
     // MARK: - Create TabBar Notification
     private func createNotificationModule(router: RouterProtocol) -> UIViewController {
         let viewController = NotificationViewController()
-        
-        //setupViewController(viewController, title: "test", with: nil)
         return viewController
     }
     
     // MARK: - Create TabBar Profile
     private func createProfileModule(router: RouterProtocol) -> UIViewController {
         let viewController = ProfileViewController()
-        
-        //setupViewController(viewController, title: "test", with: nil)
         return viewController
     }
     
     // MARK: - Create Trending
-    func createTrendingModule(router: RouterProtocol) -> UIViewController {
+    func createTrendingModule(router: RouterProtocol, recipes: [Recipe]) -> UIViewController {
         let viewController = TrendingViewController()
-        let presenter = TrendingPresenter(view: viewController, router: router)
+        let presenter = TrendingPresenter(view: viewController, router: router, recipes: recipes)
         viewController.presenter = presenter
+        viewController.hidesBottomBarWhenPushed = true
         setTitle(K.trendingTitle, for: viewController)
         
         return viewController
     }
     
-    //MARK: - Create Create Recipe
-    func createCreateRecipeModule(router: RouterProtocol) -> UIViewController {
-        let viewController = CreateRecipeViewController()
-        let presenter = CreateRecipePresenter(vc: viewController, router: router)
+    // MARK: - Create Search
+    func createSearchModule(router: RouterProtocol) -> UIViewController {
+        let viewController = SearchViewController()
+        let presenter = SearchPresenter(view: viewController, router: router)
         viewController.presenter = presenter
-        setTitle(K.createTitle, for: viewController)
-        
+        viewController.hidesBottomBarWhenPushed = true
         return viewController
     }
 }

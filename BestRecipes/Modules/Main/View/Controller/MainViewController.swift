@@ -7,14 +7,13 @@
 
 import UIKit
 
-protocol ScrollViewDelegate: AnyObject {
-    func collectionViewDidScrollDown(_ collectionView: UICollectionView)
-    func collectionViewDidScrollUp(_ collectionView: UICollectionView)
-}
-
+//MARK: - MainViewProtocol
 
 protocol MainViewProtocol: AnyObject {
-    //    func searchTextFieldDidTap()
+    func render(sections: [BRSection])
+    func addCategories(category: [BRCategoryModel])
+    func setPopularByCategory(_ popular: [BRPopularModel])
+    func addRecentRecipe(_ recent: [BRRecentModel])
 }
 
 
@@ -31,87 +30,84 @@ final class MainViewController: UIViewController {
         $0.font = Font.getFont(.poppinsRegular, size: 14)
         $0.tintColor = .greyBase
         $0.setupLeftImage()
+        $0.isUserInteractionEnabled = true
         $0.translatesAutoresizingMaskIntoConstraints = false
         return $0
     }(UITextField())
     
-    private var collectionView = BRCollectionView()
+    private var collectionView: BRCollectionView!
     
     
     //MARK: - Properties
     
-    var presenter: MainPresenterProtocol?
-    public let sections = BRMockData.shared.pageData
-    
-    var collectionViewTopToTextFieldBottom: NSLayoutConstraint?
-    var collectionViewTopToSafeAreaTopView: NSLayoutConstraint?
+    private let presenter: MainPresenterProtocol
 
     
     //MARK: - Lifecycle
     
+    init(presenter: MainPresenterProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         configureCollectionView()
         configure()
         setConstraints()
-        //        setupActions()
-        updateConstraintsHidingSearchTextField()
+        presenter.fetchData()
+        setupTapGesture()
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        
     }
-
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.isHidden = false
     }
     
-    
-    func configureCollectionView() {
-        collectionView = BRCollectionView(presenterDelegate: presenter!)
-        collectionView.scrollDelegate = self
+    private func setupTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(textFieldPressed))
+        searchTextField.addGestureRecognizer(tapGesture)
     }
 }
 
 
-//MARK: - Actions
+//MARK: - External Methods
 
 extension MainViewController: MainViewProtocol {
-    //    @objc func searchTextFieldDidTap() {
-    //        delelgate?.searchTextFieldTap()
-    //        searchTextField.endEditing(true)
-    //    }
-}
-
-
-//MARK: - ScrollView Delegate
-
-extension MainViewController: ScrollViewDelegate {
-    func collectionViewDidScrollDown(_ collectionView: UICollectionView) {
-        searchTextField.isHidden = false
-            UIView.animate(withDuration: 0.3, animations: {
-                self.searchTextField.alpha = 1
-                self.collectionViewTopToTextFieldBottom?.isActive = true
-                self.collectionViewTopToSafeAreaTopView?.isActive = false
-                self.view.layoutIfNeeded()
-            })
+    func render(sections: [BRSection]) {
+        collectionView.updateContent(sections: sections)
     }
     
     
-    func collectionViewDidScrollUp(_ collectionView: UICollectionView) {
-        UIView.animate(withDuration: 0.3, animations: {
-                self.searchTextField.alpha = 0
-                self.collectionViewTopToTextFieldBottom?.isActive = false
-                self.collectionViewTopToSafeAreaTopView?.isActive = true
-                self.view.layoutIfNeeded()
-            }) { _ in
-                self.searchTextField.isHidden = true
-            }
+    func addCategories(category: [BRCategoryModel]) {
+        collectionView.updateCategory(category: category)
+        let defaultIndexPath = IndexPath(item: 0, section: 1)
+        collectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: [])
+    }
+    
+    
+    func setPopularByCategory(_ popular: [BRPopularModel]) {
+        collectionView.updatePopular(popular: popular)
+    }
+    
+    
+    func addRecentRecipe(_ recent: [BRRecentModel]) {
+        collectionView.updateRecent(recent: recent)
     }
 }
 
@@ -120,22 +116,16 @@ extension MainViewController: ScrollViewDelegate {
 
 private extension MainViewController {
     
+    func configureCollectionView() {
+        collectionView = BRCollectionView(presenter: presenter)
+    }
+    
+
     //MARK: - Setup UI
     
     func configure() {
         view.backgroundColor = .white
         view.addSubviews(searchTextField, collectionView)
-    }
-    
-    
-    //    func setupActions() {
-    //        searchTextField.addTarget(self, action: #selector(searchTextFieldDidTap), for: .editingDidBegin)
-    //    }
-    
-    
-    func updateConstraintsHidingSearchTextField() {
-        collectionViewTopToTextFieldBottom = collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 20)
-        collectionViewTopToSafeAreaTopView = collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
     }
     
     
@@ -146,10 +136,18 @@ private extension MainViewController {
             searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             searchTextField.heightAnchor.constraint(equalToConstant: 45),
             
-//            collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 20),
+            collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 20),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+}
+
+
+//MARK: - Actions
+private extension MainViewController {
+    @objc func textFieldPressed() {
+        presenter.showSearch()
     }
 }

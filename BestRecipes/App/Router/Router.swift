@@ -14,7 +14,8 @@ protocol RouterProtocol: AnyObject {
     var builder: BuilderProtocol { get set }
     
     func start(with initialModuleType: InitialModuleType)
-    func showTrending()
+    func showTrending(_ recipes: [Recipe])
+    func showSearch()
     func popToRoot()
     func popToPrevious()
 }
@@ -23,13 +24,10 @@ final class Router: RouterProtocol {
     var navigationController: UINavigationController
     var builder: BuilderProtocol
     
-    
     init(navigationController: UINavigationController, builder: BuilderProtocol) {
         self.navigationController = navigationController
         self.builder = builder
     }
-    
-    
     
     // MARK: Start
     
@@ -39,16 +37,14 @@ final class Router: RouterProtocol {
         navigationController.viewControllers = [viewController]
     }
     
-    
     //MARK: - Trending
     
-    func showTrending() {
+    func showTrending(_ recipes: [Recipe]) {
         let router = self
-        let trendingViewController = builder.createTrendingModule(router: router)
+        let trendingViewController = builder.createTrendingModule(router: router, recipes: recipes)
         navigationController.pushViewController(trendingViewController, animated: true)
         builder.configureModule(for: trendingViewController, with: router)
     }
-    
     
     //MARK: - Detail
     
@@ -59,14 +55,12 @@ final class Router: RouterProtocol {
         }*/
     }
     
-    //MARK: - Create Recipe
-    func showCreateRecipe() {
+    //MARK: - Search
+    func showSearch() {
         let router = self
-        let createViewControler = builder.createCreateRecipeModule(router: router)
-        navigationController.pushViewController(createViewControler, animated: true)
-        builder.configureModule(for: createViewControler, with: router)
+        let searchViewController = builder.createSearchModule(router: router)
+        navigationController.pushViewController(searchViewController, animated: true)
     }
-    
     
     //MARK: - PopToRoot
     
