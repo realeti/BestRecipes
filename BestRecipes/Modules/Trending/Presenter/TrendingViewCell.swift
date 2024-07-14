@@ -71,11 +71,9 @@ final class TrendingViewCell: UICollectionViewCell {
     
     private lazy var recipeSaveButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setBackgroundImage(.favoritesInactive, for: .normal)
-        
         let action = UIAction { _ in
             self.delegate?.saveRecipe(
-                at: self.indexPath!,
+                at: self.indexPath ?? IndexPath(),
                 imageData: self.recipeImageData ?? Data()
             )
         }
@@ -226,8 +224,12 @@ extension TrendingViewCell {
     }
     
     func updateRecipeImage(with imageData: Data) {
-        self.recipeImageData = imageData
-        recipeImageView.image = UIImage(data: imageData)
+        if !imageData.isEmpty {
+            self.recipeImageData = imageData
+            recipeImageView.image = UIImage(data: imageData)
+        } else {
+            self.recipeImageView.image = UIImage(resource: .noimage)
+        }
     }
     
     func updateSaveButtonImage(isRecipeSaved: Bool) {
