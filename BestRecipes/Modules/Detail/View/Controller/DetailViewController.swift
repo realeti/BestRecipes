@@ -9,11 +9,18 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-    private let customView = DetailView()
+    // MARK: - Private properties
+    private var detailView: DetailView!
+    
+    // MARK: - Public Properties
     var presenter: DetailPresenter?
-
+    
+    // MARK: - Life Cycle
     override func loadView() {
-        self.view = customView
+        super.loadView()
+        
+        detailView = DetailView()
+        view = detailView
     }
 
     override func viewDidLoad() {
@@ -24,7 +31,7 @@ final class DetailViewController: UIViewController {
 
 extension DetailViewController: DetailViewProtocol {
     func setRecipeTitle(_ title: String) {
-        customView.topLabel.text = title
+        detailView.topLabel.text = title
     }
     
     func setImage(url: String) {
@@ -32,27 +39,27 @@ extension DetailViewController: DetailViewProtocol {
     }
     
     func setRating(_ rating: Double) {
-        customView.rateLabel.text = String(format: "%.1f", rating)
+        detailView.rateLabel.text = String(format: "%.1f", rating)
     }
     
     func setReviewsCount(_ count: String) {
-        customView.reviewsLabel.text = count
+        detailView.reviewsLabel.text = count
     }
     
     func setInstructions(_ instructions: [Step]) {
-        customView.detailTextView.updateInstructionText(with: instructions)
+        detailView.detailTextView.updateInstructionText(with: instructions)
     }
     
     func updateIngredients(_ ingredients: [DetailIngredient]) {
-        customView.ingredients = ingredients
-        customView.updateTableView()
+        detailView.ingredients = ingredients
+        detailView.updateTableView()
     }
     
     func didUpdateRecipeImage(_ imageData: Data) {
         if !imageData.isEmpty {
-            self.customView.imageFood.image = UIImage(data: imageData)
+            self.detailView.imageFood.image = UIImage(data: imageData)
         } else {
-            self.customView.imageFood.image = UIImage(resource: .noimage)
+            self.detailView.imageFood.image = UIImage(resource: .noimage)
         }
     }
 }
