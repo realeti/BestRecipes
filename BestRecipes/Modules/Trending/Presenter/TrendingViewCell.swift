@@ -178,6 +178,7 @@ final class TrendingViewCell: UICollectionViewCell {
     
     // MARK: - Set Views
     private func setupUI() {
+        contentView.backgroundColor = .white
         contentView.addSubview(containerView)
         containerView.addSubviews(recipeImageView, ratingStackView, recipeSaveContainer, timeContainer, activityIndicator)
         ratingStackView.addArrangedSubviews(ratingStarImageView, ratingLabel)

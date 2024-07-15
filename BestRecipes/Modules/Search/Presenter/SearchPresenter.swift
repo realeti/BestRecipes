@@ -52,7 +52,15 @@ final class SearchPresenter: SearchViewPresenterProtocol {
     
     // MARK: - Show Recipe Details
     func showRecipeDetails(for recipe: Recipe, with imageData: Data?) {
-        //router.showDetail(for: recipe, with: imageData)
+        let recipeDetail = RecipeDetailModel(
+            title: recipe.title ?? "",
+            instructions: [],
+            rating: recipe.rating,
+            reviewsCount: recipe.reviewsCount,
+            imageURL: recipe.imageURL ?? "",
+            ingredients: []
+        )
+        router.showDetail(recipe: recipeDetail)
     }
 }
 

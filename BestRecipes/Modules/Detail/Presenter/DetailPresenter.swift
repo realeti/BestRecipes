@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 protocol DetailViewProtocol: AnyObject {
+    func setRecipeTitle(_ title: String)
     func setImage(url: String)
     func setRating(_ rating: Double)
     func setReviewsCount(_ count: String)
@@ -22,7 +23,6 @@ protocol DetailTableViewData: AnyObject {
     func ingredient(at index: Int) -> DetailIngredient
 }
 
-
 final class DetailPresenter {
     private weak var view: DetailViewProtocol?
     private var model: RecipeDetailModel
@@ -33,6 +33,7 @@ final class DetailPresenter {
     }
 
     func loadData() {
+        view?.setRecipeTitle(model.title)
         view?.setImage(url: model.imageURL)
         view?.setRating(model.rating)
         view?.setReviewsCount("(\(model.reviewsCount) reviews)")

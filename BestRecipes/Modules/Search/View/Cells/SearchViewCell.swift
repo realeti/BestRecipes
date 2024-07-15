@@ -105,6 +105,8 @@ final class SearchViewCell: UICollectionViewCell {
     
     // MARK: - Set Views
     private func setupUI() {
+        contentView.backgroundColor = .white
+        
         contentView.addSubviews(containerView, ratingStackView, descriptionStackView)
         ratingStackView.addArrangedSubviews(ratingStarImageView, ratingLabel)
         descriptionStackView.addArrangedSubviews(descriptionTitleLabel, ingredientsLabel)

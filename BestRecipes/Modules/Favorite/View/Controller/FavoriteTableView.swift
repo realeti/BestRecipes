@@ -14,6 +14,7 @@ final class FavoriteTableView: UITableView {
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: .zero, style: style)
         self.separatorStyle = .none
+        self.backgroundColor = .white
         configure()
         
         

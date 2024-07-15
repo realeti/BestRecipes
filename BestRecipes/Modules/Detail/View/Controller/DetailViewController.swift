@@ -23,6 +23,10 @@ final class DetailViewController: UIViewController {
 }
 
 extension DetailViewController: DetailViewProtocol {
+    func setRecipeTitle(_ title: String) {
+        customView.topLabel.text = title
+    }
+    
     func setImage(url: String) {
         presenter?.loadRecipeImage(with: url)
     }
