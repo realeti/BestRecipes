@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol DetailViewCellProtocol: AnyObject {
+    func loadIngredientImage(for cell: DetailViewCell, at indexPath: IndexPath)
+}
+
 final class DetailViewCell: UITableViewCell {
     // MARK: - UI
     private let baseView = UIView(
@@ -20,7 +24,7 @@ final class DetailViewCell: UITableViewCell {
         distribution: .fill
     )
     
-    private let ingredientImageView = UIImageView(
+    let ingredientImageView = UIImageView(
         backgroundColor: .white,
         contentMode: .scaleAspectFit,
         cornerRadius: 8.0
@@ -43,6 +47,10 @@ final class DetailViewCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    // MARK: - Public Properties
+    weak var delegate: DetailViewCellProtocol?
+    var indexPath: IndexPath?
     
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -87,10 +95,29 @@ extension DetailViewCell {
 
 // MARK: - Configure Cell
 extension DetailViewCell {
-    func configure(name: String, gram: String) {
+    func configure(name: String, amount: Double, indexPath: IndexPath) {
+        self.indexPath = indexPath
         ingredientNameLabel.text = name
-        ingredientGramLabel.text = "\(gram)g"
-        ingredientImageView.image = .fish
+        ingredientGramLabel.text = "\(amount)g"
+        setupMockIngredientImage(at: indexPath)
+        //delegate?.loadIngredientImage(for: self, at: indexPath)
+    }
+    
+    private func setupMockIngredientImage(at indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            ingredientImageView.image = .fish
+        case 1:
+            ingredientImageView.image = .ginger
+        case 2:
+            ingredientImageView.image = .sunflowerOil
+        case 3:
+            ingredientImageView.image = .salt
+        case 4:
+            ingredientImageView.image = .cucumber
+        default:
+            ingredientImageView.image = .noimage
+        }
     }
 }
 

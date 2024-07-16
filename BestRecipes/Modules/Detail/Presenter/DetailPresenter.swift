@@ -17,18 +17,27 @@ protocol DetailViewProtocol: AnyObject {
     func setInstructions(_ instruction: [String : String])
     func updateIngredients(_ ingredients: [DetailIngredient])
     func didUpdateRecipeImage(_ imageData: Data)
+    func didUpdateIngredientImage(_ imageData: Data, indexPath: IndexPath)
 }
 
-protocol DetailTableViewData: AnyObject {
-    func numberOfIngredients() -> Int
-    func ingredient(at index: Int) -> DetailIngredient
+protocol DetailPresenterProtocol {
+    init(view: DetailViewProtocol, router: RouterProtocol, model: RecipeDetailModel)
+    var ingredients: [DetailIngredient] { get }
+    func loadRecipeImage(with imageUrl: String)
+    func loadIngredientImage(with imageUrl: String, indexPath: IndexPath)
 }
 
-final class DetailPresenter {
+final class DetailPresenter: DetailPresenterProtocol {
     private weak var view: DetailViewProtocol?
     private var model: RecipeDetailModel
+    
+    var ingredients: [DetailIngredient] {
+        get {
+            return model.ingredients
+        }
+    }
 
-    init(view: DetailViewProtocol, router: RouterProtocol, model: RecipeDetailModel) {
+    required init(view: DetailViewProtocol, router: RouterProtocol, model: RecipeDetailModel) {
         self.view = view
         self.model = model
     }
@@ -49,5 +58,14 @@ extension DetailPresenter {
         DataManager.shared.getImage(imageUrl) { [weak self] imageData in
             self?.view?.didUpdateRecipeImage(imageData)
         }
+    }
+}
+
+// MARK: - Load Ingredient Image
+extension DetailPresenter {
+    func loadIngredientImage(with imageUrl: String, indexPath: IndexPath) {
+        /*DataManager.shared.getImage(imageUrl) { [weak self] imageData in
+            self?.view?.didUpdateIngredientImage(imageData, indexPath: indexPath)
+        }*/
     }
 }

@@ -21,6 +21,12 @@ struct DetailIngredient {
     let name: String
     let amount: Double
     let imageName: String
+    
+    init(from ingredient: Ingredient) {
+        self.name = ingredient.name
+        self.amount = ingredient.amount
+        self.imageName = ingredient.imageName
+    }
 }
 
 struct Empty {

@@ -226,10 +226,10 @@ extension TrendingViewCell {
     
     func updateRecipeImage(with imageData: Data) {
         if !imageData.isEmpty {
-            self.recipeImageData = imageData
+            recipeImageData = imageData
             recipeImageView.image = UIImage(data: imageData)
         } else {
-            self.recipeImageView.image = UIImage(resource: .noimage)
+            recipeImageView.image = UIImage(resource: .noimage)
         }
     }
     

@@ -46,14 +46,22 @@ final class FavoritePresenter: FavoritePresenterProtocol {
         print("recipe removed")
     }
     
-    func showRecipeDetails(for recipe: Recipe) {        
+    func showRecipeDetails(for recipe: Recipe) {
+        var detailIngredients: [DetailIngredient] = []
+        
+        if let ingredients = recipe.extendedIngredients {
+            detailIngredients = ingredients.map {
+                DetailIngredient(from: $0)
+            }
+        }
+        
         let recipeDetail = RecipeDetailModel(
             title: recipe.title ?? "",
             instruction: recipe.mockInstuction,
             rating: recipe.rating,
             reviewsCount: recipe.reviewsCount,
             imageURL: recipe.imageURL ?? "",
-            ingredients: [DetailIngredient(name: "test", amount: 1.0, imageName: "name")]
+            ingredients: detailIngredients
         )
         router.showDetail(recipe: recipeDetail)
     }

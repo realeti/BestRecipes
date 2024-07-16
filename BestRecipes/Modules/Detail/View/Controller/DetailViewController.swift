@@ -13,7 +13,7 @@ final class DetailViewController: UIViewController {
     private var detailView: DetailView!
     
     // MARK: - Public Properties
-    var presenter: DetailPresenter?
+    var presenter: DetailPresenter!
     
     // MARK: - Life Cycle
     override func loadView() {
@@ -26,19 +26,27 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        detailView.tableView.dataSource = self
-        detailView.tableView.delegate = self
-        presenter?.loadData()
+        setDelegates()
+        presenter.loadData()
     }
 }
 
+// MARK: - Set Delegates
+extension DetailViewController {
+    private func setDelegates() {
+        detailView.tableView.dataSource = self
+        detailView.tableView.delegate = self
+    }
+}
+
+// MARK: - Detail Delegate methods
 extension DetailViewController: DetailViewProtocol {
     func setRecipeTitle(_ title: String) {
         detailView.topLabel.text = title
     }
     
     func setImage(url: String) {
-        presenter?.loadRecipeImage(with: url)
+        presenter.loadRecipeImage(with: url)
     }
     
     func setRating(_ rating: Double) {
@@ -54,8 +62,8 @@ extension DetailViewController: DetailViewProtocol {
     }
     
     func updateIngredients(_ ingredients: [DetailIngredient]) {
-        detailView.ingredients = ingredients
-        detailView.updateTableViewHeight()
+        //detailView.ingredientAmountLabel.text = "\(ingredients.count)"
+        detailView.ingredientAmountLabel.text = "5" // mock
     }
     
     func didUpdateRecipeImage(_ imageData: Data) {
@@ -63,7 +71,19 @@ extension DetailViewController: DetailViewProtocol {
             if !imageData.isEmpty {
                 self.detailView.imageFood.image = UIImage(data: imageData)
             } else {
-                self.detailView.imageFood.image = UIImage(resource: .food1)
+                self.detailView.imageFood.image = UIImage(resource: .noimage)
+            }
+        }
+    }
+    
+    func didUpdateIngredientImage(_ imageData: Data, indexPath: IndexPath) {
+        DispatchQueue.main.async {
+            if let cell = self.detailView.tableView.cellForRow(at: indexPath) as? DetailViewCell {
+                if !imageData.isEmpty {
+                    cell.ingredientImageView.image = UIImage(data: imageData)
+                } else {
+                    cell.ingredientImageView.image = UIImage(resource: .noimage)
+                }
             }
         }
     }
@@ -72,7 +92,8 @@ extension DetailViewController: DetailViewProtocol {
 // MARK: - TableView Data Source
 extension DetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        //presenter.ingredients.count
+        return 5 // mock
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -80,18 +101,24 @@ extension DetailViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configure(name: "Test", gram: "200")
+        cell.delegate = self
+        let ingredientName = presenter.ingredients[indexPath.row].name
+        let ingredientAmount = presenter.ingredients[indexPath.row].amount
+        cell.configure(name: ingredientName, amount: ingredientAmount, indexPath: indexPath)
         return cell
     }
 }
 
 // MARK: - TableView Delegate
 extension DetailViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: K.detailHeaderView) as? DetailHeaderView else {
-            return UIView()
-        }
-        headerView.configure(itemsCount: 5)
-        return headerView
+    //
+}
+
+// MARK: - Detail TableView Cell Delegate
+extension DetailViewController: DetailViewCellProtocol {
+    func loadIngredientImage(for cell: DetailViewCell, at indexPath: IndexPath) {
+        //let ingredient = presenter.ingredients[indexPath.row]
+        //let imageUrl = ingredient.imageName
+        //presenter.loadIngredientImage(with: imageUrl, indexPath: indexPath)
     }
 }

@@ -49,13 +49,21 @@ final class TrendingPresenter: TrendingPresenterProtocol {
     
     // MARK: - Show Recipe Details
     func showRecipeDetails(for recipe: Recipe, with imageData: Data?) {
+        var detailIngredients: [DetailIngredient] = []
+        
+        if let ingredients = recipe.extendedIngredients {
+            detailIngredients = ingredients.map {
+                DetailIngredient(from: $0)
+            }
+        }
+        
         let recipeDetail = RecipeDetailModel(
             title: recipe.title ?? "",
             instruction: recipe.mockInstuction,
             rating: recipe.rating,
             reviewsCount: recipe.reviewsCount,
             imageURL: recipe.imageURL ?? "",
-            ingredients: []
+            ingredients: detailIngredients
         )
         router.showDetail(recipe: recipeDetail)
     }
