@@ -78,12 +78,17 @@ final class DetailView: UIView {
         return view
     }()
     
-    private let bottomStack = UIStackView()
+    private lazy var tableView: UITableView = {
+        let view = UITableView()
+        view.separatorStyle = .none
+        view.backgroundColor = .white
+        view.register(DetailHeaderView.self, forHeaderFooterViewReuseIdentifier: K.detailHeaderView)
+        view.register(DetailViewCell.self, forCellReuseIdentifier: K.detailTableCell)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     var ingredients: [DetailIngredient] = []
-    
-    private let tableView = DetailTableView()
-    
     private var heightTableViewConstraint: NSLayoutConstraint?
     
     // MARK: - Init
@@ -93,9 +98,6 @@ final class DetailView: UIView {
         
         setupView()
         setupConstraint()
-        setupConfigure()
-        //updateTableView()
-        tableView.tableViewData = self
     }
     
     required init?(coder: NSCoder) {
@@ -122,15 +124,13 @@ final class DetailView: UIView {
             reviesSpacerView
         )
         
-        contentView.addSubview(detailTextView)
+        contentView.addSubviews(detailTextView, tableView)
     }
 }
 
 // MARK: - Setup Constraints
 private extension DetailView {
     func setupConstraint() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        
         setupScollViewConstraints()
         setupContentViewConstraints()
         setupTopStackViewConstraints()
@@ -138,15 +138,7 @@ private extension DetailView {
         setupStarImageConstraints()
         setupRateSpacerViewConstraints()
         setupDetailTextViewConstraints()
-        
-        NSLayoutConstraint.activate([
-            /*tableView.topAnchor.constraint(equalTo: detailTextView.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),*/
-        ])
-        //heightTableViewConstraint = tableView.heightAnchor.constraint(equalToConstant: 0)
-        //heightTableViewConstraint?.isActive = true
+        setupIngredientsTableConstraints()
     }
     
     func setupScollViewConstraints() {
@@ -190,42 +182,30 @@ private extension DetailView {
         ])
     }
     
-    private func setupRateSpacerViewConstraints() {
+    func setupRateSpacerViewConstraints() {
         NSLayoutConstraint.activate([
             rateSpacerView.widthAnchor.constraint(equalToConstant: 4.0),
             rateSpacerView.heightAnchor.constraint(equalToConstant: Metrics.ratingIconSize)
         ])
     }
     
-    private func setupDetailTextViewConstraints() {
+    func setupDetailTextViewConstraints() {
         NSLayoutConstraint.activate([
             detailTextView.topAnchor.constraint(equalToSystemSpacingBelow: baseStackView.bottomAnchor, multiplier: 2.0),
             detailTextView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 3.0),
-            trailingAnchor.constraint(equalToSystemSpacingAfter: detailTextView.trailingAnchor, multiplier: 3.0).withPriority(.defaultHigh),
-            contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: detailTextView.bottomAnchor, multiplier: 1.0)
+            trailingAnchor.constraint(equalToSystemSpacingAfter: detailTextView.trailingAnchor, multiplier: 3.0).withPriority(.defaultHigh)
+        ])
+    }
+    
+    func setupIngredientsTableConstraints() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: detailTextView.bottomAnchor, constant: 20),
+            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: tableView.bottomAnchor, multiplier: 1.0)
         ])
     }
 }
-
-private extension DetailView {
-    func setupConfigure() {
-        bottomStack.spacing = 5
-        bottomStack.contentMode = .scaleAspectFit
-        
-        bottomStack.axis = .horizontal
-    }
-}
-
-extension DetailView {
-    
-    func updateTableView() {
-        self.tableView.reloadData()
-        self.tableView.layoutIfNeeded()
-        self.heightTableViewConstraint?.constant = self.tableView.contentSize.height
-        self.layoutIfNeeded()
-    }
-}
-
 
 extension DetailView: DetailTableViewData {
     func numberOfIngredients() -> Int {
