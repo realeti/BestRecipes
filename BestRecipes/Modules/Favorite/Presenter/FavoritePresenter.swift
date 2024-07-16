@@ -13,6 +13,7 @@ protocol FavoritePresenterProtocol {
     init(view: FavoriteViewProtocol, router: RouterProtocol)
     func loadRecipes ()
     func deleteRecipe(_ recipe: Recipe, recipeId: Int)
+    func showRecipeDetails(for recipe: Recipe)
     var recipes: [Recipe] { get }
 }
 
@@ -22,7 +23,7 @@ final class FavoritePresenter: FavoritePresenterProtocol {
     //MARK: - Properties
     
     weak var view: FavoriteViewProtocol?
-    var router: RouterProtocol?
+    private var router: RouterProtocol
     var recipes: [Recipe] = []
     
     //MARK: - Lifecycle
@@ -43,5 +44,25 @@ final class FavoritePresenter: FavoritePresenterProtocol {
         recipes.remove(at: recipeId)
         view?.didDeletedRecipe()
         print("recipe removed")
+    }
+    
+    func showRecipeDetails(for recipe: Recipe) {
+        var detailIngredients: [DetailIngredient] = []
+        
+        if let ingredients = recipe.extendedIngredients {
+            detailIngredients = ingredients.map {
+                DetailIngredient(from: $0)
+            }
+        }
+        
+        let recipeDetail = RecipeDetailModel(
+            title: recipe.title ?? "",
+            instruction: recipe.mockInstuction,
+            rating: recipe.rating,
+            reviewsCount: recipe.reviewsCount,
+            imageURL: recipe.imageURL ?? "",
+            ingredients: detailIngredients
+        )
+        router.showDetail(recipe: recipeDetail)
     }
 }

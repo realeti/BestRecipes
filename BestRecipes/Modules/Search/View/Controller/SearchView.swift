@@ -15,6 +15,7 @@ final class SearchView: UIView {
         flowLayout.minimumLineSpacing = 24.0
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.backgroundColor = .white
         collectionView.register(SearchHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: K.searchHeaderView)
         collectionView.register(SearchViewCell.self, forCellWithReuseIdentifier: K.searchCell)
         collectionView.register(EmptySearchViewCell.self, forCellWithReuseIdentifier: K.emptySearchCell)

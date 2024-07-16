@@ -31,6 +31,7 @@ final class EmptySearchViewCell: UICollectionViewCell {
     
     // MARK: - Set Views
     private func setupUI() {
+        contentView.backgroundColor = .white
         contentView.addSubview(textLabel)
     }
 }

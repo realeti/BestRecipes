@@ -38,10 +38,6 @@ extension TrendingViewController {
 
 // MARK: - Trending Delegate methods
 extension TrendingViewController: TrendingViewProtocol {
-    func updateRecipes() {
-        //
-    }
-    
     func showRecipeImageLoading(_ loading: Bool, at indexPath: IndexPath) {
         DispatchQueue.main.async {
             if let cell = self.trendingView.trendingCollection.cellForItem(at: indexPath) as? TrendingViewCell {
@@ -133,13 +129,13 @@ extension TrendingViewController: UICollectionViewDataSource {
 extension TrendingViewController: UICollectionViewDelegate {
     /// collection selected item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        /*guard let cell = collectionView.cellForItem(at: indexPath) as? TrendingViewCell else {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TrendingViewCell else {
             return
-        }*/
+        }
         
-        //let selectedRecipe = presenter.getRecipes[indexPath.row]
-        //let recipeImageData = cell.recipeImageData
-        //presenter.showRecipeDetails(for: selectedRecipe, with: recipeImageData)
+        let selectedRecipe = presenter.getRecipes[indexPath.row]
+        let recipeImageData = cell.recipeImageData
+        presenter.showRecipeDetails(for: selectedRecipe, with: recipeImageData)
     }
 }
 

@@ -48,6 +48,13 @@ extension FavoriteViewController: UITableViewDelegate , UITableViewDataSource {
     
     //MARK: - Delegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? FavoriteTableViewCell else {
+            return
+        }
+        
+        let selectedRecipe = presenter.recipes[indexPath.row]
+        presenter.showRecipeDetails(for: selectedRecipe)
+        
         print("index\(indexPath)at row\(indexPath.row) ")
         tableView.deselectRow(at: indexPath, animated: false)
     }

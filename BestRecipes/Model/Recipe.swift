@@ -42,3 +42,15 @@ struct Recipe: Codable {
     
     let reviewsCount: Int = Int.random(in: 200...500)
 }
+
+extension Recipe {
+    var mockInstuction: [String: String] {
+        let instruction = [
+            "1": K.step1,
+            "2": K.step2,
+            "3": K.step3,
+            "4": K.step4,
+        ]
+        return instruction
+    }
+}

@@ -15,6 +15,7 @@ final class TrendingView: UIView {
         flowLayout.minimumLineSpacing = 24.0
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.backgroundColor = .white
         collectionView.register(TrendingViewCell.self, forCellWithReuseIdentifier: K.trendingCell)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView

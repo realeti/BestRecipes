@@ -108,7 +108,7 @@ final class FavoriteTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: "BRTrendingTableViewCell")
         
-        
+        contentView.backgroundColor = .white
         configure()
         setCostraints()
     }
