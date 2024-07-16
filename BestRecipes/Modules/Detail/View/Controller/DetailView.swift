@@ -18,13 +18,12 @@ final class DetailView: UIView {
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
-        view.alwaysBounceHorizontal = false
         view.showsVerticalScrollIndicator = false
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private let topStackView = UIStackView(
+    private let baseStackView = UIStackView(
         axis: .vertical,
         spacing: 16,
         distribution: .fill
@@ -71,14 +70,17 @@ final class DetailView: UIView {
         fontSize: 14.0
     )
     
-    private let spacerView = UIView()
+    private let reviesSpacerView = UIView()
     
-    private let mainVerticalStack = UIStackView()
+    lazy var detailTextView: DetailText = {
+        let view = DetailText()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let bottomStack = UIStackView()
     
     var ingredients: [DetailIngredient] = []
-    
-    let detailTextView = DetailText()
     
     private let tableView = DetailTableView()
     
@@ -92,7 +94,7 @@ final class DetailView: UIView {
         setupView()
         setupConstraint()
         setupConfigure()
-        updateTableView()
+        //updateTableView()
         tableView.tableViewData = self
     }
     
@@ -104,20 +106,29 @@ final class DetailView: UIView {
     func setupView() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubview(topStackView)
-        topStackView.addArrangedSubviews(topLabel, imageFood, ratingStackView)
-        ratingStackView.addArrangedSubviews(starImage, rateLabel, rateSpacerView, reviewsLabel, spacerView)
-        //contentView.addSubviews([/*, mainVerticalStack,*/ /*detailTextView, tableView*/])
-        //mainVerticalStack.addArrangedSubviews(/*, bottomStack*/])
-        //bottomStack.addArrangedSubviews([starImage, rateLabel, reviewsLabel, spacerView])
+        contentView.addSubview(baseStackView)
+        
+        baseStackView.addArrangedSubviews(
+            topLabel,
+            imageFood,
+            ratingStackView
+        )
+        
+        ratingStackView.addArrangedSubviews(
+            starImage,
+            rateLabel,
+            rateSpacerView,
+            reviewsLabel,
+            reviesSpacerView
+        )
+        
+        contentView.addSubview(detailTextView)
     }
 }
 
 // MARK: - Setup Constraints
 private extension DetailView {
     func setupConstraint() {
-        mainVerticalStack.translatesAutoresizingMaskIntoConstraints = false
-        detailTextView.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         setupScollViewConstraints()
@@ -126,24 +137,16 @@ private extension DetailView {
         setupImageFoodConstraints()
         setupStarImageConstraints()
         setupRateSpacerViewConstraints()
+        setupDetailTextViewConstraints()
         
         NSLayoutConstraint.activate([
-
-            /*mainVerticalStack.topAnchor.constraint(equalTo: topLabel.bottomAnchor, constant: 16),
-            mainVerticalStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            mainVerticalStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),*/
-            
-            /*detailTextView.topAnchor.constraint(equalTo: mainVerticalStack.bottomAnchor, constant: 15),
-            detailTextView.leadingAnchor.constraint(equalTo: imageFood.leadingAnchor),
-            detailTextView.trailingAnchor.constraint(equalTo: imageFood.trailingAnchor),*/
-            
             /*tableView.topAnchor.constraint(equalTo: detailTextView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),*/
         ])
         //heightTableViewConstraint = tableView.heightAnchor.constraint(equalToConstant: 0)
-        heightTableViewConstraint?.isActive = true
+        //heightTableViewConstraint?.isActive = true
     }
     
     func setupScollViewConstraints() {
@@ -167,15 +170,15 @@ private extension DetailView {
     
     func setupTopStackViewConstraints() {
         NSLayoutConstraint.activate([
-            topStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            topStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).withPriority(.defaultHigh),
-            topStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+            baseStackView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 2.0),
+            baseStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 2.0),
+            trailingAnchor.constraint(equalToSystemSpacingAfter: baseStackView.trailingAnchor, multiplier: 2.0).withPriority(.defaultHigh)
         ])
     }
     
     func setupImageFoodConstraints() {
         NSLayoutConstraint.activate([
-            imageFood.widthAnchor.constraint(equalTo: topStackView.widthAnchor),
+            imageFood.widthAnchor.constraint(equalTo: baseStackView.widthAnchor),
             imageFood.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.52)
         ])
     }
@@ -193,16 +196,19 @@ private extension DetailView {
             rateSpacerView.heightAnchor.constraint(equalToConstant: Metrics.ratingIconSize)
         ])
     }
+    
+    private func setupDetailTextViewConstraints() {
+        NSLayoutConstraint.activate([
+            detailTextView.topAnchor.constraint(equalToSystemSpacingBelow: baseStackView.bottomAnchor, multiplier: 2.0),
+            detailTextView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 3.0),
+            trailingAnchor.constraint(equalToSystemSpacingAfter: detailTextView.trailingAnchor, multiplier: 3.0).withPriority(.defaultHigh),
+            contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: detailTextView.bottomAnchor, multiplier: 1.0)
+        ])
+    }
 }
-
-
 
 private extension DetailView {
     func setupConfigure() {
-        
-        mainVerticalStack.axis = .vertical
-        mainVerticalStack.spacing = 16
-        
         bottomStack.spacing = 5
         bottomStack.contentMode = .scaleAspectFit
         
@@ -228,13 +234,6 @@ extension DetailView: DetailTableViewData {
     
     func ingredient(at index: Int) -> DetailIngredient {
         ingredients[index]
-    }
-}
-
-extension NSLayoutConstraint {
-    func withPriority(_ priority: UILayoutPriority) -> NSLayoutConstraint {
-        self.priority = priority
-        return self
     }
 }
 

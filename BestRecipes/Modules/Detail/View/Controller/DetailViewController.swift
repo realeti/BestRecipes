@@ -1,8 +1,8 @@
 //
-//  DetailViewController..swift
+//  DetailViewController.swift
+//  BestRecipes
 //
-//
-//  Created by Xcode on 10.06.2024.
+//  Created by realeti on 15.07.2024.
 //
 
 
@@ -46,8 +46,8 @@ extension DetailViewController: DetailViewProtocol {
         detailView.reviewsLabel.text = count
     }
     
-    func setInstructions(_ instructions: [Step]) {
-        detailView.detailTextView.updateInstructionText(with: instructions)
+    func setInstructions(_ instruction: [String : String]) {
+        detailView.detailTextView.updateInstructionText(with: instruction)
     }
     
     func updateIngredients(_ ingredients: [DetailIngredient]) {

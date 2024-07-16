@@ -23,7 +23,7 @@ final class FavoritePresenter: FavoritePresenterProtocol {
     //MARK: - Properties
     
     weak var view: FavoriteViewProtocol?
-    var router: RouterProtocol
+    private var router: RouterProtocol
     var recipes: [Recipe] = []
     
     //MARK: - Lifecycle
@@ -46,10 +46,10 @@ final class FavoritePresenter: FavoritePresenterProtocol {
         print("recipe removed")
     }
     
-    func showRecipeDetails(for recipe: Recipe) {
+    func showRecipeDetails(for recipe: Recipe) {        
         let recipeDetail = RecipeDetailModel(
             title: recipe.title ?? "",
-            instructions: [Step(number: 0, step: "123")],
+            instruction: recipe.mockInstuction,
             rating: recipe.rating,
             reviewsCount: recipe.reviewsCount,
             imageURL: recipe.imageURL ?? "",

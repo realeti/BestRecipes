@@ -13,7 +13,8 @@ protocol DetailViewProtocol: AnyObject {
     func setImage(url: String)
     func setRating(_ rating: Double)
     func setReviewsCount(_ count: String)
-    func setInstructions(_ instructions: [Step])
+    //func setInstructions(_ instructions: [Step])
+    func setInstructions(_ instruction: [String : String])
     func updateIngredients(_ ingredients: [DetailIngredient])
     func didUpdateRecipeImage(_ imageData: Data)
 }
@@ -37,7 +38,7 @@ final class DetailPresenter {
         view?.setImage(url: model.imageURL)
         view?.setRating(model.rating)
         view?.setReviewsCount("(\(model.reviewsCount) reviews)")
-        view?.setInstructions(model.instructions ?? [])
+        view?.setInstructions(model.instruction)
         view?.updateIngredients(model.ingredients)
     }
 }

@@ -54,7 +54,7 @@ final class SearchPresenter: SearchViewPresenterProtocol {
     func showRecipeDetails(for recipe: Recipe, with imageData: Data?) {
         let recipeDetail = RecipeDetailModel(
             title: recipe.title ?? "",
-            instructions: [],
+            instruction: recipe.mockInstuction,
             rating: recipe.rating,
             reviewsCount: recipe.reviewsCount,
             imageURL: recipe.imageURL ?? "",
