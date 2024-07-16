@@ -20,12 +20,11 @@ final class DetailViewCell: UITableViewCell {
         distribution: .fill
     )
     
-    private let ingredientImageContent = UIView(
+    private let ingredientImageView = UIImageView(
         backgroundColor: .white,
+        contentMode: .scaleAspectFit,
         cornerRadius: 8.0
     )
-    
-    private let ingredientImageView = UIImageView(contentMode: .scaleAspectFit)
     
     private let ingredientNameLabel = UILabel(
         color: .blackBase,
@@ -38,6 +37,12 @@ final class DetailViewCell: UITableViewCell {
         font: .poppinsRegular,
         fontSize: 14.0
     )
+    
+    private lazy var spacerView: UIView = {
+        let view = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50)))
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -62,15 +67,14 @@ final class DetailViewCell: UITableViewCell {
     
     // MARK: - Set Views
     private func setupUI() {
-        contentView.addSubview(mainStack)
+        contentView.addSubview(baseView)
+        baseView.addSubview(mainStack)
         
         mainStack.addArrangedSubviews(
-            ingredientImageContent,
+            ingredientImageView,
             ingredientNameLabel,
             ingredientGramLabel
         )
-        
-        ingredientImageContent.addSubview(ingredientImageView)
     }
 }
 
@@ -85,7 +89,8 @@ extension DetailViewCell {
 extension DetailViewCell {
     func configure(name: String, gram: String) {
         ingredientNameLabel.text = name
-        ingredientGramLabel.text = gram
+        ingredientGramLabel.text = "\(gram)g"
+        ingredientImageView.image = .fish
     }
 }
 
@@ -108,17 +113,17 @@ extension DetailViewCell {
     
     private func setupMainStackConstraints() {
         NSLayoutConstraint.activate([
-            mainStack.topAnchor.constraint(equalTo: contentView.topAnchor),
-            mainStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            mainStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            mainStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            mainStack.topAnchor.constraint(equalTo: baseView.topAnchor, constant: 16),
+            mainStack.leadingAnchor.constraint(equalTo: baseView.leadingAnchor, constant: 16),
+            mainStack.trailingAnchor.constraint(equalTo: baseView.trailingAnchor, constant: -16),
+            mainStack.bottomAnchor.constraint(equalTo: baseView.bottomAnchor, constant: -12),
         ])
     }
     
     private func setupIngredientImageViewConstraints() {
         NSLayoutConstraint.activate([
-            ingredientImageView.centerXAnchor.constraint(equalTo: ingredientImageContent.centerXAnchor),
-            ingredientImageView.centerYAnchor.constraint(equalTo: ingredientImageContent.centerYAnchor)
+            ingredientImageView.widthAnchor.constraint(equalToConstant: 50),
+            ingredientImageView.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
 }
