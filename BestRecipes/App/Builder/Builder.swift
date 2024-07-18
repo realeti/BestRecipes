@@ -12,6 +12,7 @@ protocol BuilderProtocol: AnyObject {
     func createTrendingModule(router: RouterProtocol, recipes: [Recipe]) -> UIViewController
     func createSearchModule(router: RouterProtocol) -> UIViewController
     func createDetailModule(router: RouterProtocol, recipe: RecipeDetailModel) -> UIViewController
+    func createCreateRecipeModule(router: RouterProtocol) -> UIViewController
     func configureModule(for viewController: UIViewController, with router: RouterProtocol)
 }
 
@@ -89,6 +90,15 @@ final class Builder: BuilderProtocol {
         viewController.presenter = presenter
         viewController.hidesBottomBarWhenPushed = true
         setTitle(K.detailTitle, for: viewController)
+        return viewController
+    }
+  
+    // MARK: - Create Create Recipe
+    func createCreateRecipeModule(router: RouterProtocol) -> UIViewController {
+        let viewController = CreateRecipeViewController()
+        let presenter = CreateRecipePresenter(vc: viewController, router: router)
+        viewController.presenter = presenter
+        viewController.hidesBottomBarWhenPushed = true
         return viewController
     }
 }
