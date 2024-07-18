@@ -80,7 +80,7 @@ extension TrendingViewController: TrendingViewCellProtocol {
         cell.updateSaveButtonImage(isRecipeSaved: isRecipeSaved)
     }
     
-    func loadImage(for cell: TrendingViewCell, at indexPath: IndexPath) {
+    func loadImage(for indexPath: IndexPath) {
         let recipe = presenter.getRecipes[indexPath.row]
         guard let imageUrl = recipe.imageURL else { return }
         
@@ -119,9 +119,8 @@ extension TrendingViewController: UICollectionViewDataSource {
     
     private func formatMinutesToString(minutes: Int) -> String {
         let totalSeconds = minutes * 60
-        let mins = totalSeconds / 60
         let seconds = totalSeconds % 60
-        return String(format: "%02d:%02d", mins, seconds)
+        return String(format: "%02d:%02d", minutes, seconds)
     }
 }
 
@@ -141,9 +140,5 @@ extension TrendingViewController: UICollectionViewDelegate {
 
 // MARK: - CollectionView FlowLayout Delegate methods
 extension TrendingViewController: UICollectionViewDelegateFlowLayout {
-    /// collection item  size
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let collectionViewWidth = collectionView.bounds.width
-        return CGSize(width: collectionViewWidth, height: collectionViewWidth * 0.72)
-    }
+    //
 }

@@ -8,15 +8,13 @@
 import UIKit
 
 protocol TrendingViewCellProtocol: AnyObject {
-    func loadImage(for cell: TrendingViewCell, at indexPath: IndexPath)
+    func loadImage(for indexPath: IndexPath)
     func saveRecipe(at indexPath: IndexPath, imageData: Data)
 }
 
 final class TrendingViewCell: UICollectionViewCell {
     private lazy var containerView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 12
-        view.layer.masksToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -156,6 +154,21 @@ final class TrendingViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        print(contentView.bounds.width, contentView.bounds.height)
+    }
+    
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        let targetSize = CGSize(width: layoutAttributes.frame.width, height: 0)
+        layoutAttributes.frame.size = contentView.systemLayoutSizeFitting(
+            targetSize,
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        )
+        return layoutAttributes
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -169,13 +182,6 @@ final class TrendingViewCell: UICollectionViewCell {
         activityIndicator.stopAnimating()
     }
     
-    @objc private func saveButtonPressed(_ sender: UIButton) {
-        delegate?.saveRecipe(
-            at: self.indexPath ?? IndexPath(),
-            imageData: self.recipeImageData ?? Data()
-        )
-    }
-    
     // MARK: - Set Views
     private func setupUI() {
         contentView.backgroundColor = .white
@@ -185,7 +191,7 @@ final class TrendingViewCell: UICollectionViewCell {
         recipeSaveContainer.addSubview(recipeSaveButton)
         timeContainer.addSubview(timeLabel)
         
-        contentView.addSubview(recipeTitleStackView)
+        containerView.addSubview(recipeTitleStackView)
         recipeTitleStackView.addArrangedSubviews(titleLabel, authorStackView)
         authorStackView.addArrangedSubviews(authorImageView, authorNameLabel)
     }
@@ -221,7 +227,7 @@ extension TrendingViewCell {
         
         setupSaveButtonImage(isRecipeSaved: config.isRecipeSaved)
         setupAuthorImage()
-        delegate?.loadImage(for: self, at: config.indexPath)
+        delegate?.loadImage(for: config.indexPath)
     }
     
     func updateRecipeImage(with imageData: Data) {
@@ -251,6 +257,16 @@ extension TrendingViewCell {
     }
 }
 
+// MARK: - Actions
+extension TrendingViewCell {
+    @objc private func saveButtonPressed(_ sender: UIButton) {
+        delegate?.saveRecipe(
+            at: self.indexPath ?? IndexPath(),
+            imageData: self.recipeImageData ?? Data()
+        )
+    }
+}
+
 // MARK: - Setup Constraints
 extension TrendingViewCell {
     private func setupConstraints() {
@@ -271,7 +287,7 @@ extension TrendingViewCell {
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            containerView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.52)
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     
@@ -280,14 +296,14 @@ extension TrendingViewCell {
             recipeImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
             recipeImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             recipeImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            recipeImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            recipeImageView.heightAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.52)
         ])
     }
     
     private func setupRatingStackViewConstraints() {
         NSLayoutConstraint.activate([
-            ratingStackView.topAnchor.constraint(equalToSystemSpacingBelow: containerView.topAnchor, multiplier: 1.0),
-            ratingStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: containerView.leadingAnchor, multiplier: 1.0)
+            ratingStackView.topAnchor.constraint(equalToSystemSpacingBelow: recipeImageView.topAnchor, multiplier: 1.0),
+            ratingStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: recipeImageView.leadingAnchor, multiplier: 1.0)
         ])
     }
     
@@ -300,8 +316,8 @@ extension TrendingViewCell {
     
     private func setupRecipeSaveContainerConstraints() {
         NSLayoutConstraint.activate([
-            recipeSaveContainer.topAnchor.constraint(equalToSystemSpacingBelow: containerView.topAnchor, multiplier: 1.0),
-            trailingAnchor.constraint(equalToSystemSpacingAfter: recipeSaveContainer.trailingAnchor, multiplier: 1.0),
+            recipeSaveContainer.topAnchor.constraint(equalToSystemSpacingBelow: recipeImageView.topAnchor, multiplier: 1.0),
+            recipeImageView.trailingAnchor.constraint(equalToSystemSpacingAfter: recipeSaveContainer.trailingAnchor, multiplier: 1.0),
             recipeSaveContainer.widthAnchor.constraint(equalToConstant: Metrics.recipeSaveContainerSize),
             recipeSaveContainer.heightAnchor.constraint(equalToConstant: Metrics.recipeSaveContainerSize)
 
@@ -319,8 +335,8 @@ extension TrendingViewCell {
     
     private func setupTimeContainerConstraints() {
         NSLayoutConstraint.activate([
-            containerView.trailingAnchor.constraint(equalToSystemSpacingAfter: timeContainer.trailingAnchor, multiplier: 1.0),
-            containerView.bottomAnchor.constraint(equalToSystemSpacingBelow: timeContainer.bottomAnchor, multiplier: 1.0)
+            recipeImageView.trailingAnchor.constraint(equalToSystemSpacingAfter: timeContainer.trailingAnchor, multiplier: 1.0),
+            recipeImageView.bottomAnchor.constraint(equalToSystemSpacingBelow: timeContainer.bottomAnchor, multiplier: 1.0)
         ])
     }
     
@@ -335,10 +351,10 @@ extension TrendingViewCell {
     
     private func setupRecipeTitleStackConstraints() {
         NSLayoutConstraint.activate([
-            recipeTitleStackView.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: Metrics.titleStackTopIndent),
-            recipeTitleStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            trailingAnchor.constraint(equalToSystemSpacingAfter: recipeTitleStackView.trailingAnchor, multiplier: 1.0),
-            recipeTitleStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
+            recipeTitleStackView.topAnchor.constraint(equalTo: recipeImageView.bottomAnchor, constant: Metrics.titleStackTopIndent),
+            recipeTitleStackView.leadingAnchor.constraint(equalTo: recipeImageView.leadingAnchor),
+            recipeImageView.trailingAnchor.constraint(equalToSystemSpacingAfter: recipeTitleStackView.trailingAnchor, multiplier: 1.0),
+            recipeTitleStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
     }
     

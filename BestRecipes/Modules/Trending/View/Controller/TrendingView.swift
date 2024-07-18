@@ -11,13 +11,17 @@ final class TrendingView: UIView {
     // MARK: - UI
     lazy var trendingCollection: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
+        let screenWidth = ScreenSizeManager.screenWidth
         flowLayout.scrollDirection = .vertical
         flowLayout.minimumLineSpacing = 24.0
+        flowLayout.estimatedItemSize = CGSize(width: screenWidth - 32, height: 180)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .white
+        collectionView.contentInsetAdjustmentBehavior = .always
         collectionView.register(TrendingViewCell.self, forCellWithReuseIdentifier: K.trendingCell)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
         return collectionView
     }()
     

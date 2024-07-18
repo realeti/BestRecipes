@@ -98,7 +98,7 @@ final class DetailView: UIView {
     )
     
     lazy var tableView: UITableView = {
-        let view = UITableView(frame: .zero, style: .grouped)
+        let view = UITableView()
         view.separatorStyle = .none
         view.backgroundColor = .white
         view.estimatedRowHeight = 100
@@ -183,7 +183,7 @@ private extension DetailView {
         NSLayoutConstraint.activate([
             baseStackView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 2.0),
             baseStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 2.0),
-            trailingAnchor.constraint(equalToSystemSpacingAfter: baseStackView.trailingAnchor, multiplier: 2.0).withPriority(.defaultHigh)
+            trailingAnchor.constraint(equalToSystemSpacingAfter: baseStackView.trailingAnchor, multiplier: 2.0)
         ])
     }
     
