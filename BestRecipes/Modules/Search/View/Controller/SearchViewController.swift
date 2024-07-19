@@ -132,7 +132,7 @@ extension SearchViewController: UICollectionViewDataSource {
     }
     
     private func createEmptyCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        guard let emptyCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.emptySearchCell, for: indexPath) as? EmptySearchViewCell else {
+        guard let emptyCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.emptyCell, for: indexPath) as? EmptyCollectionViewCell else {
             return UICollectionViewCell()
         }
         

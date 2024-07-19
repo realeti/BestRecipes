@@ -18,7 +18,7 @@ final class SearchView: UIView {
         collectionView.backgroundColor = .white
         collectionView.register(SearchHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: K.searchHeaderView)
         collectionView.register(SearchViewCell.self, forCellWithReuseIdentifier: K.searchCell)
-        collectionView.register(EmptySearchViewCell.self, forCellWithReuseIdentifier: K.emptySearchCell)
+        collectionView.register(EmptyCollectionViewCell.self, forCellWithReuseIdentifier: K.emptyCell)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()

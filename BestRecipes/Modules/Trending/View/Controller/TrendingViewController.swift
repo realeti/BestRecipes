@@ -91,10 +91,28 @@ extension TrendingViewController: TrendingViewCellProtocol {
 // MARK: - CollectionView DataSource methods
 extension TrendingViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.getRecipes.count
+        let recipesCount = presenter.getRecipes.count
+        return recipesCount > 0 ? recipesCount : 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if presenter.getRecipes.isEmpty {
+            return createEmptyCell(for: collectionView, at: indexPath)
+        } else {
+            return createRecipeCell(for: collectionView, at: indexPath)
+        }
+    }
+    
+    private func createEmptyCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+        guard let emptyCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.emptyCell, for: indexPath) as? EmptyCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        
+        emptyCell.configure(with: K.emptyTrendingText)
+        return emptyCell
+    }
+    
+    private func createRecipeCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.trendingCell, for: indexPath) as? TrendingViewCell else {
             return UICollectionViewCell()
         }
@@ -136,9 +154,4 @@ extension TrendingViewController: UICollectionViewDelegate {
         let recipeImageData = cell.recipeImageData
         presenter.showRecipeDetails(for: selectedRecipe, with: recipeImageData)
     }
-}
-
-// MARK: - CollectionView FlowLayout Delegate methods
-extension TrendingViewController: UICollectionViewDelegateFlowLayout {
-    //
 }

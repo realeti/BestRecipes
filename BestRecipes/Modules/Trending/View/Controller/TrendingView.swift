@@ -20,6 +20,7 @@ final class TrendingView: UIView {
         collectionView.backgroundColor = .white
         collectionView.contentInsetAdjustmentBehavior = .always
         collectionView.register(TrendingViewCell.self, forCellWithReuseIdentifier: K.trendingCell)
+        collectionView.register(EmptyCollectionViewCell.self, forCellWithReuseIdentifier: K.emptyCell)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         return collectionView
