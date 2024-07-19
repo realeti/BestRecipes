@@ -9,7 +9,7 @@ import UIKit
 
 protocol BuilderProtocol: AnyObject {
     func createModule(for initialModuleType: InitialModuleType, router: Router) -> UIViewController
-    func createTrendingModule(router: RouterProtocol, recipes: [Recipe]) -> UIViewController
+    func createTrendingModule(title: String, router: RouterProtocol, recipes: [Recipe]) -> UIViewController
     func createSearchModule(router: RouterProtocol) -> UIViewController
     func createDetailModule(router: RouterProtocol, recipe: RecipeDetailModel) -> UIViewController
     func createCreateRecipeModule(router: RouterProtocol) -> UIViewController
@@ -64,12 +64,12 @@ final class Builder: BuilderProtocol {
     }
     
     // MARK: - Create Trending
-    func createTrendingModule(router: RouterProtocol, recipes: [Recipe]) -> UIViewController {
+    func createTrendingModule(title: String, router: RouterProtocol, recipes: [Recipe]) -> UIViewController {
         let viewController = TrendingViewController()
         let presenter = TrendingPresenter(view: viewController, router: router, recipes: recipes)
         viewController.presenter = presenter
+        viewController.title = title
         viewController.hidesBottomBarWhenPushed = true
-        setTitle(K.trendingTitle, for: viewController)
         
         return viewController
     }
@@ -89,7 +89,7 @@ final class Builder: BuilderProtocol {
         let presenter = DetailPresenter(view: viewController, router: router, model: recipe)
         viewController.presenter = presenter
         viewController.hidesBottomBarWhenPushed = true
-        setTitle(K.detailTitle, for: viewController)
+        viewController.title = K.detailTitle
         return viewController
     }
   
@@ -100,13 +100,6 @@ final class Builder: BuilderProtocol {
         viewController.presenter = presenter
         viewController.hidesBottomBarWhenPushed = true
         return viewController
-    }
-}
-
-// MARK: - Setup ViewController Title
-extension Builder {
-    private func setTitle(_ title: String, for viewController: UIViewController) {
-        viewController.title = title
     }
 }
 

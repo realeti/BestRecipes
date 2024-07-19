@@ -16,6 +16,8 @@ struct K {
     static let detailTitle = "Recipe detail"
     static let trendingTitle = "Trending now"
     static let createTitle = "Create recipe"
+    static let recentRecipesTitle = "Recent recipes"
+    static let popularCuisineTitle = "Popular Cuisine"
     
     // MARK: - Search
     static let searchPlaceholer = "How to make..."

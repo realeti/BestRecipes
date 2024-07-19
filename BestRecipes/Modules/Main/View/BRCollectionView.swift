@@ -57,17 +57,15 @@ extension BRCollectionView: UICollectionViewDelegate {
         print("Ячейка в секции \(indexPath.section) и номер \(indexPath.item) была нажата.")
         switch indexPath.section {
         case 0:
-            print(indexPath.item)
+            presenter?.performActionForSectionTrending(at: indexPath.item)
         case 1:
-            print(indexPath.item)
-            print(categories[indexPath.item].request)
             presenter?.fetchPopularsByCategory(categories[indexPath.item].request)
         case 2:
-            print(indexPath.item)
+            presenter?.performActionForSectionPopular(at: indexPath.item)
         case 3:
-            print(indexPath.item)
+            presenter?.performActionForSectionRecent(at: indexPath.item)
         case 4:
-            print(indexPath.item)
+            presenter?.performActionForSectionCuisine(at: indexPath.item)
         default:
             break
         }

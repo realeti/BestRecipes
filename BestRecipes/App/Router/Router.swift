@@ -14,7 +14,7 @@ protocol RouterProtocol: AnyObject {
     var builder: BuilderProtocol { get set }
     
     func start(with initialModuleType: InitialModuleType)
-    func showTrending(_ recipes: [Recipe])
+    func showTrending(title: String, recipes: [Recipe])
     func showDetail(recipe: RecipeDetailModel)
     func showSearch()
     func popToRoot()
@@ -40,9 +40,13 @@ final class Router: RouterProtocol {
     
     //MARK: - Trending
     
-    func showTrending(_ recipes: [Recipe]) {
+    func showTrending(title: String, recipes: [Recipe]) {
         let router = self
-        let trendingViewController = builder.createTrendingModule(router: router, recipes: recipes)
+        let trendingViewController = builder.createTrendingModule(
+            title: title,
+            router: router,
+            recipes: recipes
+        )
         navigationController.pushViewController(trendingViewController, animated: true)
         builder.configureModule(for: trendingViewController, with: router)
     }

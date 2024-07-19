@@ -13,6 +13,10 @@ protocol MainPresenterProtocol: AnyObject {
     func fetchData()
     func fetchPopularsByCategory(_ mealType: String)
     func performActionForHeader(at index: Int)
+    func performActionForSectionTrending(at index: Int)
+    func performActionForSectionPopular(at index: Int)
+    func performActionForSectionRecent(at index: Int)
+    func performActionForSectionCuisine(at index: Int)
     func addToFavorites(_ sender: Int)
     func removeFromFavorites(_ sender: Int)
     func addRecent()
@@ -150,22 +154,6 @@ extension MainPresenter: MainPresenterProtocol {
         }
     }
     
-    
-    func performActionForHeader(at index: Int) {
-        switch index {
-        case 0:
-            print("trending #\(index)")
-            router.showTrending(trendingRecipes)
-        case 3:
-            print(index)
-        case 4:
-            print(index)
-        default:
-            break
-        }
-    }
-    
-    
     func addToFavorites(_ sender: Int) {
         print("add to favorites tapped \(sender)")
         storage.addRecipe(trendingRecipes[sender], to: .favorites)
@@ -187,5 +175,80 @@ extension MainPresenter: MainPresenterProtocol {
     
     func showSearch() {
         router.showSearch()
+    }
+}
+
+// MARK: - Perform Actions
+extension MainPresenter {
+    func performActionForHeader(at index: Int) {
+        switch index {
+        case 0:
+            print("trending #\(index)")
+            router.showTrending(title: K.trendingTitle, recipes: trendingRecipes)
+        case 3:
+            print("recent #\(index)")
+            router.showTrending(title: K.recentRecipesTitle, recipes: recentRecipes)
+        case 4:
+            print("popular cuisine #\(index)")
+            router.showTrending(title: K.popularCuisineTitle, recipes: cuisineRecipes)
+        default:
+            break
+        }
+    }
+    
+    func performActionForSectionTrending(at index: Int) {
+        guard !trendingRecipes.isEmpty else {
+            return
+        }
+        
+        let recipe = trendingRecipes[index]
+        showDetail(with: recipe)
+    }
+    
+    func performActionForSectionPopular(at index: Int) {
+        guard !popularRecipes.isEmpty else {
+            return
+        }
+        
+        let recipe = popularRecipes[index]
+        showDetail(with: recipe)
+    }
+    
+    func performActionForSectionRecent(at index: Int) {
+        guard !recentRecipes.isEmpty else {
+            return
+        }
+        
+        let recipe = recentRecipes[index]
+        showDetail(with: recipe)
+    }
+    
+    func performActionForSectionCuisine(at index: Int) {
+        guard !cuisineRecipes.isEmpty else {
+            return
+        }
+        
+        let recipe = cuisineRecipes[index]
+        showDetail(with: recipe)
+    }
+    
+    private func showDetail(with recipe: Recipe) {
+        var detailIngredients: [DetailIngredient] = []
+        
+        if let ingredients = recipe.extendedIngredients {
+            detailIngredients = ingredients.map {
+                DetailIngredient(from: $0)
+            }
+        }
+        
+        let recipeDetail = RecipeDetailModel(
+            title: recipe.title ?? "",
+            instruction: recipe.mockInstuction,
+            rating: recipe.rating,
+            reviewsCount: recipe.reviewsCount,
+            imageURL: recipe.imageURL ?? "",
+            ingredients: detailIngredients
+        )
+        router.showDetail(recipe: recipeDetail)
     }
 }
