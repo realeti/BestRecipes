@@ -1,5 +1,5 @@
 //
-//  EmptySearchViewCell.swift
+//  EmptyCollectionViewCell.swift
 //  BestRecipes
 //
 //  Created by realeti on 12.07.2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class EmptySearchViewCell: UICollectionViewCell {
+final class EmptyCollectionViewCell: UICollectionViewCell {
     // MARK: - UI
     private lazy var textLabel: UILabel = {
         let label = UILabel()
@@ -37,14 +37,14 @@ final class EmptySearchViewCell: UICollectionViewCell {
 }
 
 // MARK: - Configure Cell
-extension EmptySearchViewCell {
+extension EmptyCollectionViewCell {
     func configure(with text: String) {
         textLabel.text = text
     }
 }
 
 // MARK: - Setup Constraints
-extension EmptySearchViewCell {
+extension EmptyCollectionViewCell {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             textLabel.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 3.0),
