@@ -15,7 +15,7 @@ struct K {
     static let profileTitle = "My profile"
     static let detailTitle = "Recipe detail"
     static let trendingTitle = "Trending now"
-    static let createTitle = "Create recipe"
+    static let createRecipeTitle = "Create recipe"
     static let recentRecipesTitle = "Recent recipes"
     static let popularCuisineTitle = "Popular Cuisine"
     
@@ -25,7 +25,7 @@ struct K {
     static let emptyTrendingText = "Nothing here, network problem..."
     
     // MARK: - Reusable
-    static let searchCell = "searchCell"
+    static let myRecipesCell = "searchCell"
     static let emptyCell = "emptySearchCell"
     static let searchHeaderView = "searchHeaderView"
     static let trendingCell = "trendingCell"

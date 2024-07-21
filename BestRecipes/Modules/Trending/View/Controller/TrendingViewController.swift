@@ -104,7 +104,7 @@ extension TrendingViewController: UICollectionViewDataSource {
     }
     
     private func createEmptyCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        guard let emptyCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.emptyCell, for: indexPath) as? EmptyCollectionViewCell else {
+        guard let emptyCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.emptyCell, for: indexPath) as? EmptyCollectionCell else {
             return UICollectionViewCell()
         }
         

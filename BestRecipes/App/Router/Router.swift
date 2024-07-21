@@ -37,7 +37,7 @@ final class Router: RouterProtocol {
         navigationController.viewControllers = [viewController]
     }
     
-    //MARK: - Trending
+    // MARK: - Trending
     func showTrending(title: String, recipes: [Recipe]) {
         let trendingViewController = builder.createTrendingModule(
             title: title,
@@ -47,13 +47,13 @@ final class Router: RouterProtocol {
         navigationController.pushViewController(trendingViewController, animated: true)
     }
     
-    //MARK: - Detail
+    // MARK: - Detail
     func showDetail(recipe: RecipeDetailModel) {
         let detailViewController = builder.createDetailModule(recipe: recipe, router: self)
         navigationController.pushViewController(detailViewController, animated: true)
     }
     
-    //MARK: - Search
+    // MARK: - Search
     func showSearch() {
         let searchViewController = builder.createSearchModule(router: self)
         navigationController.pushViewController(searchViewController, animated: true)

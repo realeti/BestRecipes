@@ -16,9 +16,10 @@ final class SearchView: UIView {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .white
+        collectionView.contentInsetAdjustmentBehavior = .always
         collectionView.register(SearchHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: K.searchHeaderView)
-        collectionView.register(SearchViewCell.self, forCellWithReuseIdentifier: K.searchCell)
-        collectionView.register(EmptyCollectionViewCell.self, forCellWithReuseIdentifier: K.emptyCell)
+        collectionView.register(MyRecipesCollectionCell.self, forCellWithReuseIdentifier: K.myRecipesCell)
+        collectionView.register(EmptyCollectionCell.self, forCellWithReuseIdentifier: K.emptyCell)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -26,8 +27,6 @@ final class SearchView: UIView {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
-        
         setupUI()
         setupConstraints()
     }
@@ -38,6 +37,7 @@ final class SearchView: UIView {
     
     // MARK: - Set Views
     private func setupUI() {
+        backgroundColor = .white
         addSubview(recipeCollection)
     }
 }

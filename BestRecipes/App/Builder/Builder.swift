@@ -2,7 +2,7 @@
 //  Builder.swift
 //  BestRecipes
 //
-//  Created by Evgenii Mazrukho on 02.07.2024.
+//  Created by Evgenii Mazrukho & realeti on 02.07.2024.
 //
 
 import UIKit
@@ -57,6 +57,9 @@ final class Builder: BuilderProtocol {
     // MARK: - Create TabBar Profile
     private func createProfileModule(router: RouterProtocol) -> UIViewController {
         let viewController = ProfileViewController()
+        let presenter = ProfilePresenter(view: viewController, router: router)
+        viewController.presenter = presenter
+        viewController.title = K.profileTitle
         return viewController
     }
     
@@ -67,7 +70,6 @@ final class Builder: BuilderProtocol {
         viewController.presenter = presenter
         viewController.title = title
         viewController.hidesBottomBarWhenPushed = true
-        
         return viewController
     }
     
@@ -96,6 +98,7 @@ final class Builder: BuilderProtocol {
         let presenter = CreateRecipePresenter(vc: viewController, router: router)
         viewController.presenter = presenter
         viewController.hidesBottomBarWhenPushed = true
+        viewController.title = K.createRecipeTitle
         return viewController
     }
 }

@@ -1,5 +1,5 @@
 //
-//  SearchViewCell.swift
+//  MyRecipesCollectionCell.swift
 //  BestRecipes
 //
 //  Created by realeti on 09.07.2024.
@@ -8,10 +8,10 @@
 import UIKit
 
 protocol SearchViewCellProtocol: AnyObject {
-    func loadImage(for cell: SearchViewCell, at indexPath: IndexPath)
+    func loadImage(for cell: MyRecipesCollectionCell, at indexPath: IndexPath)
 }
 
-final class SearchViewCell: UICollectionViewCell {
+final class MyRecipesCollectionCell: UICollectionViewCell {
     // MARK: - UI
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -125,7 +125,7 @@ final class SearchViewCell: UICollectionViewCell {
 }
 
 // MARK: - Configure Cell
-extension SearchViewCell {
+extension MyRecipesCollectionCell {
     func configure(with config: SearchCellConfiguration) {
         self.indexPath = config.indexPath
         
@@ -142,7 +142,7 @@ extension SearchViewCell {
 }
 
 // MARK: - Setup Constraints
-extension SearchViewCell {
+extension MyRecipesCollectionCell {
     private func setupConstraints() {
         setupContainerViewConstraints()
         setupRecipeImageConstraints()

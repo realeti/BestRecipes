@@ -70,7 +70,7 @@ extension SearchViewController: SearchViewProtocol {
     
     func showRecipeImageLoading(_ loading: Bool, at indexPath: IndexPath) {
         DispatchQueue.main.async {
-            if let cell = self.searchView.recipeCollection.cellForItem(at: indexPath) as? SearchViewCell {
+            if let cell = self.searchView.recipeCollection.cellForItem(at: indexPath) as? MyRecipesCollectionCell {
                 cell.showLoading(loading)
             }
         }
@@ -84,7 +84,7 @@ extension SearchViewController: SearchViewProtocol {
     
     func didUpdateRecipeImage(_ imageData: Data, at indexPath: IndexPath) {
         DispatchQueue.main.async {
-            if let cell = self.searchView.recipeCollection.cellForItem(at: indexPath) as? SearchViewCell {
+            if let cell = self.searchView.recipeCollection.cellForItem(at: indexPath) as? MyRecipesCollectionCell {
                 cell.updateRecipeImage(with: imageData)
             }
         }
@@ -93,7 +93,7 @@ extension SearchViewController: SearchViewProtocol {
 
 // MARK: - Collection Cell Delegate methods
 extension SearchViewController: SearchViewCellProtocol {
-    func loadImage(for cell: SearchViewCell, at indexPath: IndexPath) {
+    func loadImage(for cell: MyRecipesCollectionCell, at indexPath: IndexPath) {
         let recipe = presenter.getRecipes[indexPath.row]
         guard let imageUrl = recipe.imageURL else { return }
         
@@ -132,7 +132,7 @@ extension SearchViewController: UICollectionViewDataSource {
     }
     
     private func createEmptyCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        guard let emptyCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.emptyCell, for: indexPath) as? EmptyCollectionViewCell else {
+        guard let emptyCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.emptyCell, for: indexPath) as? EmptyCollectionCell else {
             return UICollectionViewCell()
         }
         
@@ -141,7 +141,7 @@ extension SearchViewController: UICollectionViewDataSource {
     }
     
     private func createRecipeCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.searchCell, for: indexPath) as? SearchViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.myRecipesCell, for: indexPath) as? MyRecipesCollectionCell else {
             return UICollectionViewCell()
         }
         
@@ -164,7 +164,7 @@ extension SearchViewController: UICollectionViewDataSource {
 extension SearchViewController: UICollectionViewDelegate {
     /// collection selected item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? SearchViewCell else {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? MyRecipesCollectionCell else {
             return
         }
         

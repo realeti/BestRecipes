@@ -1,25 +1,23 @@
 //
-//  TrendingView.swift
+//  ProfileView.swift
 //  BestRecipes
 //
-//  Created by realeti on 13.07.2024.
+//  Created by realeti on 21.07.2024.
 //
 
 import UIKit
 
-final class TrendingView: UIView {
+final class ProfileView: UIView {
     // MARK: - UI
-    lazy var trendingCollection: UICollectionView = {
+    lazy var recipeCollection: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
-        let screenWidth = ScreenSizeManager.screenWidth
         flowLayout.scrollDirection = .vertical
         flowLayout.minimumLineSpacing = 24.0
-        flowLayout.estimatedItemSize = CGSize(width: screenWidth - 32, height: 180)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .white
         collectionView.contentInsetAdjustmentBehavior = .always
-        collectionView.register(TrendingViewCell.self, forCellWithReuseIdentifier: K.trendingCell)
+        collectionView.register(MyRecipesCollectionCell.self, forCellWithReuseIdentifier: K.myRecipesCell)
         collectionView.register(EmptyCollectionCell.self, forCellWithReuseIdentifier: K.emptyCell)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -28,7 +26,6 @@ final class TrendingView: UIView {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
         
         setupUI()
         setupConstraints()
@@ -40,18 +37,22 @@ final class TrendingView: UIView {
     
     // MARK: - Set Views
     private func setupUI() {
-        addSubview(trendingCollection)
+        backgroundColor = .white
+        addSubview(recipeCollection)
     }
 }
 
-// MARK: - Setup Constraints
-extension TrendingView {
-    private func setupConstraints() {
+private extension ProfileView {
+    func setupConstraints() {
+        setupRecipeCollectionConstraints()
+    }
+    
+    func setupRecipeCollectionConstraints() {
         NSLayoutConstraint.activate([
-            trendingCollection.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            trendingCollection.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 2.0),
-            trailingAnchor.constraint(equalToSystemSpacingAfter: trendingCollection.trailingAnchor, multiplier: 2.0),
-            safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: trendingCollection.bottomAnchor, multiplier: 1.0)
+            recipeCollection.topAnchor.constraint(equalToSystemSpacingBelow: safeAreaLayoutGuide.topAnchor, multiplier: 1.0),
+            recipeCollection.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 2.0),
+            trailingAnchor.constraint(equalToSystemSpacingAfter: recipeCollection.trailingAnchor, multiplier: 2.0),
+            safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: recipeCollection.bottomAnchor, multiplier: 1.0)
         ])
     }
 }
