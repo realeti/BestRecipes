@@ -28,6 +28,8 @@ final class Router: RouterProtocol {
     init(navigationController: UINavigationController, builder: BuilderProtocol) {
         self.navigationController = navigationController
         self.builder = builder
+        
+        builder.configureNavigationController(navigationController)
     }
     
     // MARK: Start
@@ -48,7 +50,6 @@ final class Router: RouterProtocol {
             recipes: recipes
         )
         navigationController.pushViewController(trendingViewController, animated: true)
-        builder.configureModule(for: trendingViewController, with: router)
     }
     
     //MARK: - Detail
@@ -57,7 +58,6 @@ final class Router: RouterProtocol {
         let router = self
         let detailViewController = builder.createDetailModule(router: router, recipe: recipe)
         navigationController.pushViewController(detailViewController, animated: true)
-        builder.configureModule(for: detailViewController, with: router)
     }
     
     //MARK: - Search

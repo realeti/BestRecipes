@@ -8,12 +8,12 @@
 import UIKit
 
 protocol BuilderProtocol: AnyObject {
+    func configureNavigationController(_ navigationController: UINavigationController)
     func createModule(for initialModuleType: InitialModuleType, router: Router) -> UIViewController
     func createTrendingModule(title: String, router: RouterProtocol, recipes: [Recipe]) -> UIViewController
     func createSearchModule(router: RouterProtocol) -> UIViewController
     func createDetailModule(router: RouterProtocol, recipe: RecipeDetailModel) -> UIViewController
     func createCreateRecipeModule(router: RouterProtocol) -> UIViewController
-    func configureModule(for viewController: UIViewController, with router: RouterProtocol)
 }
 
 
@@ -34,12 +34,9 @@ final class Builder: BuilderProtocol {
     
     // MARK: - Create TabBar Home
     private func createHomeModule(router: RouterProtocol) -> UIViewController {
-//        let network = NetworkManager()
-//        let storage = DataManager()
         let presenter = MainPresenter(router: router)
         let viewController = MainViewController(presenter: presenter)
         presenter.view = viewController
-        
         return viewController
     }
     
@@ -93,7 +90,7 @@ final class Builder: BuilderProtocol {
         return viewController
     }
   
-    // MARK: - Create Create Recipe
+    // MARK: - Create Recipe
     func createCreateRecipeModule(router: RouterProtocol) -> UIViewController {
         let viewController = CreateRecipeViewController()
         let presenter = CreateRecipePresenter(vc: viewController, router: router)
@@ -103,32 +100,37 @@ final class Builder: BuilderProtocol {
     }
 }
 
-// MARK: - Configure Module
+// MARK: - Configure Navigation Controller
 extension Builder {
-    func configureModule(for viewController: UIViewController, with router: RouterProtocol) {
-        setTitleAttributes(for: viewController)
-        setCustomBackButton(for: viewController, with: router)
-    }
-}
-
-// MARK: - Custom Title Attributes
-extension Builder {
-    private func setTitleAttributes(for viewController: UIViewController) {
-        guard let navigationController = viewController.navigationController else {
-            return
-        }
+    func configureNavigationController(_ navigationController: UINavigationController) {
+        /// get standart navigationController appearance
+        let appearance = navigationController.navigationBar.standardAppearance
         
+        /// get back button image
+        let backImage = UIImage(resource: .arrowLeft)
+        
+        /// attributes for navigation title
         let attributes: [NSAttributedString.Key: Any] = [
             .font: Font.getFont(.poppinsSemiBold, size: 24.0),
             .foregroundColor: UIColor(resource: .blackBase)
         ]
         
-        navigationController.navigationBar.titleTextAttributes = attributes
+        /// clear back button title color
+        appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.clear]
+        
+        /// set back button image
+        appearance.setBackIndicatorImage(backImage, transitionMaskImage: backImage)
+        
+        /// set navigation title attributes
+        appearance.titleTextAttributes = attributes
+        
+        /// set back button tint color
+        navigationController.navigationBar.tintColor = .blackBase
     }
 }
 
-// MARK: - Custom Navigation BackButton
-extension Builder {
+// MARK: - Custom Navigation BackButton (old)
+/*extension Builder {
     private func setCustomBackButton(for viewController: UIViewController, with router: RouterProtocol) {
         let customView = UIButton(type: .system)
         customView.setBackgroundImage(.arrowLeft, for: .normal)
@@ -139,5 +141,4 @@ extension Builder {
         
         customView.addAction(action, for: .touchUpInside)
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: customView)
-    }
-}
+}*/
