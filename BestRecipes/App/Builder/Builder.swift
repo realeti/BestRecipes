@@ -10,9 +10,9 @@ import UIKit
 protocol BuilderProtocol: AnyObject {
     func configureNavigationController(_ navigationController: UINavigationController)
     func createModule(for initialModuleType: InitialModuleType, router: Router) -> UIViewController
-    func createTrendingModule(title: String, router: RouterProtocol, recipes: [Recipe]) -> UIViewController
+    func createTrendingModule(title: String, recipes: [Recipe], router: RouterProtocol) -> UIViewController
     func createSearchModule(router: RouterProtocol) -> UIViewController
-    func createDetailModule(router: RouterProtocol, recipe: RecipeDetailModel) -> UIViewController
+    func createDetailModule(recipe: RecipeDetailModel, router: RouterProtocol) -> UIViewController
     func createCreateRecipeModule(router: RouterProtocol) -> UIViewController
 }
 
@@ -61,7 +61,7 @@ final class Builder: BuilderProtocol {
     }
     
     // MARK: - Create Trending
-    func createTrendingModule(title: String, router: RouterProtocol, recipes: [Recipe]) -> UIViewController {
+    func createTrendingModule(title: String, recipes: [Recipe], router: RouterProtocol) -> UIViewController {
         let viewController = TrendingViewController()
         let presenter = TrendingPresenter(view: viewController, router: router, recipes: recipes)
         viewController.presenter = presenter
@@ -81,7 +81,7 @@ final class Builder: BuilderProtocol {
     }
     
     // MARK: - Create Detail
-    func createDetailModule(router: RouterProtocol, recipe: RecipeDetailModel) -> UIViewController {
+    func createDetailModule(recipe: RecipeDetailModel, router: RouterProtocol) -> UIViewController {
         let viewController = DetailViewController()
         let presenter = DetailPresenter(view: viewController, router: router, model: recipe)
         viewController.presenter = presenter
@@ -128,17 +128,3 @@ extension Builder {
         navigationController.navigationBar.tintColor = .blackBase
     }
 }
-
-// MARK: - Custom Navigation BackButton (old)
-/*extension Builder {
-    private func setCustomBackButton(for viewController: UIViewController, with router: RouterProtocol) {
-        let customView = UIButton(type: .system)
-        customView.setBackgroundImage(.arrowLeft, for: .normal)
-        
-        let action = UIAction { _ in
-            router.popToPrevious()
-        }
-        
-        customView.addAction(action, for: .touchUpInside)
-        viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: customView)
-}*/

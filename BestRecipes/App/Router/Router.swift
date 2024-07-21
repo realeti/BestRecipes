@@ -2,12 +2,10 @@
 //  Router.swift
 //  BestRecipes
 //
-//  Created by Evgenii Mazrukho on 02.07.2024.
+//  Created by Evgenii Mazrukho & realeti on 02.07.2024.
 //
 
 import UIKit
-
-//MARK: - Router Protocol
 
 protocol RouterProtocol: AnyObject {
     var navigationController: UINavigationController { get set }
@@ -22,66 +20,57 @@ protocol RouterProtocol: AnyObject {
 }
 
 final class Router: RouterProtocol {
+    // MARK: - Public Properties
     var navigationController: UINavigationController
     var builder: BuilderProtocol
     
+    // MARK: - Init
     init(navigationController: UINavigationController, builder: BuilderProtocol) {
         self.navigationController = navigationController
         self.builder = builder
-        
         builder.configureNavigationController(navigationController)
     }
     
     // MARK: Start
-    
     func start(with initialModuleType: InitialModuleType) {
-        let router = self
-        let viewController = builder.createModule(for: initialModuleType, router: router)
+        let viewController = builder.createModule(for: initialModuleType, router: self)
         navigationController.viewControllers = [viewController]
     }
     
     //MARK: - Trending
-    
     func showTrending(title: String, recipes: [Recipe]) {
-        let router = self
         let trendingViewController = builder.createTrendingModule(
             title: title,
-            router: router,
-            recipes: recipes
+            recipes: recipes,
+            router: self
         )
         navigationController.pushViewController(trendingViewController, animated: true)
     }
     
     //MARK: - Detail
-    
     func showDetail(recipe: RecipeDetailModel) {
-        let router = self
-        let detailViewController = builder.createDetailModule(router: router, recipe: recipe)
+        let detailViewController = builder.createDetailModule(recipe: recipe, router: self)
         navigationController.pushViewController(detailViewController, animated: true)
     }
     
     //MARK: - Search
     func showSearch() {
-        let router = self
-        let searchViewController = builder.createSearchModule(router: router)
+        let searchViewController = builder.createSearchModule(router: self)
         navigationController.pushViewController(searchViewController, animated: true)
     }
     
-    //MARK: - Show Create Recipe
+    // MARK: - CreateRecipe
     func showCreateRecipe() {
-        let router = self
-        let createRecipeViewController = builder.createCreateRecipeModule(router: router)
+        let createRecipeViewController = builder.createCreateRecipeModule(router: self)
         navigationController.pushViewController(createRecipeViewController, animated: true)
     }
     
-    //MARK: - PopToRoot
-    
+    // MARK: - PopToRoot
     func popToRoot() {
         navigationController.popToRootViewController(animated: true)
     }
     
-    //MARK: - PopToPrevious
-    
+    // MARK: - PopToPrevious
     func popToPrevious() {
         navigationController.popViewController(animated: true)
     }

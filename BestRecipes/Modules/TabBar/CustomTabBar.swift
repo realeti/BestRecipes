@@ -70,7 +70,7 @@ extension CustomTabBar {
 // MARK: - Layout TabBar items
 extension CustomTabBar {
     private func layoutTabBarItems() {
-        // array with view controllers only
+        /// array with view controllers only
         let tabBarItems = subviews.filter { $0 is UIControl && $0 != createRecipeButton }
         
         guard tabBarItems.count == 4 else {
@@ -89,7 +89,7 @@ extension CustomTabBar {
                 xOffset = center + itemWidth + itemSpacing
             }
             
-            // set frame for tabBar item
+            /// set frame for tabBar item
             tabBarItems[index].frame = CGRect(x: xOffset, y: itemTopIndent, width: itemWidth, height: itemWidth)
             xOffset += itemWidth + itemSpacing
         }
@@ -119,7 +119,11 @@ extension CustomTabBar {
 // MARK: - Hit test
 extension CustomTabBar {
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        createRecipeButton.frame.contains(point) ? createRecipeButton : super.hitTest(point, with: event)
+        guard isHidden == false, createRecipeButton.frame.contains(point) else {
+            return super.hitTest(point, with: event)
+        }
+        
+        return createRecipeButton
     }
 }
 
