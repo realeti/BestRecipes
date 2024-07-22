@@ -24,6 +24,9 @@ struct K {
     static let emptySearchText = "Nothing here, keep searching!"
     static let emptyTrendingText = "Nothing here, network problem..."
     
+    // MARK: - Profile
+    static let profileAvatarName = "ProfileAvatar"
+    
     // MARK: - Reusable
     static let myRecipesCell = "searchCell"
     static let emptyCell = "emptySearchCell"

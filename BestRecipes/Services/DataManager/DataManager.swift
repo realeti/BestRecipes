@@ -92,8 +92,7 @@ enum SavedRecipesType: String {
 final class DataManager {
     
     static let shared = DataManager()
-    
-    private let fileManager: FileManager = .default
+    private let fileManager = FileManagerController.shared
     
     private let apiKeys: [String] = [
         "cc3538ef4d1448949d8c1f17cf5703c1",
@@ -109,7 +108,7 @@ final class DataManager {
     private var imageCaсhe: [String: Data] = [:]
     private var recipeCache: [String: [Recipe]] = [:]
     
-    private var apiKeyIndex = 7
+    private var apiKeyIndex = 0
     
     private init() {}
     
@@ -201,5 +200,16 @@ final class DataManager {
         if let item = try? JSONEncoder().encode(Array(recipes)) {
             UserDefaults.standard.set(item, forKey: storage.rawValue)
         }
+    }
+}
+
+// MARK: - File Manager Methods
+extension DataManager {
+    func saveImage(_ imageName: String, imageData: Data) {
+        fileManager.saveImage(imageName, imageData: imageData)
+    }
+    
+    func loadImage(imageUrl: String) -> Data? {
+        fileManager.loadImage(imageUrl: imageUrl)
     }
 }

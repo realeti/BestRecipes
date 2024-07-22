@@ -64,6 +64,7 @@
 		526DF7FD2C30DA11008A7818 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 526DF7FB2C30DA11008A7818 /* Poppins-Regular.ttf */; };
 		526DF80A2C30DE07008A7818 /* UIView + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF8092C30DE07008A7818 /* UIView + Extensions.swift */; };
 		526DF80D2C30DE3B008A7818 /* UIStackView + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526DF80C2C30DE3B008A7818 /* UIStackView + Extensions.swift */; };
+		C62606FA2C4EED1400968A7C /* FileManagerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62606F92C4EED1400968A7C /* FileManagerController.swift */; };
 		C636A0402C4D82F400736F80 /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C636A03F2C4D82F400736F80 /* ProfilePresenter.swift */; };
 		C636A0422C4D844700736F80 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C636A0412C4D844700736F80 /* ProfileView.swift */; };
 		C65550052C3C4E160016FF73 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65550042C3C4E160016FF73 /* SearchViewController.swift */; };
@@ -154,6 +155,7 @@
 		526DF7FB2C30DA11008A7818 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		526DF8092C30DE07008A7818 /* UIView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Extensions.swift"; sourceTree = "<group>"; };
 		526DF80C2C30DE3B008A7818 /* UIStackView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView + Extensions.swift"; sourceTree = "<group>"; };
+		C62606F92C4EED1400968A7C /* FileManagerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerController.swift; sourceTree = "<group>"; };
 		C636A03F2C4D82F400736F80 /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
 		C636A0412C4D844700736F80 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		C65550042C3C4E160016FF73 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -377,7 +379,7 @@
 			isa = PBXGroup;
 			children = (
 				526DF7F22C30D919008A7818 /* App */,
-				526DF7F42C30D92C008A7818 /* Service */,
+				526DF7F42C30D92C008A7818 /* Services */,
 				526DF7FF2C30DBBC008A7818 /* Model */,
 				526DF7F32C30D928008A7818 /* Modules */,
 				526DF7F52C30D936008A7818 /* Helpers */,
@@ -426,13 +428,14 @@
 			path = Modules;
 			sourceTree = "<group>";
 		};
-		526DF7F42C30D92C008A7818 /* Service */ = {
+		526DF7F42C30D92C008A7818 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				526DF7FE2C30DBAF008A7818 /* NetworkManager */,
 				24B6D96C2C37126F006F866F /* DataManager */,
+				C62606F82C4EECEC00968A7C /* FileManager */,
 			);
-			path = Service;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		526DF7F52C30D936008A7818 /* Helpers */ = {
@@ -569,6 +572,14 @@
 				FC58261D2C4307DF00726275 /* FavoriteTableViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		C62606F82C4EECEC00968A7C /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				C62606F92C4EED1400968A7C /* FileManagerController.swift */,
+			);
+			path = FileManager;
 			sourceTree = "<group>";
 		};
 		C636A03C2C4D82A800736F80 /* Controller */ = {
@@ -849,6 +860,7 @@
 				24C02B4B2C43301C008768F0 /* DetailCheckBox.swift in Sources */,
 				522898D32C32F0FC0013FF87 /* BRSection.swift in Sources */,
 				24C02B4F2C43306E008768F0 /* DetailView.swift in Sources */,
+				C62606FA2C4EED1400968A7C /* FileManagerController.swift in Sources */,
 				522898A42C31DD550013FF87 /* OnboardingViewController.swift in Sources */,
 				522898F42C36D8360013FF87 /* BRCategoryModel.swift in Sources */,
 				526DF80D2C30DE3B008A7818 /* UIStackView + Extensions.swift in Sources */,

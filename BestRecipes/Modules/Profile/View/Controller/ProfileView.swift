@@ -72,10 +72,17 @@ extension ProfileView {
         recipeCollection.delegate = delegate
         recipeCollection.dataSource = dataSource
     }
+    
+    func updateProfileAvatar(_ imageData: Data?) {
+        guard let imageData = imageData, !imageData.isEmpty else {
+            profileImageView.image = .avatar2
+            return
+        }
+        profileImageView.image = UIImage(data: imageData)
+    }
 }
 
 // MARK: - Actions
-
 private extension ProfileView {
     @objc func selectImage(_ sender: UIButton) {
         delegate?.selectImage()
@@ -120,11 +127,10 @@ private extension ProfileView {
     
     func setupRecipeCollectionConstraints() {
         NSLayoutConstraint.activate([
-            recipeCollection.topAnchor.constraint(equalToSystemSpacingBelow: recipesLabel.bottomAnchor, multiplier: 4.0),
+            recipeCollection.topAnchor.constraint(equalToSystemSpacingBelow: recipesLabel.bottomAnchor, multiplier: 3.0),
             recipeCollection.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 2.0),
             trailingAnchor.constraint(equalToSystemSpacingAfter: recipeCollection.trailingAnchor, multiplier: 2.0),
-            /*safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: recipeCollection.bottomAnchor, multiplier: 1.0)*/
-            recipeCollection.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            recipeCollection.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }
@@ -133,6 +139,6 @@ fileprivate struct Metrics {
     static let profileImageIndent: CGFloat = 20.5
     static let profileImageSize: CGFloat = 100.0
     
-    static let recipesLabelTopIndent: CGFloat = 50.0
+    static let recipesLabelTopIndent: CGFloat = 40.0
     static let recipesLabelIndent: CGFloat = 36.0
 }
