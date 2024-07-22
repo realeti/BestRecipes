@@ -9,6 +9,27 @@ import UIKit
 
 final class ProfileView: UIView {
     // MARK: - UI
+    let profileImageView = UIImageView(
+        image: .avatar4,
+        backgroundColor: .clear,
+        contentMode: .scaleAspectFill,
+        cornerRadius: Metrics.profileImageSize / 2
+    )
+    
+    private lazy var selectImageButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.addTarget(self, action: #selector(selectImage), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private let recipesLabel = UILabel(
+        text: K.myRecipes,
+        color: .blackBase,
+        font: .poppinsSemiBold,
+        fontSize: 24
+    )
+    
     lazy var recipeCollection: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
@@ -22,6 +43,9 @@ final class ProfileView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+    
+    // MARK: - Public Properties
+    weak var delegate: ProfileViewProtocol?
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -38,21 +62,77 @@ final class ProfileView: UIView {
     // MARK: - Set Views
     private func setupUI() {
         backgroundColor = .white
-        addSubview(recipeCollection)
+        addSubviews(profileImageView, selectImageButton, recipesLabel, recipeCollection)
     }
 }
 
+// MARK: - Public Methods
+extension ProfileView {
+    func setCollectionViewDelegate(_ delegate: UICollectionViewDelegate, dataSource: UICollectionViewDataSource) {
+        recipeCollection.delegate = delegate
+        recipeCollection.dataSource = dataSource
+    }
+}
+
+// MARK: - Actions
+
+private extension ProfileView {
+    @objc func selectImage(_ sender: UIButton) {
+        delegate?.selectImage()
+    }
+}
+
+// MARK: - Setup Constraints
 private extension ProfileView {
     func setupConstraints() {
+        setupProfileImageConstraints()
+        setupSelectImageButtonConstraints()
+        setupRecipesLabelConstraints()
         setupRecipeCollectionConstraints()
+    }
+    
+    func setupProfileImageConstraints() {
+        NSLayoutConstraint.activate([
+            profileImageView.topAnchor.constraint(equalToSystemSpacingBelow: safeAreaLayoutGuide.topAnchor, multiplier: 4.0),
+            profileImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.profileImageIndent),
+            profileImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.profileImageIndent).withPriority(.defaultLow),
+            profileImageView.widthAnchor.constraint(equalToConstant: Metrics.profileImageSize),
+            profileImageView.heightAnchor.constraint(equalToConstant: Metrics.profileImageSize)
+        ])
+    }
+    
+    func setupSelectImageButtonConstraints() {
+        NSLayoutConstraint.activate([
+            selectImageButton.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor),
+            selectImageButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
+            selectImageButton.widthAnchor.constraint(equalToConstant: Metrics.profileImageSize),
+            selectImageButton.heightAnchor.constraint(equalToConstant: Metrics.profileImageSize)
+        ])
+    }
+    
+    func setupRecipesLabelConstraints() {
+        NSLayoutConstraint.activate([
+            recipesLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: Metrics.recipesLabelTopIndent),
+            recipesLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.recipesLabelIndent),
+            recipesLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.recipesLabelIndent)
+        ])
     }
     
     func setupRecipeCollectionConstraints() {
         NSLayoutConstraint.activate([
-            recipeCollection.topAnchor.constraint(equalToSystemSpacingBelow: safeAreaLayoutGuide.topAnchor, multiplier: 1.0),
+            recipeCollection.topAnchor.constraint(equalToSystemSpacingBelow: recipesLabel.bottomAnchor, multiplier: 4.0),
             recipeCollection.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 2.0),
             trailingAnchor.constraint(equalToSystemSpacingAfter: recipeCollection.trailingAnchor, multiplier: 2.0),
-            safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: recipeCollection.bottomAnchor, multiplier: 1.0)
+            /*safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: recipeCollection.bottomAnchor, multiplier: 1.0)*/
+            recipeCollection.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+}
+
+fileprivate struct Metrics {
+    static let profileImageIndent: CGFloat = 20.5
+    static let profileImageSize: CGFloat = 100.0
+    
+    static let recipesLabelTopIndent: CGFloat = 50.0
+    static let recipesLabelIndent: CGFloat = 36.0
 }

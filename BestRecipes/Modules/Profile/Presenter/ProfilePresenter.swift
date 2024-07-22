@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ProfileViewProtocol: AnyObject {
-    
+    func selectImage()
 }
 
 protocol ProfilePresenterProtocol: AnyObject {

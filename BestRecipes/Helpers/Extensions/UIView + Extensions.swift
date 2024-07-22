@@ -1,11 +1,25 @@
 //
-//  UIView + Extensions.swift
+//  UIView + ext.swift
 //  BestRecipes
 //
-//  Created by realeti on 16.07.2024.
+//  Created by Evgenii Mazrukho on 30.06.2024.
 //
 
 import UIKit
+
+extension UIView {
+    func addSubviews(_ subviews: UIView...) {
+        for view in subviews {
+            addSubview(view)
+        }
+    }
+    
+    func addSubviews(_ subviews: [UIView]) {
+        for view in subviews {
+            addSubview(view)
+        }
+    }
+}
 
 extension UIView {
     convenience init(backgroundColor: UIColor, cornerRadius: CGFloat) {

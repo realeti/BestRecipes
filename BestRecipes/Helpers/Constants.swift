@@ -35,6 +35,7 @@ struct K {
     // MARK: - Labels
     static let instructions = "Instructions"
     static let ingredients = "Ingredients"
+    static let myRecipes = "My recipes"
     
     // MARK: - Mock Instruction
     static let step1 = "Place eggs in a saucepan and cover with cold water. Bring water to a boil and immediately remove from heat. Cover and let eggs stand in hot water for 10 to 12 minutes. Remove from hot water, cool, peel, and chop."

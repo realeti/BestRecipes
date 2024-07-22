@@ -126,7 +126,7 @@ final class MyRecipesCollectionCell: UICollectionViewCell {
 
 // MARK: - Configure Cell
 extension MyRecipesCollectionCell {
-    func configure(with config: SearchCellConfiguration) {
+    func configure(with config: MyRecipeCellConfiguration) {
         self.indexPath = config.indexPath
         
         ratingLabel.text = String(format: "%.1f", config.rating)
@@ -136,8 +136,12 @@ extension MyRecipesCollectionCell {
     }
     
     func updateRecipeImage(with imageData: Data) {
-        self.recipeImageData = imageData
-        recipeImageView.image = UIImage(data: imageData)
+        if !imageData.isEmpty {
+            recipeImageData = imageData
+            recipeImageView.image = UIImage(data: imageData)
+        } else {
+            recipeImageView.image = UIImage(resource: .searchFood2)
+        }
     }
 }
 
@@ -164,8 +168,8 @@ extension MyRecipesCollectionCell {
     private func setupRecipeImageConstraints() {
         NSLayoutConstraint.activate([
             recipeImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            recipeImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: -70),
-            recipeImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 70),
+            recipeImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor/*, constant: -70*/),
+            recipeImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor/*, constant: 70*/),
             recipeImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
     }
@@ -201,7 +205,7 @@ extension MyRecipesCollectionCell {
 }
 
 // MARK: - Search Cell Configuration
-struct SearchCellConfiguration {
+struct MyRecipeCellConfiguration {
     let rating: Double
     let title: String
     let ingredientsCount: Int
