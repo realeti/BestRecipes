@@ -19,9 +19,9 @@ protocol ProfilePresenterProtocol: AnyObject {
 }
 
 final class ProfilePresenter: ProfilePresenterProtocol {
-    // MARK: - Public Properties
-    let router: RouterProtocol
-    weak var view: ProfileViewProtocol?
+    // MARK: - Private Properties
+    private let router: RouterProtocol
+    private weak var view: ProfileViewProtocol?
     
     // MARK: - Init
     required init(view: ProfileViewProtocol, router: RouterProtocol) {

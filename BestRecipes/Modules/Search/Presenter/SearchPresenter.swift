@@ -28,11 +28,10 @@ final class SearchPresenter: SearchViewPresenterProtocol {
     // MARK: - Private Properties
     private var recipes: [Recipe] = []
     private var searchTimer: Timer?
+    private let router: RouterProtocol
+    private weak var view: SearchViewProtocol?
     
     // MARK: - Public Properties
-    let router: RouterProtocol
-    weak var view: SearchViewProtocol?
-    
     var getRecipes: [Recipe] {
         get {
             return recipes

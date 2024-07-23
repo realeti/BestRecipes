@@ -19,14 +19,6 @@ struct K {
     static let recentRecipesTitle = "Recent recipes"
     static let popularCuisineTitle = "Popular Cuisine"
     
-    // MARK: - Search
-    static let searchPlaceholer = "How to make..."
-    static let emptySearchText = "Nothing here, keep searching!"
-    static let emptyTrendingText = "Nothing here, network problem..."
-    
-    // MARK: - Profile
-    static let profileAvatarName = "ProfileAvatar"
-    
     // MARK: - Reusable
     static let myRecipesCell = "searchCell"
     static let emptyCell = "emptySearchCell"
@@ -35,10 +27,27 @@ struct K {
     static let detailTableCell = "detailTableCell"
     static let detailHeaderView = "detailHeaderView"
     
-    // MARK: - Labels
+    // MARK: - Onboarding
+    enum Onboarding: String {
+        case recipesCount = "100k+ "
+        case premiumRecipes = "Premium recipes"
+        case bestRecipe = "Best\nRecipe"
+        case findBestRecipes = "Find best recipes for cooking"
+        case getStartedButtonTitle = "Get started"
+    }
+    
+    // MARK: - Search
+    static let searchPlaceholer = "How to make..."
+    static let emptySearchText = "Nothing here, keep searching!"
+    static let emptyTrendingText = "Nothing here, network problem..."
+    
+    // MARK: - Profile
+    static let profileAvatarName = "ProfileAvatar"
+    static let myRecipes = "My recipes"
+    
+    // MARK: - Detail
     static let instructions = "Instructions"
     static let ingredients = "Ingredients"
-    static let myRecipes = "My recipes"
     
     // MARK: - Mock Instruction
     static let step1 = "Place eggs in a saucepan and cover with cold water. Bring water to a boil and immediately remove from heat. Cover and let eggs stand in hot water for 10 to 12 minutes. Remove from hot water, cool, peel, and chop."

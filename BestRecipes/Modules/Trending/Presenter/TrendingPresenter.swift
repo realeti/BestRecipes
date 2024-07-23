@@ -28,18 +28,17 @@ final class TrendingPresenter: TrendingPresenterProtocol {
     // MARK: - Private Properties
     private var recipes: [Recipe] = []
     private var savedRecipes: [Bool] = []
+    private let router: RouterProtocol
+    private weak var view: TrendingViewProtocol?
     
     // MARK: - Public Properties
-    let router: RouterProtocol
-    weak var view: TrendingViewProtocol?
-    
     var getRecipes: [Recipe] {
         get {
             return recipes
         }
     }
     
-    //MARK: - Init
+    // MARK: - Init
     init(view: TrendingViewProtocol, router: RouterProtocol, recipes: [Recipe]) {
         self.view = view
         self.router = router

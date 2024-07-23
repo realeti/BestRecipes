@@ -28,15 +28,18 @@ protocol DetailPresenterProtocol {
 }
 
 final class DetailPresenter: DetailPresenterProtocol {
+    // MARK: - Private Properties
     private weak var view: DetailViewProtocol?
     private var model: RecipeDetailModel
     
+    // MARK: - Public Properties
     var ingredients: [DetailIngredient] {
         get {
             return model.ingredients
         }
     }
-
+    
+    // MARK: - Init
     required init(view: DetailViewProtocol, router: RouterProtocol, model: RecipeDetailModel) {
         self.view = view
         self.model = model
