@@ -1,5 +1,5 @@
 //
-//  HomeOnboardingViewController.swift
+//  OnboardingHomeViewController.swift
 //  BestRecipes
 //
 //  Created by realeti on 23.07.2024.
@@ -7,18 +7,18 @@
 
 import UIKit
 
-final class HomeOnboardingViewController: UIViewController {
+final class OnboardingHomeViewController: UIViewController {
     // MARK: - Public Properties
     var presenter: OnboardingPresenterProtocol!
     
     // MARK: - Private Properties
-    private var onboardingView: HomeOnboardingView!
+    private var onboardingView: OnboardingHomeView!
     
-    // MARK: - Init
+    // MARK: - Life Cycle
     override func loadView() {
         super.loadView()
         
-        onboardingView = HomeOnboardingView()
+        onboardingView = OnboardingHomeView()
         view = onboardingView
     }
     
@@ -34,8 +34,15 @@ final class HomeOnboardingViewController: UIViewController {
 }
 
 // MARK: - OnboardingView Delegate
-extension HomeOnboardingViewController: OnboadringViewProtocol {
-    func getStartedButtonPressed() {
+extension OnboardingHomeViewController: OnboadringViewProtocol {
+    func startButtonPressed() {
         print("Get started button pressed")
+        let onboardingPageVC = OnboardingPageViewController(
+            transitionStyle: .scroll, 
+            navigationOrientation: .horizontal
+        )
+        
+        onboardingPageVC.modalPresentationStyle = .fullScreen
+        present(onboardingPageVC, animated: true)
     }
 }

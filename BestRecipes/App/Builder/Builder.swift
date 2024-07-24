@@ -66,7 +66,7 @@ final class Builder: BuilderProtocol {
     
     // MARK: - Create Onboarding
     func createOnboardingModule(router: RouterProtocol) -> UIViewController {
-        let viewController = HomeOnboardingViewController()
+        let viewController = OnboardingHomeViewController()
         let presenter = OnboardingPresenter(view: viewController, router: router)
         viewController.presenter = presenter
         return viewController

@@ -29,11 +29,29 @@ struct K {
     
     // MARK: - Onboarding
     enum Onboarding: String {
+        /// home
         case recipesCount = "100k+ "
         case premiumRecipes = "Premium recipes"
         case bestRecipe = "Best\nRecipe"
         case findBestRecipes = "Find best recipes for cooking"
-        case getStartedButtonTitle = "Get started"
+        
+        /// pages
+        case primaryTextPage1 = "Recipes from\n all "
+        case primaryTextPage2 = "Recipes with\n"
+        case primaryTextPage3 = "Cook it now or\n"
+        case secondaryTextPage1 = "over the\n World"
+        case secondaryTextPage2 = "each and every\n detail"
+        case secondaryTextPage3 = "save it for later"
+        
+        /// buttons
+        case startButtonTitle = "Get started"
+        case continueButtonTitle = "Continue"
+        case skipButtonTitle = "Skip"
+        
+        /// images
+        case imagePage1 = "firstOnboarding"
+        case imagePage2 = "secondOnboarding"
+        case imagePage3 = "thirdOnboarding"
     }
     
     // MARK: - Search

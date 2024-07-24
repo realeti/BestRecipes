@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class GradientView: UIView {
+final class HomeGradientView: UIView {
     // MARK: - Private Properties
     private let gradientLayer = CAGradientLayer()
     
@@ -25,13 +25,13 @@ final class GradientView: UIView {
     private func setupGradient() {
         gradientLayer.colors = [
             UIColor.black.withAlphaComponent(1.0).cgColor,
-            UIColor.black.withAlphaComponent(1.0).cgColor,
+            UIColor.black.withAlphaComponent(0.96).cgColor,
             UIColor.black.withAlphaComponent(0.6).cgColor,
             UIColor.black.withAlphaComponent(0.4).cgColor,
             UIColor.black.withAlphaComponent(0.2).cgColor,
             UIColor.clear.cgColor
         ]
-        gradientLayer.locations = [0.0, 0.1, 0.4, 0.6, 0.8, 1.0]
+        gradientLayer.locations = [0.0, 0.15, 0.5, 0.6, 0.8, 1.0]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.0)
         self.layer.addSublayer(gradientLayer)

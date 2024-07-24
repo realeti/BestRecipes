@@ -1,5 +1,5 @@
 //
-//  HomeOnboardingView.swift
+//  OnboardingHomeView.swift
 //  BestRecipes
 //
 //  Created by realeti on 23.07.2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class HomeOnboardingView: UIView {
+final class OnboardingHomeView: UIView {
     // MARK: - UI
     private let backgroundImageView = UIImageView(
         image: .homeOnboarding,
@@ -63,7 +63,7 @@ final class HomeOnboardingView: UIView {
     private lazy var startButton: UIButton = {
         let button = UIButton(type: .system)
         let attributedString = NSAttributedString(
-            string: K.Onboarding.getStartedButtonTitle.rawValue,
+            string: K.Onboarding.startButtonTitle.rawValue,
             attributes: [
                 .foregroundColor: UIColor.white,
                 .font: Font.getFont(.poppinsSemiBold, size: 16.0)
@@ -73,13 +73,13 @@ final class HomeOnboardingView: UIView {
         button.backgroundColor = .redBase
         button.layer.cornerRadius = 8
         button.layer.masksToBounds = true
-        button.addTarget(self, action: #selector(getStartedButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(startButtonPressed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    private lazy var gradientView: GradientView = {
-        let view = GradientView()
+    private lazy var gradientView: HomeGradientView = {
+        let view = HomeGradientView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -126,14 +126,14 @@ final class HomeOnboardingView: UIView {
 }
 
 // MARK: - Actions
-private extension HomeOnboardingView {
-    @objc func getStartedButtonPressed(_ sender: UIButton) {
-        delegate?.getStartedButtonPressed()
+private extension OnboardingHomeView {
+    @objc func startButtonPressed(_ sender: UIButton) {
+        delegate?.startButtonPressed()
     }
 }
 
 // MARK: - Setup Constraints
-private extension HomeOnboardingView {
+private extension OnboardingHomeView {
     func setupConstraints() {
         setupBackgroundImageConstraints()
         setupRecipeTitleStackConstraints()
