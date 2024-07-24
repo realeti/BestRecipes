@@ -15,7 +15,7 @@ final class OnboardingView: UIView {
     
     private lazy var shadowView: UIView = {
         let view = UIView()
-        view.backgroundColor = .black.withAlphaComponent(0.45)
+        view.backgroundColor = .black.withAlphaComponent(0.42)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -30,10 +30,10 @@ final class OnboardingView: UIView {
     
     private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
-        //pageControl.setIndicatorImage(.pageIndicatorActive, forPage: 1)
-        //pageControl.setIndicatorImage(.pageIndicatorActive, forPage: 2)
-        //pageControl.setIndicatorImage(.pageIndicatorActive, forPage: 3)
         pageControl.numberOfPages = 3
+        pageControl.preferredIndicatorImage = .pageIndicatorActive
+        pageControl.pageIndicatorTintColor = .greyBorder
+        pageControl.currentPageIndicatorTintColor = .systemOrange
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         return pageControl
     }()
@@ -101,6 +101,7 @@ extension OnboardingView {
     func configure(imageName: String, primaryText: String, secondaryText: String, page: Int) {
         configureBackgroundImage(imageName)
         configureTitleLabel(with: primaryText, and: secondaryText)
+        pageControl.currentPage = page
     }
     
     private func configureBackgroundImage(_ imageName: String) {
@@ -109,7 +110,7 @@ extension OnboardingView {
     
     private func configureTitleLabel(with primaryText: String, and secondaryText: String) {
         let primaryAttributedString = NSMutableAttributedString(
-            string: K.Onboarding.primaryTextPage1.rawValue,
+            string: primaryText,
             attributes: [
                 .font: Font.getFont(.poppinsSemiBold, size: 40.0),
                 .foregroundColor: UIColor.white
@@ -117,7 +118,7 @@ extension OnboardingView {
         )
         
         let secondaryAttributedString = NSMutableAttributedString(
-            string: K.Onboarding.secondaryTextPage1.rawValue,
+            string: secondaryText,
             attributes: [
                 .font: Font.getFont(.poppinsSemiBold, size: 40.0),
                 .foregroundColor: UIColor.beigeBase
@@ -172,15 +173,14 @@ private extension OnboardingView {
     func setupSkipButtonConstraints() {
         NSLayoutConstraint.activate([
             skipButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            /*skipButton.bottomAnchor.constraint(equalToSystemSpacingBelow: safeAreaLayoutGuide.bottomAnchor, multiplier: 1.0)*/
-            skipButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            safeAreaLayoutGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: skipButton.bottomAnchor, multiplier: 0.5)
         ])
     }
     
     func setupContinueButtonConstraints() {
         NSLayoutConstraint.activate([
             continueButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            continueButton.bottomAnchor.constraint(equalTo: skipButton.topAnchor, constant: -12.0),
+            continueButton.bottomAnchor.constraint(equalTo: skipButton.topAnchor, constant: -Metrics.continueButtonIndent),
             continueButton.widthAnchor.constraint(equalToConstant: Metrics.continueButtonWidth),
             continueButton.heightAnchor.constraint(equalToConstant: Metrics.continueButtonHeight)
         ])
@@ -189,15 +189,15 @@ private extension OnboardingView {
     func setupPageControlConstraints() {
         NSLayoutConstraint.activate([
             pageControl.centerXAnchor.constraint(equalTo: centerXAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: continueButton.topAnchor, constant: -32.0)
+            continueButton.topAnchor.constraint(equalToSystemSpacingBelow: pageControl.bottomAnchor, multiplier: 4.0)
         ])
     }
     
     func setupTitleLabelConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.bottomAnchor.constraint(equalTo: pageControl.topAnchor, constant: -32.0),
-            titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 4.0),
-            trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 4.0)
+            pageControl.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 4.0),
+            titleLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 3.0),
+            trailingAnchor.constraint(equalToSystemSpacingAfter: titleLabel.trailingAnchor, multiplier: 3.0)
         ])
     }
 }
@@ -205,4 +205,5 @@ private extension OnboardingView {
 fileprivate struct Metrics {
     static let continueButtonWidth: CGFloat = 193.0
     static let continueButtonHeight: CGFloat = 44.0
+    static let continueButtonIndent: CGFloat = 12.0
 }

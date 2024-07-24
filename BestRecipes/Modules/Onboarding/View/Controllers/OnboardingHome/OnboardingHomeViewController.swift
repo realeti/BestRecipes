@@ -37,10 +37,11 @@ final class OnboardingHomeViewController: UIViewController {
 extension OnboardingHomeViewController: OnboadringViewProtocol {
     func startButtonPressed() {
         print("Get started button pressed")
-        let onboardingPageVC = OnboardingPageViewController(
-            transitionStyle: .scroll, 
+        /*let onboardingPageVC = OnboardingPageViewController(
+            transitionStyle: .scroll,
             navigationOrientation: .horizontal
-        )
+        )*/
+        let onboardingPageVC = OnboardingPageViewController()
         
         onboardingPageVC.modalPresentationStyle = .fullScreen
         present(onboardingPageVC, animated: true)

@@ -10,17 +10,19 @@ import UIKit
 final class OnboardingViewController: UIViewController {
     // MARK: - Private Properties
     private var onboardingView: OnboardingView!
-    //private let imageName: String
-    //private let primaryText: String
-    //private let secondaryText: String
+    private var imageName = ""
+    private var primaryText = ""
+    private var secondaryText = ""
+    private var page: Int = 0
     
     // MARK: - Init
-    init(imageName: String, primatyText: String, secondaryText: String) {
+    init(imageName: String, primatyText: String, secondaryText: String, page: Int) {
         super.init(nibName: nil, bundle: nil)
         
-        //self.imageName = imageName
-        //self.primaryText = primatyText
-        //self.secondaryText = secondaryText
+        self.imageName = imageName
+        self.primaryText = primatyText
+        self.secondaryText = secondaryText
+        self.page = page
     }
     
     required init?(coder: NSCoder) {
@@ -39,10 +41,10 @@ final class OnboardingViewController: UIViewController {
         super.viewDidLoad()
         
         onboardingView.configure(
-            imageName: K.Onboarding.imagePage1.rawValue,
-            primaryText: K.Onboarding.primaryTextPage1.rawValue,
-            secondaryText: K.Onboarding.secondaryTextPage1.rawValue,
-            page: 0
+            imageName: imageName,
+            primaryText: primaryText,
+            secondaryText: secondaryText,
+            page: page
         )
     }
 }
