@@ -7,21 +7,21 @@
 
 import Foundation
 
-protocol OnboadringViewProtocol: AnyObject {
+protocol OnboardingHomeViewProtocol: AnyObject {
     func startButtonPressed()
 }
 
 protocol OnboardingPresenterProtocol: AnyObject {
-    init(view: OnboadringViewProtocol, router: RouterProtocol)
+    init(view: OnboardingHomeViewProtocol, router: RouterProtocol)
 }
 
 final class OnboardingPresenter: OnboardingPresenterProtocol {
     // MARK: - Private Properties
     private let router: RouterProtocol
-    weak var view: OnboadringViewProtocol?
+    weak var view: OnboardingHomeViewProtocol?
     
     // MARK: - Init
-    required init(view: OnboadringViewProtocol, router: RouterProtocol) {
+    required init(view: OnboardingHomeViewProtocol, router: RouterProtocol) {
         self.view = view
         self.router = router
     }

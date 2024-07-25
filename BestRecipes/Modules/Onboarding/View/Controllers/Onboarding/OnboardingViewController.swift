@@ -7,22 +7,33 @@
 
 import UIKit
 
+protocol OnboardingViewProtocol: AnyObject {
+    func pageControlPressed(page: Int)
+    func continueButtonPressed()
+    func skipButtonPressed()
+}
+
 final class OnboardingViewController: UIViewController {
     // MARK: - Private Properties
     private var onboardingView: OnboardingView!
-    private var imageName = ""
-    private var primaryText = ""
-    private var secondaryText = ""
-    private var page: Int = 0
+    private let imageName: String
+    private let primaryText: String
+    private let secondaryText: String
+    private let buttonTitle: String
+    private let currentPage: Int
+    
+    // MARK: - Public Properties
+    weak var delegate: OnboardingPageProtocol?
     
     // MARK: - Init
-    init(imageName: String, primatyText: String, secondaryText: String, page: Int) {
-        super.init(nibName: nil, bundle: nil)
-        
+    init(imageName: String, primatyText: String, secondaryText: String, buttonTitle: String, page: Int) {
         self.imageName = imageName
         self.primaryText = primatyText
         self.secondaryText = secondaryText
-        self.page = page
+        self.buttonTitle = buttonTitle
+        self.currentPage = page
+        
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -40,11 +51,40 @@ final class OnboardingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureUI()
+        setDelegates()
+    }
+    
+    // MARK: - Configure UI
+    private func configureUI() {
         onboardingView.configure(
             imageName: imageName,
             primaryText: primaryText,
             secondaryText: secondaryText,
-            page: page
+            buttonTitle: buttonTitle,
+            page: currentPage
         )
+    }
+}
+
+// MARK: - Set Delegates
+private extension OnboardingViewController {
+    func setDelegates() {
+        onboardingView.delegate = self
+    }
+}
+
+// MARK: - OnboardingView Delegate methods
+extension OnboardingViewController: OnboardingViewProtocol {
+    func pageControlPressed(page: Int) {
+        delegate?.showSpecificPage(page)
+    }
+    
+    func continueButtonPressed() {
+        delegate?.showNextPage()
+    }
+    
+    func skipButtonPressed() {
+        delegate?.showStartVC()
     }
 }

@@ -47,6 +47,7 @@ struct K {
         case startButtonTitle = "Get started"
         case continueButtonTitle = "Continue"
         case skipButtonTitle = "Skip"
+        case startCooking = "Start Cooking"
         
         /// images
         case imagePage1 = "firstOnboarding"

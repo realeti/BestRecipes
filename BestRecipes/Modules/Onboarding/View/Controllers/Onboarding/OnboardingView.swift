@@ -31,23 +31,17 @@ final class OnboardingView: UIView {
     private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.numberOfPages = 3
-        pageControl.preferredIndicatorImage = .pageIndicatorActive
+        pageControl.preferredIndicatorImage = .pageIndicatorInactive
+        pageControl.preferredCurrentPageIndicatorImage = .pageIndicatorActive
         pageControl.pageIndicatorTintColor = .greyBorder
-        pageControl.currentPageIndicatorTintColor = .systemOrange
+        pageControl.currentPageIndicatorTintColor = .lightRose
+        pageControl.addTarget(self, action: #selector(pageControlPressed), for: .valueChanged)
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         return pageControl
     }()
     
     private lazy var continueButton: UIButton = {
         let button = UIButton(type: .system)
-        let attributedString = NSAttributedString(
-            string: K.Onboarding.continueButtonTitle.rawValue,
-            attributes: [
-                .foregroundColor: UIColor.white,
-                .font: Font.getFont(.poppinsMedium, size: 20.0)
-            ]
-        )
-        button.setAttributedTitle(attributedString, for: .normal)
         button.backgroundColor = .redBase
         button.layer.cornerRadius = 20
         button.layer.masksToBounds = true
@@ -62,7 +56,7 @@ final class OnboardingView: UIView {
             string: K.Onboarding.skipButtonTitle.rawValue,
             attributes: [
                 .foregroundColor: UIColor.white,
-                .font: Font.getFont(.interMedium, size: 10.0)
+                .font: Font.getFont(.interMedium, size: 14.0)
             ]
         )
         button.setAttributedTitle(attributedString, for: .normal)
@@ -70,6 +64,10 @@ final class OnboardingView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    // MARK: - Public Properties
+    weak var delegate: OnboardingViewProtocol?
+    var currentPage = 0
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -98,10 +96,11 @@ final class OnboardingView: UIView {
 
 // MARK: - Public Configure UI
 extension OnboardingView {
-    func configure(imageName: String, primaryText: String, secondaryText: String, page: Int) {
+    func configure(imageName: String, primaryText: String, secondaryText: String, buttonTitle: String, page: Int) {
         configureBackgroundImage(imageName)
         configureTitleLabel(with: primaryText, and: secondaryText)
-        pageControl.currentPage = page
+        configureContinueButton(title: buttonTitle)
+        configurePageControl(page)
     }
     
     private func configureBackgroundImage(_ imageName: String) {
@@ -128,16 +127,41 @@ extension OnboardingView {
         primaryAttributedString.append(secondaryAttributedString)
         titleLabel.attributedText = primaryAttributedString
     }
+    
+    private func configureContinueButton(title: String) {
+        let attributedString = NSAttributedString(
+            string: title,
+            attributes: [
+                .foregroundColor: UIColor.white,
+                .font: Font.getFont(.poppinsMedium, size: 20.0)
+            ]
+        )
+        continueButton.setAttributedTitle(attributedString, for: .normal)
+    }
+    
+    private func configurePageControl(_ page: Int) {
+        currentPage = page
+        pageControl.currentPage = page
+    }
 }
 
 // MARK: - Actions
 private extension OnboardingView {
+    @objc func pageControlPressed(_ sender: UIPageControl) {
+        delegate?.pageControlPressed(page: sender.currentPage)
+        
+        /// return current page value
+        DispatchQueue.main.async {
+            self.pageControl.currentPage = self.currentPage
+        }
+    }
+    
     @objc func continueButtonPressed(_ sender: UIButton) {
-        print("continue button pressed")
+        delegate?.continueButtonPressed()
     }
     
     @objc func skipButtonPressed(_ sender: UIButton) {
-        print("skip button pressed")
+        delegate?.skipButtonPressed()
     }
 }
 

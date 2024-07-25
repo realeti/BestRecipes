@@ -7,10 +7,17 @@
 
 import UIKit
 
+protocol OnboardingPageProtocol: AnyObject {
+    func showSpecificPage(_ page: Int)
+    func showNextPage()
+    func showStartVC()
+}
+
 final class OnboardingPageViewController: UIViewController {
     // MARK: - Private Properties
-    var pageContainer: UIPageViewController!
+    private var pageContainer: UIPageViewController!
     private var pages: [UIViewController] = []
+    private var currentPage = 0
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -44,20 +51,29 @@ private extension OnboardingPageViewController {
             imageName: K.Onboarding.imagePage1.rawValue,
             primatyText: K.Onboarding.primaryTextPage1.rawValue,
             secondaryText: K.Onboarding.secondaryTextPage1.rawValue,
+            buttonTitle: K.Onboarding.continueButtonTitle.rawValue,
             page: 0
         )
+        
         let page2 = OnboardingViewController(
             imageName: K.Onboarding.imagePage2.rawValue,
             primatyText: K.Onboarding.primaryTextPage2.rawValue,
             secondaryText: K.Onboarding.secondaryTextPage2.rawValue,
+            buttonTitle: K.Onboarding.continueButtonTitle.rawValue,
             page: 1
         )
+        
         let page3 = OnboardingViewController(
             imageName: K.Onboarding.imagePage3.rawValue,
             primatyText: K.Onboarding.primaryTextPage3.rawValue,
             secondaryText: K.Onboarding.secondaryTextPage3.rawValue,
+            buttonTitle: K.Onboarding.startCooking.rawValue,
             page: 2
         )
+        
+        page1.delegate = self
+        page2.delegate = self
+        page3.delegate = self
         
         pages = [page1, page2, page3]
         
@@ -90,7 +106,43 @@ extension OnboardingPageViewController: UIPageViewControllerDelegate {
               let index = pages.firstIndex(of: currentViewController) else {
             return
         }
+        currentPage = index
+    }
+}
+
+// MARK: - OnboardingPage Delegate methods
+extension OnboardingPageViewController: OnboardingPageProtocol {
+    func showSpecificPage(_ page: Int) {
+        guard page >= 0, page < pages.count else {
+            return
+        }
         
-        print(index)
+        let direction: UIPageViewController.NavigationDirection = page > currentPage ? .forward : .reverse
+        let nextVC = pages[page]
+        
+        pageContainer.setViewControllers([nextVC], direction: direction, animated: true) { [weak self] completed in
+            if completed {
+                self?.currentPage = page
+            }
+        }
+    }
+    
+    func showNextPage() {
+        guard currentPage < pages.count - 1 else {
+            print("Onboarding completed.")
+            return
+        }
+        
+        let nextPage = currentPage + 1
+        let nextVC = pages[nextPage]
+        pageContainer.setViewControllers([nextVC], direction: .forward, animated: true) { [weak self] completed in
+            if completed {
+                self?.currentPage = nextPage
+            }
+        }
+    }
+    
+    func showStartVC() {
+        print("skip button pressed")
     }
 }

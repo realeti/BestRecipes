@@ -85,7 +85,7 @@ final class OnboardingHomeView: UIView {
     }()
     
     // MARK: - Public Properties
-    weak var delegate: OnboadringViewProtocol?
+    weak var delegate: OnboardingHomeViewProtocol?
     
     // MARK: - Init
     override init(frame: CGRect) {
