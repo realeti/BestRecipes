@@ -107,8 +107,9 @@ final class DataManager {
     ]
     private var imageCaсhe: [String: Data] = [:]
     private var recipeCache: [String: [Recipe]] = [:]
+    private var apiKeyIndex = 1
     
-    private var apiKeyIndex = 0
+    private let onboardingCompletedKey = "onboardingCompleted"
     
     private init() {}
     
@@ -203,7 +204,7 @@ final class DataManager {
     }
 }
 
-// MARK: - File Manager Methods
+// MARK: - File Manager methods
 extension DataManager {
     func saveImage(_ imageName: String, imageData: Data) {
         fileManager.saveImage(imageName, imageData: imageData)
@@ -211,5 +212,16 @@ extension DataManager {
     
     func loadImage(imageUrl: String) -> Data? {
         fileManager.loadImage(imageUrl: imageUrl)
+    }
+}
+
+// MARK: - Onboarding methods
+extension DataManager {
+    func markOnboardingAsCompleted() {
+        UserDefaults.standard.set(true, forKey: onboardingCompletedKey)
+    }
+    
+    var isOnboardingCompleted: Bool {
+        return UserDefaults.standard.bool(forKey: onboardingCompletedKey)
     }
 }

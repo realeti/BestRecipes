@@ -91,7 +91,6 @@
 		C6BEC3072C42DFF300256140 /* TrendingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BEC3062C42DFF300256140 /* TrendingView.swift */; };
 		C6BEC3092C42E00000256140 /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BEC3082C42E00000256140 /* TrendingViewController.swift */; };
 		C6C098D12C4FF6350071C300 /* OnboardingHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C098D02C4FF6350071C300 /* OnboardingHomeView.swift */; };
-		C6C098D32C4FF78C0071C300 /* OnboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C098D22C4FF78C0071C300 /* OnboardingPresenter.swift */; };
 		C6C098D72C5034E70071C300 /* HomeGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C098D62C5034E70071C300 /* HomeGradientView.swift */; };
 		C6EC28792C492DEC00BE5252 /* ScreenSizeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EC28782C492DEC00BE5252 /* ScreenSizeManager.swift */; };
 		C6F7D8AA2C4654B900441D0E /* NSLayoutConstraint + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F7D8A92C4654B900441D0E /* NSLayoutConstraint + Extensions.swift */; };
@@ -190,7 +189,6 @@
 		C6BEC3062C42DFF300256140 /* TrendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingView.swift; sourceTree = "<group>"; };
 		C6BEC3082C42E00000256140 /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewController.swift; sourceTree = "<group>"; };
 		C6C098D02C4FF6350071C300 /* OnboardingHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingHomeView.swift; sourceTree = "<group>"; };
-		C6C098D22C4FF78C0071C300 /* OnboardingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
 		C6C098D62C5034E70071C300 /* HomeGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGradientView.swift; sourceTree = "<group>"; };
 		C6EC28782C492DEC00BE5252 /* ScreenSizeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSizeManager.swift; sourceTree = "<group>"; };
 		C6F7D8A92C4654B900441D0E /* NSLayoutConstraint + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint + Extensions.swift"; sourceTree = "<group>"; };
@@ -525,7 +523,6 @@
 			isa = PBXGroup;
 			children = (
 				C6C098CE2C4FF6190071C300 /* View */,
-				C6C098CD2C4FF60D0071C300 /* Presenter */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -719,14 +716,6 @@
 				C6BEC3082C42E00000256140 /* TrendingViewController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		C6C098CD2C4FF60D0071C300 /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				C6C098D22C4FF78C0071C300 /* OnboardingPresenter.swift */,
-			);
-			path = Presenter;
 			sourceTree = "<group>";
 		};
 		C6C098CE2C4FF6190071C300 /* View */ = {
@@ -954,7 +943,6 @@
 				24ACAB0A2C40634E000DFF02 /* Instruction.swift in Sources */,
 				526DF7E02C30D84F008A7818 /* SceneDelegate.swift in Sources */,
 				C68443262C50CDA500E060C2 /* OnboardingPageViewController.swift in Sources */,
-				C6C098D32C4FF78C0071C300 /* OnboardingPresenter.swift in Sources */,
 				24C02B452C432F58008768F0 /* RecipeDetailModel.swift in Sources */,
 				522898A22C31DC3D0013FF87 /* Network.swift in Sources */,
 				522898B72C32DF400013FF87 /* BRCollectionView.swift in Sources */,

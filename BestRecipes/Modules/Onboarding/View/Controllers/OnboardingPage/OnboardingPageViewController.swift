@@ -129,7 +129,7 @@ extension OnboardingPageViewController: OnboardingPageProtocol {
     
     func showNextPage() {
         guard currentPage < pages.count - 1 else {
-            print("Onboarding completed.")
+            showStartVC()
             return
         }
         
@@ -143,6 +143,31 @@ extension OnboardingPageViewController: OnboardingPageProtocol {
     }
     
     func showStartVC() {
-        print("skip button pressed")
+        /// save onboarding status
+        DataManager.shared.markOnboardingAsCompleted()
+        
+        /// show main screen
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            
+            let transition = CATransition()
+            transition.duration = 0.3
+            transition.type = .fade
+            transition.subtype = .fromRight
+            window.layer.add(transition, forKey: kCATransition)
+            window.rootViewController = CustomTabBarController()
+            
+            /*UIView.transition(
+                with: window,
+                duration: 0.3,
+                options: [.transitionFlipFromLeft],
+                animations: {
+                    window.rootViewController = CustomTabBarController()
+                }, completion: nil
+            )*/
+            
+            window.overrideUserInterfaceStyle = .light
+            window.makeKeyAndVisible()
+        }
     }
 }

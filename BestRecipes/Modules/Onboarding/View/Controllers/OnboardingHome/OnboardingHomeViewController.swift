@@ -7,10 +7,11 @@
 
 import UIKit
 
+protocol OnboardingHomeViewProtocol: AnyObject {
+    func startButtonPressed()
+}
+
 final class OnboardingHomeViewController: UIViewController {
-    // MARK: - Public Properties
-    var presenter: OnboardingPresenterProtocol!
-    
     // MARK: - Private Properties
     private var onboardingView: OnboardingHomeView!
     
@@ -36,9 +37,7 @@ final class OnboardingHomeViewController: UIViewController {
 // MARK: - OnboardingView Delegate
 extension OnboardingHomeViewController: OnboardingHomeViewProtocol {
     func startButtonPressed() {
-        print("Get started button pressed")
         let onboardingPageVC = OnboardingPageViewController()
-        
         onboardingPageVC.modalPresentationStyle = .fullScreen
         present(onboardingPageVC, animated: true)
     }

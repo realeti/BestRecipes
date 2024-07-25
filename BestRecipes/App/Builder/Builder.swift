@@ -14,7 +14,6 @@ protocol BuilderProtocol: AnyObject {
     func createSearchModule(router: RouterProtocol) -> UIViewController
     func createDetailModule(recipe: RecipeDetailModel, router: RouterProtocol) -> UIViewController
     func createCreateRecipeModule(router: RouterProtocol) -> UIViewController
-    func createOnboardingModule(router: RouterProtocol) -> UIViewController
 }
 
 
@@ -61,14 +60,6 @@ final class Builder: BuilderProtocol {
         let presenter = ProfilePresenter(view: viewController, router: router)
         viewController.presenter = presenter
         viewController.title = K.profileTitle
-        return viewController
-    }
-    
-    // MARK: - Create Onboarding
-    func createOnboardingModule(router: RouterProtocol) -> UIViewController {
-        let viewController = OnboardingHomeViewController()
-        let presenter = OnboardingPresenter(view: viewController, router: router)
-        viewController.presenter = presenter
         return viewController
     }
     

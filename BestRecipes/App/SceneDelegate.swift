@@ -14,9 +14,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        //window?.rootViewController = CustomTabBarController()
-        let builder = Builder()
-        window?.rootViewController = builder.createOnboardingModule(router: Router(navigationController: UINavigationController(), builder: builder))
+        
+        /*let dataManager = DataManager.shared
+        
+        if dataManager.isOnboardingCompleted {
+            window?.rootViewController = CustomTabBarController()
+        } else {
+            window?.rootViewController = OnboardingHomeViewController()
+        }*/
+        
+        window?.rootViewController = OnboardingHomeViewController()
+        
         window?.overrideUserInterfaceStyle = .light
         window?.makeKeyAndVisible()
     }
