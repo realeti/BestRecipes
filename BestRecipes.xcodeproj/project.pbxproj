@@ -67,6 +67,7 @@
 		C62606FA2C4EED1400968A7C /* FileManagerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62606F92C4EED1400968A7C /* FileManagerController.swift */; };
 		C636A0402C4D82F400736F80 /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C636A03F2C4D82F400736F80 /* ProfilePresenter.swift */; };
 		C636A0422C4D844700736F80 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C636A0412C4D844700736F80 /* ProfileView.swift */; };
+		C650D7C42C56591E00D8A07A /* OnboardingHomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C650D7C32C56591E00D8A07A /* OnboardingHomePresenter.swift */; };
 		C65550052C3C4E160016FF73 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65550042C3C4E160016FF73 /* SearchViewController.swift */; };
 		C65550072C3C4E350016FF73 /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65550062C3C4E350016FF73 /* SearchPresenter.swift */; };
 		C65550092C3C4F5D0016FF73 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65550082C3C4F5D0016FF73 /* SearchView.swift */; };
@@ -86,6 +87,7 @@
 		C6A3A7372C41AE3E0079B648 /* EmptyCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A3A7362C41AE3E0079B648 /* EmptyCollectionCell.swift */; };
 		C6AB90172C386C7400C2D719 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AB90162C386C7400C2D719 /* Constants.swift */; };
 		C6AB90192C386EF700C2D719 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6AB90182C386EF600C2D719 /* Poppins-SemiBold.ttf */; };
+		C6BC52F32C5520330086CBA2 /* OnboardingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BC52F22C5520330086CBA2 /* OnboardingRouter.swift */; };
 		C6BEC2FF2C42DF7F00256140 /* TrendingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BEC2FE2C42DF7F00256140 /* TrendingPresenter.swift */; };
 		C6BEC3052C42DFDF00256140 /* TrendingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BEC3042C42DFDF00256140 /* TrendingViewCell.swift */; };
 		C6BEC3072C42DFF300256140 /* TrendingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BEC3062C42DFF300256140 /* TrendingView.swift */; };
@@ -165,6 +167,7 @@
 		C62606F92C4EED1400968A7C /* FileManagerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerController.swift; sourceTree = "<group>"; };
 		C636A03F2C4D82F400736F80 /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
 		C636A0412C4D844700736F80 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		C650D7C32C56591E00D8A07A /* OnboardingHomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingHomePresenter.swift; sourceTree = "<group>"; };
 		C65550042C3C4E160016FF73 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		C65550062C3C4E350016FF73 /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		C65550082C3C4F5D0016FF73 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -184,6 +187,7 @@
 		C6A3A7362C41AE3E0079B648 /* EmptyCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCollectionCell.swift; sourceTree = "<group>"; };
 		C6AB90162C386C7400C2D719 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C6AB90182C386EF600C2D719 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		C6BC52F22C5520330086CBA2 /* OnboardingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRouter.swift; sourceTree = "<group>"; };
 		C6BEC2FE2C42DF7F00256140 /* TrendingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingPresenter.swift; sourceTree = "<group>"; };
 		C6BEC3042C42DFDF00256140 /* TrendingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TrendingViewCell.swift; path = BestRecipes/Modules/Trending/Presenter/TrendingViewCell.swift; sourceTree = SOURCE_ROOT; };
 		C6BEC3062C42DFF300256140 /* TrendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingView.swift; sourceTree = "<group>"; };
@@ -342,6 +346,7 @@
 			isa = PBXGroup;
 			children = (
 				522898E62C3423AA0013FF87 /* Router.swift */,
+				C6BC52F22C5520330086CBA2 /* OnboardingRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -522,7 +527,9 @@
 		526DF8012C30DBD2008A7818 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				C6C098CE2C4FF6190071C300 /* View */,
+				C6C098D42C4FFFE70071C300 /* OnboardingHome */,
+				C68443272C50DE5900E060C2 /* OnboardingPages */,
+				C68443242C50CD6100E060C2 /* OnboardingController */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -623,6 +630,32 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		C650D7C12C56582D00D8A07A /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				C650D7C32C56591E00D8A07A /* OnboardingHomePresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		C650D7C22C56583500D8A07A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C650D7C52C565B0700D8A07A /* Controller */,
+				C6C098D52C5034DB0071C300 /* Subviews */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C650D7C52C565B0700D8A07A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C6C098D02C4FF6350071C300 /* OnboardingHomeView.swift */,
+				522898A32C31DD550013FF87 /* OnboardingHomeViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		C65550002C3C4DB60016FF73 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -649,21 +682,21 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
-		C68443242C50CD6100E060C2 /* OnboardingPage */ = {
+		C68443242C50CD6100E060C2 /* OnboardingController */ = {
 			isa = PBXGroup;
 			children = (
 				C68443252C50CDA500E060C2 /* OnboardingPageViewController.swift */,
 			);
-			path = OnboardingPage;
+			path = OnboardingController;
 			sourceTree = "<group>";
 		};
-		C68443272C50DE5900E060C2 /* Onboarding */ = {
+		C68443272C50DE5900E060C2 /* OnboardingPages */ = {
 			isa = PBXGroup;
 			children = (
 				C684432A2C50ED6700E060C2 /* OnboardingView.swift */,
 				C68443282C50DE8F00E060C2 /* OnboardingViewController.swift */,
 			);
-			path = Onboarding;
+			path = OnboardingPages;
 			sourceTree = "<group>";
 		};
 		C684E79D2C35998200F8164A /* View */ = {
@@ -718,30 +751,11 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		C6C098CE2C4FF6190071C300 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				C6C098CF2C4FF61E0071C300 /* Controllers */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		C6C098CF2C4FF61E0071C300 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				C68443272C50DE5900E060C2 /* Onboarding */,
-				C6C098D42C4FFFE70071C300 /* OnboardingHome */,
-				C68443242C50CD6100E060C2 /* OnboardingPage */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
 		C6C098D42C4FFFE70071C300 /* OnboardingHome */ = {
 			isa = PBXGroup;
 			children = (
-				C6C098D02C4FF6350071C300 /* OnboardingHomeView.swift */,
-				522898A32C31DD550013FF87 /* OnboardingHomeViewController.swift */,
-				C6C098D52C5034DB0071C300 /* Subviews */,
+				C650D7C22C56583500D8A07A /* View */,
+				C650D7C12C56582D00D8A07A /* Presenter */,
 			);
 			path = OnboardingHome;
 			sourceTree = "<group>";
@@ -905,6 +919,7 @@
 				245EF1FE2C43AE6800F89FA4 /* (null) in Sources */,
 				245EF1FD2C43AE6300F89FA4 /* CreateRecipeView.swift in Sources */,
 				526DF7F92C30D98E008A7818 /* Font.swift in Sources */,
+				C650D7C42C56591E00D8A07A /* OnboardingHomePresenter.swift in Sources */,
 				C6BEC2FF2C42DF7F00256140 /* TrendingPresenter.swift in Sources */,
 				526DF7E22C30D84F008A7818 /* LaunchViewController.swift in Sources */,
 				C65550072C3C4E350016FF73 /* SearchPresenter.swift in Sources */,
@@ -929,6 +944,7 @@
 				522898C22C32E2200013FF87 /* BRPopularCollectionViewCell.swift in Sources */,
 				522898E72C3423AA0013FF87 /* Router.swift in Sources */,
 				522899552C40605B0013FF87 /* BRRecentPlaceholderCell.swift in Sources */,
+				C6BC52F32C5520330086CBA2 /* OnboardingRouter.swift in Sources */,
 				C6EC28792C492DEC00BE5252 /* ScreenSizeManager.swift in Sources */,
 				C6BEC3072C42DFF300256140 /* TrendingView.swift in Sources */,
 				24C02B4B2C43301C008768F0 /* DetailCheckBox.swift in Sources */,

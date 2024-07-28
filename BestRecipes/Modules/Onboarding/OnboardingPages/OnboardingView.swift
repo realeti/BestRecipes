@@ -101,7 +101,7 @@ extension OnboardingView {
         configureTitleLabel(with: primaryText, and: secondaryText)
         configureContinueButton(title: buttonTitle)
         configurePageControl(page)
-        configreSkipButton(with: page)
+        configureSkipButton(with: page)
     }
     
     private func configureBackgroundImage(_ imageName: String) {
@@ -145,7 +145,7 @@ extension OnboardingView {
         pageControl.currentPage = page
     }
     
-    private func configreSkipButton(with page: Int) {
+    private func configureSkipButton(with page: Int) {
         if page == 2 {
             skipButton.isHidden = true
         } else {

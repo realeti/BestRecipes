@@ -23,7 +23,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController = OnboardingHomeViewController()
         }*/
         
-        window?.rootViewController = OnboardingHomeViewController()
+        let builder = Builder()
+        let pageViewController = UIPageViewController()
+        let router = OnboardingRouter(builder: builder, pageContainer: pageViewController)
+        
+        // Create OnboardingHomeViewController
+        let onboardingHomeVC = builder.createOnboardingHomeModule(router: router)
+        window?.rootViewController = onboardingHomeVC
         
         window?.overrideUserInterfaceStyle = .light
         window?.makeKeyAndVisible()

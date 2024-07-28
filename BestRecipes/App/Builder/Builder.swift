@@ -14,6 +14,8 @@ protocol BuilderProtocol: AnyObject {
     func createSearchModule(router: RouterProtocol) -> UIViewController
     func createDetailModule(recipe: RecipeDetailModel, router: RouterProtocol) -> UIViewController
     func createCreateRecipeModule(router: RouterProtocol) -> UIViewController
+    func createOnboardingHomeModule(router: OnboardingRouter) -> UIViewController
+    func createOnboardingPageModule() -> UIViewController
 }
 
 
@@ -99,6 +101,20 @@ final class Builder: BuilderProtocol {
         viewController.presenter = presenter
         viewController.hidesBottomBarWhenPushed = true
         viewController.title = K.createRecipeTitle
+        return viewController
+    }
+    
+    // MARK: - Create Onboarding Home
+    func createOnboardingHomeModule(router: OnboardingRouter) -> UIViewController {
+        let viewController = OnboardingHomeViewController()
+        let presenter = OnboardingHomePresenter(view: viewController, router: router)
+        viewController.presenter = presenter
+        return viewController
+    }
+    
+    // MARK: - Create Onboarding Page
+    func createOnboardingPageModule() -> UIViewController {
+        let viewController = OnboardingPageViewController()
         return viewController
     }
 }

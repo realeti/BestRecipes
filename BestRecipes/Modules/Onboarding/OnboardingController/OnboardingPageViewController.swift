@@ -156,16 +156,6 @@ extension OnboardingPageViewController: OnboardingPageProtocol {
             transition.subtype = .fromRight
             window.layer.add(transition, forKey: kCATransition)
             window.rootViewController = CustomTabBarController()
-            
-            /*UIView.transition(
-                with: window,
-                duration: 0.3,
-                options: [.transitionFlipFromLeft],
-                animations: {
-                    window.rootViewController = CustomTabBarController()
-                }, completion: nil
-            )*/
-            
             window.overrideUserInterfaceStyle = .light
             window.makeKeyAndVisible()
         }
