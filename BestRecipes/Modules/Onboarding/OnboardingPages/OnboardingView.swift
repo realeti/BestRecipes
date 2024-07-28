@@ -30,7 +30,6 @@ final class OnboardingView: UIView {
     
     private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
-        pageControl.numberOfPages = 3
         pageControl.preferredIndicatorImage = .pageIndicatorInactive
         pageControl.preferredCurrentPageIndicatorImage = .pageIndicatorActive
         pageControl.pageIndicatorTintColor = .greyBorder
@@ -96,12 +95,12 @@ final class OnboardingView: UIView {
 
 // MARK: - Public Configure UI
 extension OnboardingView {
-    func configure(imageName: String, primaryText: String, secondaryText: String, buttonTitle: String, page: Int) {
+    func configure(imageName: String, primaryText: String, secondaryText: String, buttonTitle: String, page: Int, totalPages: Int) {
         configureBackgroundImage(imageName)
         configureTitleLabel(with: primaryText, and: secondaryText)
         configureContinueButton(title: buttonTitle)
-        configurePageControl(page)
-        configureSkipButton(with: page)
+        configurePageControl(with: page, totalPages)
+        configureSkipButton(with: page, totalPages)
     }
     
     private func configureBackgroundImage(_ imageName: String) {
@@ -140,13 +139,14 @@ extension OnboardingView {
         continueButton.setAttributedTitle(attributedString, for: .normal)
     }
     
-    private func configurePageControl(_ page: Int) {
+    private func configurePageControl(with page: Int, _ totalPages: Int) {
         currentPage = page
+        pageControl.numberOfPages = totalPages
         pageControl.currentPage = page
     }
     
-    private func configureSkipButton(with page: Int) {
-        if page == 2 {
+    private func configureSkipButton(with page: Int, _ totalPages: Int) {
+        if page > 0, page == totalPages - 1 {
             skipButton.isHidden = true
         } else {
             skipButton.isHidden = false

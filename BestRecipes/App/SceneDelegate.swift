@@ -20,11 +20,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if dataManager.isOnboardingCompleted {
             window?.rootViewController = CustomTabBarController()
         } else {
-            window?.rootViewController = OnboardingHomeViewController()
+            //
         }*/
         
         let builder = Builder()
-        let pageViewController = UIPageViewController()
+        let pageViewController = builder.createOnboardingPageContainer()
         let router = OnboardingRouter(builder: builder, pageContainer: pageViewController)
         
         // Create OnboardingHomeViewController

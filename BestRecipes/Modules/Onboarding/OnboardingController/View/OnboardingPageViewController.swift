@@ -7,17 +7,32 @@
 
 import UIKit
 
-protocol OnboardingPageProtocol: AnyObject {
-    func showSpecificPage(_ page: Int)
-    func showNextPage()
-    func showStartVC()
+protocol OnboardingPageProvider: AnyObject {
+    var pages: [UIViewController] { get }
 }
 
-final class OnboardingPageViewController: UIViewController {
+final class OnboardingPageViewController: UIViewController, OnboardingPageProvider {
+    // MARK: - Public Properties
+    var presenter: OnboardingPagePresenterProtocol!
+    var pages: [UIViewController] = []
+    
     // MARK: - Private Properties
-    private var pageContainer: UIPageViewController!
-    private var pages: [UIViewController] = []
-    private var currentPage = 0
+    private var pageContainer: UIPageViewController
+    private var currentPage = 0 {
+        didSet {
+            presenter.updateCurrentPage(to: currentPage)
+        }
+    }
+    
+    // MARK: - Init
+    init(pageContainer: UIPageViewController) {
+        self.pageContainer = pageContainer
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -33,10 +48,11 @@ final class OnboardingPageViewController: UIViewController {
         pageContainer.dataSource = self
         pageContainer.delegate = self
     }
-    
-    // MARK: - Setup PageViewController
-    private func setupPageViewController() {
-        pageContainer = UIPageViewController(transitionStyle: .pageCurl, navigationOrientation: .horizontal)
+}
+
+// MARK: - Add PageViewController
+extension OnboardingPageViewController {
+    func setupPageViewController() {
         addChild(pageContainer)
         view.addSubview(pageContainer.view)
         pageContainer.view.frame = view.bounds
@@ -47,12 +63,15 @@ final class OnboardingPageViewController: UIViewController {
 // MARK: - Setup Page Controllers
 private extension OnboardingPageViewController {
     func setupViewControllers() {
+        let maxPages = 3
+        
         let page1 = OnboardingViewController(
             imageName: K.Onboarding.imagePage1.rawValue,
             primatyText: K.Onboarding.primaryTextPage1.rawValue,
             secondaryText: K.Onboarding.secondaryTextPage1.rawValue,
             buttonTitle: K.Onboarding.continueButtonTitle.rawValue,
-            page: 0
+            page: 0,
+            totalPages: maxPages
         )
         
         let page2 = OnboardingViewController(
@@ -60,7 +79,8 @@ private extension OnboardingPageViewController {
             primatyText: K.Onboarding.primaryTextPage2.rawValue,
             secondaryText: K.Onboarding.secondaryTextPage2.rawValue,
             buttonTitle: K.Onboarding.continueButtonTitle.rawValue,
-            page: 1
+            page: 1,
+            totalPages: maxPages
         )
         
         let page3 = OnboardingViewController(
@@ -68,7 +88,8 @@ private extension OnboardingPageViewController {
             primatyText: K.Onboarding.primaryTextPage3.rawValue,
             secondaryText: K.Onboarding.secondaryTextPage3.rawValue,
             buttonTitle: K.Onboarding.startCooking.rawValue,
-            page: 2
+            page: 2,
+            totalPages: maxPages
         )
         
         page1.delegate = self
@@ -78,7 +99,7 @@ private extension OnboardingPageViewController {
         pages = [page1, page2, page3]
         
         /// set start view controller
-        if let firstPage = pages.first {
+        if let firstPage = pages.first, pages.count == maxPages {
             pageContainer.setViewControllers([firstPage], direction: .forward, animated: true)
         }
     }
@@ -111,53 +132,16 @@ extension OnboardingPageViewController: UIPageViewControllerDelegate {
 }
 
 // MARK: - OnboardingPage Delegate methods
-extension OnboardingPageViewController: OnboardingPageProtocol {
+extension OnboardingPageViewController: OnboardingPageViewProtocol {
     func showSpecificPage(_ page: Int) {
-        guard page >= 0, page < pages.count else {
-            return
-        }
-        
-        let direction: UIPageViewController.NavigationDirection = page > currentPage ? .forward : .reverse
-        let nextVC = pages[page]
-        
-        pageContainer.setViewControllers([nextVC], direction: direction, animated: true) { [weak self] completed in
-            if completed {
-                self?.currentPage = page
-            }
-        }
+        presenter.showSpecificPage(page)
     }
     
     func showNextPage() {
-        guard currentPage < pages.count - 1 else {
-            showStartVC()
-            return
-        }
-        
-        let nextPage = currentPage + 1
-        let nextVC = pages[nextPage]
-        pageContainer.setViewControllers([nextVC], direction: .forward, animated: true) { [weak self] completed in
-            if completed {
-                self?.currentPage = nextPage
-            }
-        }
+        presenter.showNextPage()
     }
     
     func showStartVC() {
-        /// save onboarding status
-        DataManager.shared.markOnboardingAsCompleted()
-        
-        /// show main screen
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = windowScene.windows.first {
-            
-            let transition = CATransition()
-            transition.duration = 0.3
-            transition.type = .fade
-            transition.subtype = .fromRight
-            window.layer.add(transition, forKey: kCATransition)
-            window.rootViewController = CustomTabBarController()
-            window.overrideUserInterfaceStyle = .light
-            window.makeKeyAndVisible()
-        }
+        presenter.showStartVC()
     }
 }

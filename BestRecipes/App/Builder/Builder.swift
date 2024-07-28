@@ -15,7 +15,8 @@ protocol BuilderProtocol: AnyObject {
     func createDetailModule(recipe: RecipeDetailModel, router: RouterProtocol) -> UIViewController
     func createCreateRecipeModule(router: RouterProtocol) -> UIViewController
     func createOnboardingHomeModule(router: OnboardingRouter) -> UIViewController
-    func createOnboardingPageModule() -> UIViewController
+    func createOnboardingPageModule(pageContainer: UIPageViewController, router: OnboardingRouter) -> UIViewController
+    func createOnboardingPageContainer() -> UIPageViewController
 }
 
 
@@ -112,9 +113,17 @@ final class Builder: BuilderProtocol {
         return viewController
     }
     
-    // MARK: - Create Onboarding Page
-    func createOnboardingPageModule() -> UIViewController {
-        let viewController = OnboardingPageViewController()
+    // MARK: - Create OnboardingPage
+    func createOnboardingPageModule(pageContainer: UIPageViewController, router: OnboardingRouter) -> UIViewController {
+        let viewController = OnboardingPageViewController(pageContainer: pageContainer)
+        let presenter = OnboardingPagePresenter(view: viewController, router: router)
+        viewController.presenter = presenter
+        return viewController
+    }
+    
+    // MARK: - Create OnboardingPage Container
+    func createOnboardingPageContainer() -> UIPageViewController {
+        let viewController = UIPageViewController(transitionStyle: .pageCurl, navigationOrientation: .horizontal)
         return viewController
     }
 }

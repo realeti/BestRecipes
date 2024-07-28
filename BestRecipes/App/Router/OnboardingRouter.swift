@@ -8,20 +8,21 @@
 import UIKit
 
 protocol OnboardingRouterProtocol: AnyObject {
-    var builder: BuilderProtocol { get set }
+    init(builder: BuilderProtocol, pageContainer: UIPageViewController)
     
-    func showSpecificPage(at page: Int, with viewControllers: [UIViewController])
-    func showNextPage(with viewControllers: [UIViewController])
+    func updateCurrentPage(to page: Int)
+    func showSpecificPage(at page: Int)
+    func showNextPage()
     func showStartVC()
 }
 
 final class OnboardingRouter: OnboardingRouterProtocol {
-    // MARK: - Public Properties
-    var builder: BuilderProtocol
-    var pageContainer: UIPageViewController
-    
     // MARK: - Private Properties
+    private var builder: BuilderProtocol
+    private var pageContainer: UIPageViewController
+    private var pageProvider: OnboardingPageProvider?
     private var currentPage = 0
+    private var isAnimatingTransition = false
     
     // MARK: - Init
     init(builder: BuilderProtocol, pageContainer: UIPageViewController) {
@@ -31,28 +32,39 @@ final class OnboardingRouter: OnboardingRouterProtocol {
     
     // MARK: Start
     func start() {
-        let onboardingPageVC = builder.createOnboardingPageModule()
+        let onboardingPageVC = builder.createOnboardingPageModule(pageContainer: pageContainer, router: self)
         onboardingPageVC.modalPresentationStyle = .fullScreen
         
         let scene = UIApplication.shared.connectedScenes
         let windowScene = scene.first as? UIWindowScene
         let window = windowScene?.windows.first
         
-        if let rootViewController = window?.rootViewController {
+        if let rootViewController = window?.rootViewController,
+           let pageProvider = onboardingPageVC as? OnboardingPageProvider {
             rootViewController.present(onboardingPageVC, animated: true)
+            self.pageProvider = pageProvider
         }
     }
     
+    // MARK: - Update Current Page
+    func updateCurrentPage(to page: Int) {
+        currentPage = page
+    }
+    
     // MARK: - Show Specific Onboarding Page
-    func showSpecificPage(at page: Int, with viewControllers: [UIViewController]) {
-        guard page >= 0, page < viewControllers.count else {
+    func showSpecificPage(at page: Int) {
+        guard !isAnimatingTransition, let pages = pageProvider?.pages, page >= 0, page < pages.count else {
             return
         }
         
+        isAnimatingTransition = true
+        
         let direction: UIPageViewController.NavigationDirection = page > currentPage ? .forward : .reverse
-        let nextVC = viewControllers[page]
+        let nextVC = pages[page]
         
         pageContainer.setViewControllers([nextVC], direction: direction, animated: true, completion: { [weak self] completed in
+            self?.isAnimatingTransition = false
+            
             if completed {
                 self?.currentPage = page
             }
@@ -60,15 +72,19 @@ final class OnboardingRouter: OnboardingRouterProtocol {
     }
     
     // MARK: - Show Next Page
-    func showNextPage(with viewControllers: [UIViewController]) {
-        guard currentPage < viewControllers.count - 1 else {
+    func showNextPage() {
+        guard !isAnimatingTransition, let pages = pageProvider?.pages, currentPage < pages.count - 1 else {
             showStartVC()
             return
         }
         
+        isAnimatingTransition = true
+        
         let nextPage = currentPage + 1
-        let nextVC = viewControllers[nextPage]
+        let nextVC = pages[nextPage]
         pageContainer.setViewControllers([nextVC], direction: .forward, animated: true) { [weak self] completed in
+            self?.isAnimatingTransition = false
+            
             if completed {
                 self?.currentPage = nextPage
             }

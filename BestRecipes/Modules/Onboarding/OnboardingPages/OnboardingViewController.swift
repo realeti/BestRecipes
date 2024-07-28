@@ -21,17 +21,19 @@ final class OnboardingViewController: UIViewController {
     private let secondaryText: String
     private let buttonTitle: String
     private let currentPage: Int
+    private let totalPages: Int
     
     // MARK: - Public Properties
-    weak var delegate: OnboardingPageProtocol?
+    weak var delegate: OnboardingPageViewProtocol?
     
     // MARK: - Init
-    init(imageName: String, primatyText: String, secondaryText: String, buttonTitle: String, page: Int) {
+    init(imageName: String, primatyText: String, secondaryText: String, buttonTitle: String, page: Int, totalPages: Int) {
         self.imageName = imageName
         self.primaryText = primatyText
         self.secondaryText = secondaryText
         self.buttonTitle = buttonTitle
         self.currentPage = page
+        self.totalPages = totalPages
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -62,7 +64,8 @@ final class OnboardingViewController: UIViewController {
             primaryText: primaryText,
             secondaryText: secondaryText,
             buttonTitle: buttonTitle,
-            page: currentPage
+            page: currentPage,
+            totalPages: totalPages
         )
     }
 }
