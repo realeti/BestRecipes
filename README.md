@@ -20,7 +20,7 @@
 ### 📱 About the application:
 Cooking app! Unique recipe database including cooking instructions. Educational team project.
 
-### Functional:
+### 🪄 Functional:
   * Onboarding - Convenient introductory information about the application.
   * Categories - Different categories of dishes on the main screen
   * Search - An opportunity to find a recipe for your favorite dish!
