@@ -1,4 +1,6 @@
 # BestRecipes
+_**English** | [Ukrainian](README.ua.md) | [Russian](README.ru.md)_
+
 ![Screenshot 2024-09-22 at 18 31 36](https://github.com/user-attachments/assets/f82f84cc-cde3-4829-a446-1af55ec3f04a)
 <p align="left"> 
 <a href="https://swift.org">
@@ -20,7 +22,7 @@
 ### 📱 About the application:
 Cooking app! Unique recipe database including cooking instructions. Educational team project.
 
-### 🪄 Functional:
+### ⚒ Functional:
   * Onboarding - Convenient introductory information about the application.
   * Categories - Different categories of dishes on the main screen
   * Search - An opportunity to find a recipe for your favorite dish!
