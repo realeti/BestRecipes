@@ -24,7 +24,7 @@ Cooking app! Unique recipe database including cooking instructions. Educational 
 
 ### ⚒ Functional:
   * Onboarding - Convenient introductory information about the application.
-  * Categories - Different categories of dishes on the main screen
+  * Categories - Different categories of dishes on the main screen.
   * Search - An opportunity to find a recipe for your favorite dish!
   * Favorites - Saved recipes.
   * Create recipe - The ability to create your own recipe.
